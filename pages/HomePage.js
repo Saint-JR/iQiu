@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, StatusBar } from 'react-native'
 import { BlurView } from "@react-native-community/blur";
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../component/Navigation'
 import { useEffect } from 'react';
 
-const HomePage = () => {
-    useEffect(() => {
-        console.log(naviHeight)
-        console.log(1)
-    }, [])
+const HomePage = (props) => {
+    useEffect(()=>{
+        console.log(props.navigation)
+    },[])
+
     return (
         <>
             <View style={[styles.background, { height: `${100 - naviHeight}%` }]}>
@@ -25,6 +25,7 @@ const HomePage = () => {
 
 
             <View style={[styles.mainPage, { height: `${100 - naviHeight}%` }]}>
+                <View style={{height:StatusBar.currentHeight}}></View>
 
                 <View style={styles.searchView}>
                     <View style={styles.search}>
@@ -32,9 +33,14 @@ const HomePage = () => {
                     </View>
                 </View>
 
-                <View style={styles.postScroll}>
+                <ScrollView style={styles.postScroll} 
+                    keyboardDismissMode="on-drag"
+                >
                     <View style={styles.post}></View>
-                </View>
+                    <View style={styles.post}></View>
+                    <View style={styles.post}></View>
+                    <View style={styles.post}></View>
+                </ScrollView>
 
             </View>
         </>
@@ -49,7 +55,7 @@ const styles = StyleSheet.create({
     blur: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgba(200,200,200,0.2)',
+        backgroundColor: 'rgba(220,220,220,0.2)',
         blurRadius: 20,
         position: 'absolute',
         top: 0,
@@ -60,22 +66,22 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     backgroundBall1: {
-        height: 250,
-        width: 250,
-        borderRadius: 250,
+        height: 200,
+        width: 200,
+        borderRadius: 200,
         position: 'absolute',
-        top: -50,
-        left: -20,
-        backgroundColor: 'rgba(247,95,112,0.2)'
+        top: -20,
+        left: -10,
+        backgroundColor: 'rgba(255,0,107,0.25)'
     },
     backgroundBall2: {
-        height: 250,
-        width: 250,
-        borderRadius: 250,
+        height: 200,
+        width: 200,
+        borderRadius: 200,
         position: 'absolute',
-        right: -20,
-        top: -50,
-        backgroundColor: 'rgba(95,132,247,0.2)'
+        right: -10,
+        top: -20,
+        backgroundColor: 'rgba(95,132,247,0.3)'
     },
     mainPage: {
         width: '100%',
@@ -110,7 +116,7 @@ const styles = StyleSheet.create({
         // borderColor:'red',
         // borderWidth:2,
         flexShrink: 0.5,
-        marginTop: 20
+        marginTop: 20,
     },
     post: {
         height: 200,
@@ -119,6 +125,7 @@ const styles = StyleSheet.create({
         // borderColor:'red',
         // borderWidth:2,
         margin: 10,
+        marginBottom:0,
         backgroundColor: 'white',
         borderRadius: 10
     }

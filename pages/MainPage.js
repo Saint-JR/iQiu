@@ -1,50 +1,63 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect } from 'react'
 
 import Navigation from '../component/Navigation'
 import HomePage from './HomePage'
 import Community from './Community'
+import Messages from './Messages'
+import My from './My'
 
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const MainPage=()=>{
-    useEffect(()=>{
-        console.log(Stack.Navigator)
-    },[])
-
-    const navigate=(e)=>{
-        // if(e==1){
-        //     Stack.
-        // }else if(e==2){
-        //     Stack.push("Community")
-        // }
-    }
+const MainPage=(StackProps)=>{
+    // useEffect(()=>{
+    //     console.log(StackProps)
+    // },[])
+    
 
     return(
-        <>
-            <NavigationContainer>
-                <Stack.Navigator>
-                    <Stack.Screen 
-                        name='Home' 
-                        component={HomePage} 
-                        options={{
-                            headerShown:false
-                        }}
-                    />
-                    <Stack.Screen 
-                        name='Community' 
-                        component={Community}
-                        options={{
-                            headerShown:false
-                        }}
-                    />
-                </Stack.Navigator>
-            </NavigationContainer>
+            <Tab.Navigator tabBar={(TabProps)=><Navigation {...TabProps}/>}>
+                <Tab.Screen 
+                    name='HomePage' 
+                    component={HomePage}
+                    options={{
+                        headerShown:false
+                    }}
+                >
+                    
+                </Tab.Screen>
 
-            <Navigation onNavigate={(e)=>navigate(e)} />
-        </>
+                <Tab.Screen 
+                    name='Community' 
+                    options={{
+                        headerShown:false
+                    }}
+                >
+                    {()=><Community/>}
+                </Tab.Screen>
+
+                <Tab.Screen 
+                    name='Messages' 
+                    options={{
+                        headerShown:false
+                    }}
+                >
+                    {()=><Messages/>}
+                </Tab.Screen>
+
+                <Tab.Screen 
+                    name='My' 
+                    options={{
+                        headerShown:false
+                    }}
+                >
+                    {()=><My/>}
+                </Tab.Screen>
+
+            </Tab.Navigator>
     )
 }
 

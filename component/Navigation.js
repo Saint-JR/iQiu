@@ -1,12 +1,22 @@
 import { def } from '@vue/shared'
+import { useEffect } from 'react'
 import {View,Text,StyleSheet} from 'react-native'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
 
 export const naviHeight=8
 
 const Navigation=(props)=>{
+
     const navigate=(index)=>{
-        props.onNavigate(index)
+        if(index==1){
+            props.navigation.navigate('HomePage')
+        }else if(index==2){
+            props.navigation.navigate('Community')
+        }else if(index==4){
+            props.navigation.navigate('Messages')
+        }else if(index==5){
+            props.navigation.navigate('My')
+        }
     }
 
     return(
@@ -18,7 +28,6 @@ const Navigation=(props)=>{
                 <Text>圈子</Text>
             </Pressable>
             <Pressable onPress={()=>navigate(3)}>
-                {/* <Text>发帖</Text> */}
                 <View style={styles.post}>
                     <Text style={styles.postPlus}>
                         +
@@ -41,7 +50,7 @@ const styles=StyleSheet.create({
         // borderColor:'red',
         // borderWidth:2,
         // height:'10%',
-        position:'absolute',
+        // position:'absolute',
         width:'100%',
         bottom:0,
         display:'flex',

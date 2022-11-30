@@ -14,25 +14,29 @@ const HomePage = (props) => {
         commuName:'足球圈',
         commuNum:[3854,16430],
         postTitle:'四川大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行'
+        postContent:'北京时间11月30日凌晨，卡塔尔世界杯B组最后一轮两场比赛同时开打。最终英格兰队3比0击败威尔士队，笑傲英伦德比的前者以小组头名晋级，“欧洲红龙”威尔士队则被淘汰出局；另一场比赛美国队1比0小胜伊朗队，反超对手升至小组第二，也拿到了淘汰赛的资格。根据淘汰赛的对阵安排，B组头名出线的英格兰队将与A组第二的塞内加尔队展开对话，而B组第二名的美国队则将与A组第一的荷兰队展开交锋。',
+        avatar:require('../static/football.png')
     },{
         pid:2,
-        commuName:'足球圈',
+        commuName:'篮球圈',
         commuNum:[3855,16431],
         postTitle:'电子科技大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行'
+        postContent:'四川大学出版学院挂牌仪式举行',
+        avatar:require('../static/basketball.png')
     },{
         pid:3,
         commuName:'足球圈',
         commuNum:[3856,16432],
         postTitle:'四川大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行'
+        postContent:'四川大学出版学院挂牌仪式举行',
+        avatar:require('../static/football.png')
     },{
         pid:4,
-        commuName:'足球圈',
+        commuName:'乒乓球圈',
         commuNum:[3857,16433],
         postTitle:'四川大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行'
+        postContent:'四川大学出版学院挂牌仪式举行',
+        avatar:require('../static/tabletennis.png')
     }]
 
     const naviToPost=(index)=>{
@@ -50,7 +54,7 @@ const HomePage = (props) => {
                 <View style={styles.backgroundBall2}></View>
                 <BlurView style={styles.blur}
                     blurType="light"
-                    blurAmount={20} />
+                    blurAmount={30} />
             </View>
 
 

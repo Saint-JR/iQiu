@@ -2,19 +2,27 @@ import {View,Text,StyleSheet, Image} from 'react-native'
 import {useEffect} from 'react'
 
 const Post=(props)=>{
+    useEffect(()=>{
+        console.log(props)
+    },[])
 
     return(
         <View style={styles.post}>
             <View style={styles.community}>
-                <Image source={require('../static/football.png')} style={styles.avatar}></Image>
+                <Image source={props.avatar} style={styles.avatar}></Image>
                 <View style={styles.commuInfo}>
                     <Text style={styles.commuName}>{props.commuName}</Text>
                     <Text style={styles.commuNum}>关注 {props.commuNum[0]}  帖子 {props.commuNum[1]}</Text>
                 </View>
             </View>
             <View style={styles.postInfo}>
-                <Text style={styles.postTitle}>{props.postTitle}</Text>
-                <Text style={styles.postContent}>{props.postContent}</Text>
+                <Text numberOfLines={1} ellipsizeMode = 'tail' style={styles.postTitle}>{props.postTitle}</Text>
+                <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
+            </View>
+            <View style={styles.operate}>
+                <Text>分享</Text>
+                <Text>评论</Text>
+                <Text>点赞</Text>
             </View>
         </View>
     )
@@ -22,7 +30,7 @@ const Post=(props)=>{
 
 const styles=StyleSheet.create({
     post: {
-        height: 200,
+        // height: 200,
         // width:'100%',
         // borderStyle:'solid',
         // borderColor:'red',
@@ -35,6 +43,7 @@ const styles=StyleSheet.create({
     community:{
         display:'flex',
         flexDirection:'row',
+        alignItems:'center',
         height:50,
         // borderStyle:'solid',
         // borderColor:'red',
@@ -46,24 +55,23 @@ const styles=StyleSheet.create({
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
-        height:50,
-        width:50
+        
+        height:40,
+        width:40
     },
     commuInfo:{
         height:50,
         display:'flex',
-        
+        marginLeft:10,
         justifyContent:'center',
     },
     commuName:{
         fontSize:15,
-        marginLeft:10,
         color:'rgba(0,0,0,0.8)'
     },
     commuNum:{
         fontSize:12,
         color:'rgba(0,0,0,0.4)',
-        marginLeft:10,
         letterSpacing:0
     },
     postInfo:{
@@ -72,17 +80,28 @@ const styles=StyleSheet.create({
     },
     postTitle:{
         fontSize:16,
-        fontWeight:'700',
+        fontWeight:'900',
         letterSpacing:0,
-        color:'rgba(0,0,0,0.8)'
+        color:'rgba(0,0,0,0.6)'
 
     },
     postContent:{
         fontSize:16,
-        lineHeight:30,
+        lineHeight:25,
+        marginTop:5,
         letterSpacing:0,
 
     },
+    operate:{
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-around',
+        alignItems:'center',
+        // borderStyle:'solid',
+        // borderColor:'red',
+        // borderWidth:2,
+        marginBottom:20
+    }
 })
 
 export default Post;

@@ -57,7 +57,11 @@ const styles=StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-around',
-        backgroundColor:'rgba(113,144,229,0.3)'
+        // backgroundColor:'rgba(113,144,229,0.3)'
+        backgroundColor:'white',
+        borderTopColor:'rgba(200,200,200,0.2)',
+        borderTopWidth:1,
+        borderStyle:'solid'
     },
     post:{
         height:40,

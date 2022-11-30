@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList} from 'react-native'
 import { BlurView } from "@react-native-community/blur";
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../component/Navigation'
@@ -63,20 +63,15 @@ const HomePage = (props) => {
                     </View>
                 </View>
 
-                <ScrollView style={styles.postScroll} 
-                    keyboardDismissMode="on-drag"
-                >
-                    {
-                        postList.map((post,index)=>{
-                            return(
-                                <Pressable key={index} onPress={()=>{naviToPost(index)}}>
-                                    <Post {...post}></Post>
-                                </Pressable>
-                                
-                            )
-                        })
-                    }
-                </ScrollView>
+                <FlatList
+                    style={styles.postScroll}
+                    data={postList}
+                    renderItem={({ item, index, separators }) => (
+                        <Pressable onPress={()=>{naviToPost(index)}}>
+                            <Post {...item}></Post>
+                        </Pressable>
+                    )}
+                />
 
             </View>
         </>

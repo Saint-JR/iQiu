@@ -47,7 +47,7 @@ const HomePage = (props) => {
         <>
             <View style={[styles.background]}>
                 <LinearGradient style={styles.backColor} 
-                    colors={["rgba(92,163,214,0.3)", "rgba(200,200,200,0.2)"]}
+                    colors={["rgba(92,163,214,0.3)", "rgba(240,240,240,1)"]}
                     locations={[0.8,1]}
                 ></LinearGradient>
                 <View style={styles.backgroundBall1}></View>
@@ -62,9 +62,16 @@ const HomePage = (props) => {
                 <View style={{height:StatusBar.currentHeight}}></View>
 
                 <View style={styles.searchView}>
-                    <View style={styles.search}>
+                    {/* <View style={styles.search}>
 
+                    </View> */}
+                    <View style={styles.commuChoice}> 
+                        <Text style={[styles.commuChoiceText,styles.choiceSelected]}>关注</Text>
+                        <Text style={styles.commuChoiceText}>热门</Text>
+                        <Text style={styles.commuChoiceText}>全部</Text>
+                        <View style={styles.choiceBorder}></View>
                     </View>
+                    
                 </View>
 
                 <FlatList
@@ -83,11 +90,6 @@ const HomePage = (props) => {
 }
 
 const styles = StyleSheet.create({
-    pressable:{
-        borderStyle:'solid',
-        borderColor:'red',
-        borderWidth:2,
-    },
     background: {
         width: '100%',
         height: '100%',
@@ -137,11 +139,48 @@ const styles = StyleSheet.create({
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
-        marginTop: 20,
+        marginTop: 10,
         height: 50,
         display: 'flex',
+        flexDirection:'row',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    commuChoice:{
+        // borderStyle:'solid',
+        // borderColor:'red',
+        // borderWidth:2,
+        marginTop: 10,
+        width:'60%',
+        height:'100%',
+        display:'flex',
+        alignItems:'center',
+        flexDirection:'row',
+        justifyContent:'space-around',
+    },
+    commuChoiceText:{
+        fontSize:15,
+        color:'rgba(0,0,0,0.8)',
+        // borderStyle:'solid',
+        // borderColor:'red',
+        // borderWidth:2,
+        width:45,
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    choiceSelected:{
+        fontSize:17,
+        fontWeight:'700',
+        
+    },
+    choiceBorder:{
+        borderRadius:10,
+        height:7,
+        backgroundColor:'#06d3e0',
+        width:35,
+        position:'absolute',
+        bottom:0,
     },
     search: {
         height: '100%',
@@ -156,7 +195,7 @@ const styles = StyleSheet.create({
         // borderColor:'red',
         // borderWidth:2,
         flexShrink: 0.5,
-        marginTop: 20,
+        marginTop: 10,
     },
     
 })

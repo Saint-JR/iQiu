@@ -16,7 +16,7 @@ const MainNavi=()=>{
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen 
-                        name='MainPage' 
+                        name='MainPage'
                         component={MainPage} 
                         options={{
                             headerShown:false

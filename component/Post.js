@@ -2,9 +2,9 @@ import {View,Text,StyleSheet, Image} from 'react-native'
 import {useEffect} from 'react'
 
 const Post=(props)=>{
-    useEffect(()=>{
-        console.log(props)
-    },[])
+    // useEffect(()=>{
+    //     console.log(props)
+    // },[])
 
     return(
         <View style={styles.post}>
@@ -27,6 +27,21 @@ const Post=(props)=>{
         </View>
     )
 }
+
+
+const ListHeader=()=>{
+    return(
+        <View style={headerStyles.headerView}>
+            <View style={headerStyles.headerContainer}>
+                <Text style={[headerStyles.headerText,headerStyles.headerSelected]}>全部</Text>
+                <Text style={headerStyles.headerText}>闲聊</Text>
+                <Text style={headerStyles.headerText}>约球</Text>
+            </View>
+            
+        </View>
+    )
+}
+
 
 const styles=StyleSheet.create({
     post: {
@@ -104,4 +119,29 @@ const styles=StyleSheet.create({
     }
 })
 
+const headerStyles=StyleSheet.create({
+    headerView:{
+        margin: 10,
+        marginBottom:0,
+        width:'100%'
+    },
+    headerContainer:{
+        width:'40%',
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+    },
+    headerText:{
+        fontSize:16,
+        width:38
+    },
+    headerSelected:{
+        fontSize:16,
+        fontWeight:'700',
+        color:'rgba(0,0,0,0.8)'
+    }
+})
+
+
 export default Post;
+export {ListHeader};

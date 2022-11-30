@@ -1,9 +1,13 @@
-import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList} from 'react-native'
+import React, { Component, useRef, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing} from 'react-native'
 import { BlurView } from "@react-native-community/blur";
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../component/Navigation'
 import { useEffect } from 'react';
 import Post from '../component/Post'
+import {ListHeader} from '../component/Post'
+import Swiper from 'react-native-swiper';
+import Animated from 'react-native-reanimated';
 
 const HomePage = (props) => {
 
@@ -43,6 +47,18 @@ const HomePage = (props) => {
         props.navigation.navigate("PostDetail")
     }
 
+    let [page,setPage]=useState(0)
+    let choiceAni= useRef(new Animated.Value(16)).current
+    
+    const changePage=(index)=>{
+        setPage(index)
+        Animated.timing(choiceAni,{
+            toValue:95,
+            duration:1000,
+        }).start()
+    }
+
+
     return (
         <>
             <View style={[styles.background]}>
@@ -66,23 +82,54 @@ const HomePage = (props) => {
 
                     </View> */}
                     <View style={styles.commuChoice}> 
-                        <Text style={[styles.commuChoiceText,styles.choiceSelected]}>关注</Text>
-                        <Text style={styles.commuChoiceText}>热门</Text>
-                        <Text style={styles.commuChoiceText}>全部</Text>
-                        <View style={styles.choiceBorder}></View>
+                        <Text style={[styles.commuChoiceText,page==0?styles.choiceSelected:'']}>关注</Text>
+                        <Text style={[styles.commuChoiceText,page==1?styles.choiceSelected:'']}>热门</Text>
+                        <Text style={[styles.commuChoiceText,page==2?styles.choiceSelected:'']}>全部</Text>
+                        <Animated.View style={[styles.choiceBorder,{left:choiceAni}]}></Animated.View>
+                    </View>
+                    <Image source={require('../static/search.png')} style={styles.search}></Image>
+                    <View style={styles.avatarView}>
+                        <Image source={require('../static/avatar.jpg')} style={styles.avatar}></Image>
                     </View>
                     
                 </View>
 
-                <FlatList
-                    style={styles.postScroll}
-                    data={postList}
-                    renderItem={({ item, index, separators }) => (
-                        <Pressable onPress={()=>{naviToPost(index)}}>
-                            <Post {...item}></Post>
-                        </Pressable>
-                    )}
-                />
+                <Swiper style={styles.swiper} loop={false} showsPagination={false} onIndexChanged={(index)=>changePage(index)}>
+                    <FlatList
+                        style={styles.postScroll}
+                        showsVerticalScrollIndicator = {false}
+                        ListHeaderComponent={()=><ListHeader/>}
+                        data={postList}
+                        renderItem={({ item, index, separators }) => (
+                            <Pressable onPress={()=>{naviToPost(index)}}>
+                                <Post {...item}></Post>
+                            </Pressable>
+                        )}
+                    />
+                    <FlatList
+                        style={styles.postScroll}
+                        showsVerticalScrollIndicator = {false}
+                        ListHeaderComponent={()=><ListHeader/>}
+                        data={postList}
+                        renderItem={({ item, index, separators }) => (
+                            <Pressable onPress={()=>{naviToPost(index)}}>
+                                <Post {...item}></Post>
+                            </Pressable>
+                        )}
+                    />
+                    <FlatList
+                        style={styles.postScroll}
+                        showsVerticalScrollIndicator = {false}
+                        ListHeaderComponent={()=><ListHeader/>}
+                        data={postList}
+                        renderItem={({ item, index, separators }) => (
+                            <Pressable onPress={()=>{naviToPost(index)}}>
+                                <Post {...item}></Post>
+                            </Pressable>
+                        )}
+                    />
+                </Swiper>
+                
 
             </View>
         </>
@@ -144,13 +191,14 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection:'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom:5
     },
     commuChoice:{
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
-        marginTop: 10,
+        // marginTop: 10,
         width:'60%',
         height:'100%',
         display:'flex',
@@ -159,7 +207,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-around',
     },
     commuChoiceText:{
-        fontSize:15,
+        fontSize:17,
         color:'rgba(0,0,0,0.8)',
         // borderStyle:'solid',
         // borderColor:'red',
@@ -170,23 +218,46 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     choiceSelected:{
-        fontSize:17,
-        fontWeight:'700',
+        fontSize:19,
+        fontWeight:'900',
         
     },
     choiceBorder:{
         borderRadius:10,
         height:7,
         backgroundColor:'#06d3e0',
-        width:35,
+        width:40,
         position:'absolute',
-        bottom:0,
+        bottom:5,
+        // left:15
     },
     search: {
-        height: '100%',
-        width: '70%',
-        backgroundColor: 'white',
-        borderRadius: 50
+        height:25,
+        width:25,
+        position:'absolute',
+        right:40,
+    },
+    avatarView:{
+        position:'absolute',
+        left:20,
+        height:40,
+        width:40,
+        borderRadius:40,
+        overflow:'hidden'
+    },
+    avatar:{
+        height:40,
+        width:'auto'
+        
+    },
+    swiper:{
+        // width: '100%',
+        // height: '100%',
+        // // borderStyle:'solid',
+        // // borderColor:'red',
+        // // borderWidth:2,
+        // flexShrink: 0.5,
+        // marginTop: 5,
     },
     postScroll: {
         width: '100%',
@@ -194,8 +265,8 @@ const styles = StyleSheet.create({
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
-        flexShrink: 0.5,
-        marginTop: 10,
+        // flexShrink: 0.5,
+        // marginTop: 5,
     },
     
 })

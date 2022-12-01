@@ -72,7 +72,11 @@ const styles=StyleSheet.create({
         // borderWidth:2,
         
         height:40,
-        width:40
+        width:40,
+        borderStyle:'solid',
+        borderColor:'rgba(50,50,50,0.1)',
+        borderWidth:1,
+        borderRadius:15
     },
     commuInfo:{
         height:50,

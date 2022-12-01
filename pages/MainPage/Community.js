@@ -13,10 +13,23 @@ const HotCommu=(props)=>{
 
 const FollowCommu=(props)=>{
     return(
-        <View style={hotCommuStyles.hotCommuView}>
-            <Image source={props.commuAvatar} style={hotCommuStyles.hotCommuAvatar}></Image>
-            <Text style={hotCommuStyles.communityName}>{props.communityName}</Text>
-            <Text style={hotCommuStyles.followerNum}>关注 {props.followerNum}</Text>
+        <View style={followStyles.followView}>
+            <View style={followStyles.deviderView}>
+                <View style={followStyles.devider}></View>
+            </View>
+            <Image source={props.commuAvatar} style={followStyles.followAvatar}></Image>
+            <View style={{display:'flex',width:100,marginRight:10}}>
+                <Text style={followStyles.communityName}>{props.communityName}</Text>
+                <Text style={followStyles.followerNum}>关注 {props.followerNum}</Text>
+            </View>
+            <View style={{display:'flex',alignItems:'center'}}>
+                <Text style={followStyles.followTime}>关注时间</Text>
+                <Text style={followStyles.followerNum}>{new Date().toLocaleDateString()}</Text>
+            </View>
+            <View style={{position:'absolute',right:20,borderBottomWidth:3,borderBottomColor:'#3686e7'}}>
+                <Text style={followStyles.enter}>进入圈子</Text>
+                
+            </View>
         </View>
     )
 }
@@ -24,7 +37,23 @@ const FollowCommu=(props)=>{
 const Community=()=>{
     let hotCommu=[]
 
+    let followCommu=[]
+
     hotCommu=[{
+        commuAvatar:require('../../static/football.png'),
+        communityName:'足球圈',
+        followerNum:3645
+    },{
+        commuAvatar:require('../../static/basketball.png'),
+        communityName:'篮球圈',
+        followerNum:3645
+    },{
+        commuAvatar:require('../../static/tabletennis.png'),
+        communityName:'乒乓球圈',
+        followerNum:3645
+    },]
+
+    followCommu=[{
         commuAvatar:require('../../static/football.png'),
         communityName:'足球圈',
         followerNum:3645
@@ -57,7 +86,14 @@ const Community=()=>{
                     
                 </View>
                 <View style={styles.followCommu}>
-                    <Text style={styles.hotText}>我关注的圈子</Text>
+                    <Text style={[styles.hotText,{marginBottom:0}]}>我关注的圈子</Text>
+                    <View>
+                        {
+                            followCommu.map((item,index)=>{
+                                return <FollowCommu {...item} key={index}/>
+                            })
+                        }
+                    </View>
                 </View>
             </View>
         </View>
@@ -77,8 +113,11 @@ const hotCommuStyles=StyleSheet.create({
     hotCommuAvatar:{
         width:40,
         height:40,
-        borderRadius:40,
+        borderRadius:15,
         marginBottom:5,
+        borderStyle:'solid',
+        borderColor:'rgba(50,50,50,0.1)',
+        borderWidth:1,
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
@@ -92,6 +131,63 @@ const hotCommuStyles=StyleSheet.create({
         fontSize:10,
         color:'rgba(0,0,0,0.4)',
     }
+})
+
+const followStyles=StyleSheet.create({
+    followView:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        padding:20,
+        // margin:20,
+        // marginTop:10,
+        // borderStyle:'solid',
+        // borderColor:'rgba(50,50,50,0.1)',
+        // borderWidth:1,
+    },
+    deviderView:{
+        width:'100%',
+        position:'absolute',
+        bottom:0,
+        left:20,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        // borderStyle:'solid',
+        // borderColor:'rgba(50,50,50,0.1)',
+        // borderWidth:1,
+    },
+    devider:{
+        width:'80%',
+        borderStyle:'solid',
+        borderColor:'rgba(50,50,50,0.1)',
+        borderWidth:1,
+    },
+    followAvatar:{
+        width:50,
+        height:50,
+        borderRadius:20,
+        // marginBottom:5,
+        marginRight:10,
+        borderStyle:'solid',
+        borderColor:'rgba(50,50,50,0.1)',
+        borderWidth:1,
+    },
+    communityName:{
+        color:'rgba(0,0,0,0.8)',
+        fontSize:15,
+        marginBottom:2
+    },
+    followerNum:{
+        fontSize:10,
+        color:'rgba(0,0,0,0.4)',
+    },
+    followTime:{
+        color:'rgba(0,0,0,0.4)',
+        fontSize:15,
+        marginBottom:2
+    },
+
 })
 
 const styles=StyleSheet.create({
@@ -151,8 +247,9 @@ const styles=StyleSheet.create({
         margin:10,
         marginTop:0,
         backgroundColor:'white',
-        height:300,
         borderRadius:15,
+        height:'100%',
+        flexShrink:0.5
     }
 })
 

@@ -46,26 +46,30 @@ const HomePage = (props) => {
     }
 
     let [page,setPage]=useState(0)
-    let choiceAni= useRef(new Animated.Value(16)).current
+    let choiceAni= useRef(new Animated.Value(0)).current
+    let left=choiceAni.interpolate({
+        inputRange: [0, 66],
+        outputRange: ['0%', '66%'],
+    });
     
     const changePage=(index)=>{
         setPage(index)
         if(index==0){
             Animated.timing(choiceAni,{
-                toValue:16,
+                toValue:0,
                 duration:300,
                 useNativeDriver:false
             }).start()
         }
         else if(index==1){
             Animated.timing(choiceAni,{
-                toValue:95,
+                toValue:33,
                 duration:300,
                 useNativeDriver:false
             }).start()
         }else if(index==2){
             Animated.timing(choiceAni,{
-                toValue:174,
+                toValue:66,
                 duration:300,
                 useNativeDriver:false
             }).start()
@@ -93,7 +97,9 @@ const HomePage = (props) => {
                             <Text style={[styles.commuChoiceText,page==0?styles.choiceSelected:'']}>关注</Text>
                             <Text style={[styles.commuChoiceText,page==1?styles.choiceSelected:'']}>热门</Text>
                             <Text style={[styles.commuChoiceText,page==2?styles.choiceSelected:'']}>全部</Text>
-                            <Animated.View style={[styles.choiceBorder,{left:choiceAni}]}></Animated.View>
+                            <Animated.View style={[styles.choiceBorder,{left:left}]}>
+                                <View style={styles.borderContent}></View>
+                            </Animated.View>
                         </View>
                         <Image source={require('../../static/search.png')} style={styles.search}></Image>
                         <View style={styles.avatarView}>
@@ -150,9 +156,7 @@ const HomePage = (props) => {
 }
 
 const styles = StyleSheet.create({
-    // header:{
-    //     backgroundColor:'#3686e7'
-    // },
+
     background: {
         width: '100%',
         height: '100%',
@@ -165,37 +169,7 @@ const styles = StyleSheet.create({
         width:'100%',
 
     },
-    blur: {
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(220,220,220,0.2)',
-        blurRadius: 20,
-        position: 'absolute',
-        top: 0,
-    },
-    backColor: {
-        // backgroundColor: 'rgba(92,163,214,0.3)',
-        width: '100%',
-        height: '100%'
-    },
-    backgroundBall1: {
-        height: 170,
-        width: 170,
-        borderRadius: 170,
-        position: 'absolute',
-        top: -30,
-        left: 0,
-        backgroundColor: 'rgba(255,0,107,0.25)'
-    },
-    backgroundBall2: {
-        height: 170,
-        width: 170,
-        borderRadius: 170,
-        position: 'absolute',
-        right: 0,
-        top: -30,
-        backgroundColor: 'rgba(95,132,247,0.3)'
-    },
+
     mainPage: {
         width: '100%',
         height: '100%',
@@ -229,33 +203,46 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         justifyContent:'space-around',
+        position:'relative'
     },
     commuChoiceText:{
         fontSize:17,
-        color:'rgba(0,0,0,0.8)',
+        color:'rgba(0,0,0,0.5)',
         // color:'white',
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
-        width:45,
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
+        flex:1,
+        // display:'flex',
+        fontWeight:'700',
+        // justifyContent:'center',
+        // alignItems:'center',
+        textAlign: 'center',
+        textAlignVertical: 'center',
     },
     choiceSelected:{
         fontSize:19,
         fontWeight:'900',
-        
+        color:'#3686e7',
     },
     choiceBorder:{
-        borderRadius:10,
+        // borderRadius:10,
         height:7,
-        backgroundColor:'#3686e7',
+        // backgroundColor:'#3686e7',
         // backgroundColor:'white',
-        width:40,
+        width:'33%',
         position:'absolute',
-        bottom:5,
+        bottom:0,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center'
         // left:15
+    },
+    borderContent:{
+        borderRadius:10,
+        height:'100%',
+        width:'30%',
+        backgroundColor:'#3686e7',
     },
     search: {
         height:25,

@@ -114,11 +114,52 @@ const PostContent=(props)=>{
         )
     }
 
+    let comment=[]
+
+    comment=[{
+        cid:1,
+        avatar:require('../../static/avatar.jpg'),
+        userName:'D1nNer-',
+        time:'1小时前',
+        like:1,
+        location:'四川',
+        content:'狠狠的上分'
+    }]
+
+    const Comment=(props)=>{
+        return(
+            <View>
+                <View style={commentStyles.userInfoView}>
+                    <View style={commentStyles.userInfo}>
+                        <View style={commentStyles.avatarView}>
+                            <Image source={props.avatar} style={commentStyles.avatar}/>
+                        </View>
+                        
+                        <Text style={commentStyles.userName}>{props.userName}</Text>
+                    </View>
+                    <View style={commentStyles.likeView}>
+                        <Image source={require('../../static/like.png')} style={commentStyles.like} />
+                        <Text  style={commentStyles.likeText}>赞</Text>
+                    </View>
+                </View>
+                <Text style={commentStyles.comment}>{props.content}</Text>
+            </View>
+            
+            
+        )
+    }
+
     return(
         <View style={postStyles.postView}>
             <FlatList style={postStyles.postScroll}
                 showsVerticalScrollIndicator = {false}
                 ListHeaderComponent={()=><PostHeader/>}
+                data={comment}
+                renderItem={({ item, index, separators }) => (
+                    <Pressable onPress={()=>{console.log(index)}}>
+                        <Comment key={index} {...item}/>
+                    </Pressable>
+                )}
             >
 
             </FlatList>
@@ -257,6 +298,7 @@ const postHeaderStyles=StyleSheet.create({
         flexDirection:'row'
     },
     postDate:{
+        fontSize:12,
         color:'rgba(0,0,0,0.4)',
         marginRight:10
     },
@@ -333,7 +375,7 @@ const contentStyles=StyleSheet.create({
         alignItems:'center'
     },
     filter:{
-        width:'43%',
+        width:'40%',
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
@@ -341,7 +383,7 @@ const contentStyles=StyleSheet.create({
         // backgroundColor:'red'
     },
     filterText:{
-        fontSize:15,
+        fontSize:14,
         color:'rgba(0,0,0,0.4)'
     },
     selectedText:{
@@ -422,6 +464,61 @@ const operationStyles=StyleSheet.create({
         width:25
     }
     
+})
+
+const commentStyles=StyleSheet.create({
+    userInfoView:{
+        margin:15,
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        marginBottom:5
+    },
+    userInfo:{
+        width:'45%',
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        // justifyContent:'space-between',
+    },
+    avatarView:{
+        height:40,
+        width:40,
+        borderRadius:40,
+        overflow:'hidden'
+    },
+    avatar:{
+        height:40,
+        width:40,
+    },
+    userName:{
+        fontSize:16,
+        // color:'rgba(0,0,0,0.4)',
+        marginLeft:15,
+        color:'rgba(0,0,0,0.8)'
+    },
+    likeView:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    like:{
+        height:20,
+        width:20,
+    },
+    likeText:{
+        fontSize:13,
+        color:'rgba(0,0,0,0.4)',
+        marginLeft:5
+    },
+    comment:{
+        fontSize:16,
+        color:'rgba(0,0,0,0.8)',
+        letterSpacing:1,
+        lineHeight:26,
+        marginLeft:65
+    }
 })
 
 export default PostDetail;

@@ -2,8 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect } from 'react'
 
-import MainPage from './MainPage'
-import PostDetail from './PostDetail'
+import MainPage from '../MainPage/MainPage'
+import PostDetail from '../Posts/PostDetail'
 
 
 

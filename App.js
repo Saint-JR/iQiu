@@ -1,6 +1,6 @@
 import React from 'react';
 import type {Node} from 'react';
-import MainNavi from './pages/MainNavi'
+import MainNavi from './pages/Navigation/MainNavi'
 import {View,StatusBar} from 'react-native'
 
 const App: () => Node = () => { 

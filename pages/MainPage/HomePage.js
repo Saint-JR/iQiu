@@ -1,10 +1,10 @@
 import React, { Component, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing, Animated} from 'react-native'
 import LinearGradient from "react-native-linear-gradient";
-import { naviHeight } from '../component/Navigation'
+import { naviHeight } from '../../component/Navigation'
 import { useEffect } from 'react';
-import Post from '../component/Post'
-import {ListHeader} from '../component/Post'
+import Post from '../../component/Post'
+import {ListHeader} from '../../component/Post'
 import Swiper from 'react-native-swiper';
 
 const HomePage = (props) => {
@@ -17,28 +17,28 @@ const HomePage = (props) => {
         commuNum:[3854,16430],
         postTitle:'四川大学出版学院挂牌仪式举行',
         postContent:'北京时间11月30日凌晨，卡塔尔世界杯B组最后一轮两场比赛同时开打。最终英格兰队3比0击败威尔士队，笑傲英伦德比的前者以小组头名晋级，“欧洲红龙”威尔士队则被淘汰出局；另一场比赛美国队1比0小胜伊朗队，反超对手升至小组第二，也拿到了淘汰赛的资格。根据淘汰赛的对阵安排，B组头名出线的英格兰队将与A组第二的塞内加尔队展开对话，而B组第二名的美国队则将与A组第一的荷兰队展开交锋。',
-        avatar:require('../static/football.png')
+        avatar:require('../../static/football.png')
     },{
         pid:2,
         commuName:'篮球圈',
         commuNum:[3855,16431],
         postTitle:'电子科技大学出版学院挂牌仪式举行',
         postContent:'四川大学出版学院挂牌仪式举行',
-        avatar:require('../static/basketball.png')
+        avatar:require('../../static/basketball.png')
     },{
         pid:3,
         commuName:'足球圈',
         commuNum:[3856,16432],
         postTitle:'四川大学出版学院挂牌仪式举行',
         postContent:'四川大学出版学院挂牌仪式举行',
-        avatar:require('../static/football.png')
+        avatar:require('../../static/football.png')
     },{
         pid:4,
         commuName:'乒乓球圈',
         commuNum:[3857,16433],
         postTitle:'四川大学出版学院挂牌仪式举行',
         postContent:'四川大学出版学院挂牌仪式举行',
-        avatar:require('../static/tabletennis.png')
+        avatar:require('../../static/tabletennis.png')
     }]
 
     const naviToPost=(index)=>{
@@ -77,7 +77,7 @@ const HomePage = (props) => {
     return (
         <>
             <View style={[styles.background]}>
-                <Image source={require('../static/background.png')} style={styles.image}/>
+                <Image source={require('../../static/background.png')} style={styles.image}/>
             </View>
 
 
@@ -95,9 +95,9 @@ const HomePage = (props) => {
                             <Text style={[styles.commuChoiceText,page==2?styles.choiceSelected:'']}>全部</Text>
                             <Animated.View style={[styles.choiceBorder,{left:choiceAni}]}></Animated.View>
                         </View>
-                        <Image source={require('../static/search.png')} style={styles.search}></Image>
+                        <Image source={require('../../static/search.png')} style={styles.search}></Image>
                         <View style={styles.avatarView}>
-                            <Image source={require('../static/avatar.jpg')} style={styles.avatar}></Image>
+                            <Image source={require('../../static/avatar.jpg')} style={styles.avatar}></Image>
                         </View>
                         
                     </View>
@@ -105,7 +105,7 @@ const HomePage = (props) => {
                 
 
                 <Swiper style={styles.swiper} loop={false} showsPagination={false} onIndexChanged={(index)=>changePage(index)}
-                    onTouchEnd={(e,state,context)=>{console.log(e,state,context)}}
+                    // onTouchEnd={(e,state,context)=>{console.log(e,state,context)}}
                     // onScrollBeginDrag={(e,state,context)=>{console.log(e,state,context)}}
                 >
                     <FlatList

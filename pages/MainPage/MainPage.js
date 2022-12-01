@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect } from 'react'
 
-import Navigation from '../component/Navigation'
+import Navigation from '../../component/Navigation'
 import HomePage from './HomePage'
 import Community from './Community'
 import Messages from './Messages'

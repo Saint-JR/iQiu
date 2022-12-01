@@ -11,19 +11,29 @@ const HotCommu=(props)=>{
     )
 }
 
+const FollowCommu=(props)=>{
+    return(
+        <View style={hotCommuStyles.hotCommuView}>
+            <Image source={props.commuAvatar} style={hotCommuStyles.hotCommuAvatar}></Image>
+            <Text style={hotCommuStyles.communityName}>{props.communityName}</Text>
+            <Text style={hotCommuStyles.followerNum}>关注 {props.followerNum}</Text>
+        </View>
+    )
+}
+
 const Community=()=>{
     let hotCommu=[]
 
     hotCommu=[{
-        commuAvatar:require('../static/football.png'),
+        commuAvatar:require('../../static/football.png'),
         communityName:'足球圈',
         followerNum:3645
     },{
-        commuAvatar:require('../static/basketball.png'),
+        commuAvatar:require('../../static/basketball.png'),
         communityName:'篮球圈',
         followerNum:3645
     },{
-        commuAvatar:require('../static/tabletennis.png'),
+        commuAvatar:require('../../static/tabletennis.png'),
         communityName:'乒乓球圈',
         followerNum:3645
     },]
@@ -40,14 +50,14 @@ const Community=()=>{
                     <View style={styles.hotCommuList}>
                         {
                             hotCommu.map((item,index)=>{
-                                <HotCommu {...item} key={index}/>
+                                return <HotCommu {...item} key={index}/>
                             })
                         }
                     </View>
                     
                 </View>
-                <View style={styles.commonCommu}>
-
+                <View style={styles.followCommu}>
+                    <Text style={styles.hotText}>我关注的圈子</Text>
                 </View>
             </View>
         </View>
@@ -59,6 +69,7 @@ const hotCommuStyles=StyleSheet.create({
     hotCommuView:{
         display:'flex',
         alignItems:'center',
+        marginRight:20,
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
@@ -100,7 +111,7 @@ const styles=StyleSheet.create({
         alignItems:'center',
     },
     searchView:{
-        backgroundColor:'rgba(230,230,230,1)',
+        backgroundColor:'rgba(240,240,240,1)',
         height:40,
         width:'70%',
         borderRadius:40,
@@ -126,6 +137,7 @@ const styles=StyleSheet.create({
         fontSize:15,
         fontWeight:'700',
         margin:10,
+        marginTop:15,
         color:'rgba(0,0,0,0.8)'
     },
     hotCommuList:{
@@ -135,7 +147,7 @@ const styles=StyleSheet.create({
         flexDirection:'row',
 
     },
-    commonCommu:{
+    followCommu:{
         margin:10,
         marginTop:0,
         backgroundColor:'white',

@@ -1,13 +1,11 @@
 import React, { Component, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing} from 'react-native'
-import { BlurView } from "@react-native-community/blur";
+import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing, Animated} from 'react-native'
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../component/Navigation'
 import { useEffect } from 'react';
 import Post from '../component/Post'
 import {ListHeader} from '../component/Post'
 import Swiper from 'react-native-swiper';
-import Animated from 'react-native-reanimated';
 
 const HomePage = (props) => {
 
@@ -52,49 +50,64 @@ const HomePage = (props) => {
     
     const changePage=(index)=>{
         setPage(index)
-        Animated.timing(choiceAni,{
-            toValue:95,
-            duration:1000,
-        }).start()
+        if(index==0){
+            Animated.timing(choiceAni,{
+                toValue:16,
+                duration:300,
+                useNativeDriver:false
+            }).start()
+        }
+        else if(index==1){
+            Animated.timing(choiceAni,{
+                toValue:95,
+                duration:300,
+                useNativeDriver:false
+            }).start()
+        }else if(index==2){
+            Animated.timing(choiceAni,{
+                toValue:174,
+                duration:300,
+                useNativeDriver:false
+            }).start()
+        }
+            
     }
 
 
     return (
         <>
             <View style={[styles.background]}>
-                <LinearGradient style={styles.backColor} 
-                    colors={["rgba(92,163,214,0.3)", "rgba(240,240,240,1)"]}
-                    locations={[0.8,1]}
-                ></LinearGradient>
-                <View style={styles.backgroundBall1}></View>
-                <View style={styles.backgroundBall2}></View>
-                <BlurView style={styles.blur}
-                    blurType="light"
-                    blurAmount={30} />
+                <Image source={require('../static/background.png')} style={styles.image}/>
             </View>
 
 
             <View style={[styles.mainPage]}>
-                <View style={{height:StatusBar.currentHeight}}></View>
+                <View style={styles.header}>
+                    <View style={{height:StatusBar.currentHeight}}></View>
 
-                <View style={styles.searchView}>
-                    {/* <View style={styles.search}>
+                    <View style={styles.searchView}>
+                        {/* <View style={styles.search}>
 
-                    </View> */}
-                    <View style={styles.commuChoice}> 
-                        <Text style={[styles.commuChoiceText,page==0?styles.choiceSelected:'']}>关注</Text>
-                        <Text style={[styles.commuChoiceText,page==1?styles.choiceSelected:'']}>热门</Text>
-                        <Text style={[styles.commuChoiceText,page==2?styles.choiceSelected:'']}>全部</Text>
-                        <Animated.View style={[styles.choiceBorder,{left:choiceAni}]}></Animated.View>
+                        </View> */}
+                        <View style={styles.commuChoice}> 
+                            <Text style={[styles.commuChoiceText,page==0?styles.choiceSelected:'']}>关注</Text>
+                            <Text style={[styles.commuChoiceText,page==1?styles.choiceSelected:'']}>热门</Text>
+                            <Text style={[styles.commuChoiceText,page==2?styles.choiceSelected:'']}>全部</Text>
+                            <Animated.View style={[styles.choiceBorder,{left:choiceAni}]}></Animated.View>
+                        </View>
+                        <Image source={require('../static/search.png')} style={styles.search}></Image>
+                        <View style={styles.avatarView}>
+                            <Image source={require('../static/avatar.jpg')} style={styles.avatar}></Image>
+                        </View>
+                        
                     </View>
-                    <Image source={require('../static/search.png')} style={styles.search}></Image>
-                    <View style={styles.avatarView}>
-                        <Image source={require('../static/avatar.jpg')} style={styles.avatar}></Image>
-                    </View>
-                    
                 </View>
+                
 
-                <Swiper style={styles.swiper} loop={false} showsPagination={false} onIndexChanged={(index)=>changePage(index)}>
+                <Swiper style={styles.swiper} loop={false} showsPagination={false} onIndexChanged={(index)=>changePage(index)}
+                    onTouchEnd={(e,state,context)=>{console.log(e,state,context)}}
+                    // onScrollBeginDrag={(e,state,context)=>{console.log(e,state,context)}}
+                >
                     <FlatList
                         style={styles.postScroll}
                         showsVerticalScrollIndicator = {false}
@@ -137,9 +150,20 @@ const HomePage = (props) => {
 }
 
 const styles = StyleSheet.create({
+    // header:{
+    //     backgroundColor:'#3686e7'
+    // },
     background: {
         width: '100%',
         height: '100%',
+        backgroundColor:'rgb(240,240,240)'
+        // borderStyle:'solid',
+        // borderColor:'red',
+        // borderWidth:2,
+    },
+    image:{
+        width:'100%',
+
     },
     blur: {
         width: '100%',
@@ -209,6 +233,7 @@ const styles = StyleSheet.create({
     commuChoiceText:{
         fontSize:17,
         color:'rgba(0,0,0,0.8)',
+        // color:'white',
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
@@ -225,7 +250,8 @@ const styles = StyleSheet.create({
     choiceBorder:{
         borderRadius:10,
         height:7,
-        backgroundColor:'#06d3e0',
+        backgroundColor:'#3686e7',
+        // backgroundColor:'white',
         width:40,
         position:'absolute',
         bottom:5,

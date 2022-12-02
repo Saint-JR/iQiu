@@ -98,7 +98,21 @@ const PostContent=(props)=>{
                             <Text style={contentStyles.operateText}>点赞</Text>
                         </View>
                     </View>
-                    
+                    <View style={contentStyles.recommendContainer}>
+                        <Text style={contentStyles.recommend}>相关推荐</Text>
+                        <View style={contentStyles.recommendView}>
+                            <View style={contentStyles.communityInfo}>
+                                <Image source={require('../../static/football.png')} style={contentStyles.communityAvatar}/>
+                                <View style={contentStyles.communityData}>
+                                    <Text style={contentStyles.communityName}>足球圈</Text>
+                                    <Text style={contentStyles.followNum}>关注 3654</Text>
+                                </View>
+                            </View>
+                            <View style={contentStyles.check}>
+                                <Text style={{fontSize:12}}>查看</Text>
+                            </View>
+                        </View>
+                    </View>
                 </View>
                 <View style={contentStyles.contentDivider}></View>
                 <View style={contentStyles.filterView}>
@@ -371,7 +385,10 @@ const contentStyles=StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-around',
-        marginTop:30
+        marginTop:30,
+        borderBottomWidth:1,
+        borderColor:'rgb(240,240,240)',
+        paddingBottom:25
     },
     operate:{
         display:'flex',
@@ -384,6 +401,56 @@ const contentStyles=StyleSheet.create({
     operateImage:{
         height:25,
         width:25
+    },
+    recommendContainer:{
+        marginTop:15,
+    },
+    recommend:{
+        fontSize:12,
+        marginBottom:10,
+        color:'rgba(0,0,0,0.4)'
+    },
+    recommendView:{
+        backgroundColor:'rgb(240,240,240)',
+        borderRadius:10,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        padding:10
+    },
+    communityInfo:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center'
+    },  
+    communityAvatar:{
+        height:50,
+        width:50
+    },
+    communityData:{
+        marginLeft:10
+    },
+    communityName:{
+        fontSize:15,
+        color:'rgba(0,0,0,0.8)',
+        marginBottom:5
+    },
+    followNum:{
+        fontSize:11,
+        color:'rgba(0,0,0,0.4)'
+    },
+    check:{
+        padding:15,
+        paddingTop:5,
+        paddingBottom:5,
+        
+        borderRadius:100,
+        borderWidth:1,
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        borderColor:'rgb(220,220,220)'
     },
     contentDivider:{
         width:'100%',

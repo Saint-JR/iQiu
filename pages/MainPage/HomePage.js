@@ -3,8 +3,7 @@ import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Ima
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../../component/Navigation'
 import { useEffect } from 'react';
-import Post from '../../component/Post'
-import {ListHeader} from '../../component/Post'
+import HomePosts from '../../component/HomePosts'
 import Swiper from 'react-native-swiper';
 
 const HomePage = (props) => {
@@ -78,6 +77,20 @@ const HomePage = (props) => {
     }
 
 
+    const ListHeader=()=>{
+        return(
+            <View style={headerStyles.headerView}>
+                <View style={headerStyles.headerContainer}>
+                    <Text style={[headerStyles.headerText,headerStyles.headerSelected]}>全部</Text>
+                    <Text style={headerStyles.headerText}>闲聊</Text>
+                    <Text style={headerStyles.headerText}>约球</Text>
+                </View>
+                
+            </View>
+        )
+    }
+
+
     return (
         <>
             <View style={[styles.background]}>
@@ -121,7 +134,7 @@ const HomePage = (props) => {
                         data={postList}
                         renderItem={({ item, index, separators }) => (
                             <Pressable onPress={()=>{naviToPost(index)}}>
-                                <Post {...item}></Post>
+                                <HomePosts {...item}></HomePosts>
                             </Pressable>
                         )}
                     />
@@ -132,7 +145,7 @@ const HomePage = (props) => {
                         data={postList}
                         renderItem={({ item, index, separators }) => (
                             <Pressable onPress={()=>{naviToPost(index)}}>
-                                <Post {...item}></Post>
+                                <HomePosts {...item}></HomePosts>
                             </Pressable>
                         )}
                     />
@@ -143,7 +156,7 @@ const HomePage = (props) => {
                         data={postList}
                         renderItem={({ item, index, separators }) => (
                             <Pressable onPress={()=>{naviToPost(index)}}>
-                                <Post {...item}></Post>
+                                <HomePosts {...item}></HomePosts>
                             </Pressable>
                         )}
                     />
@@ -282,6 +295,30 @@ const styles = StyleSheet.create({
         // marginTop: 5,
     },
     
+})
+
+
+const headerStyles=StyleSheet.create({
+    headerView:{
+        margin: 10,
+        marginBottom:0,
+        width:'100%'
+    },
+    headerContainer:{
+        width:'40%',
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+    },
+    headerText:{
+        fontSize:16,
+        width:38
+    },
+    headerSelected:{
+        fontSize:16,
+        fontWeight:'700',
+        color:'rgba(0,0,0,0.8)'
+    }
 })
 
 export default HomePage;

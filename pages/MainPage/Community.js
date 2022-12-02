@@ -116,7 +116,7 @@ const hotCommuStyles=StyleSheet.create({
         borderRadius:15,
         marginBottom:5,
         borderStyle:'solid',
-        borderColor:'rgba(50,50,50,0.1)',
+        borderColor:'rgba(245,245,245,1)',
         borderWidth:1,
         // borderStyle:'solid',
         // borderColor:'red',
@@ -170,7 +170,7 @@ const followStyles=StyleSheet.create({
         // marginBottom:5,
         marginRight:10,
         borderStyle:'solid',
-        borderColor:'rgba(50,50,50,0.1)',
+        borderColor:'rgba(245,245,245,1)',
         borderWidth:1,
     },
     communityName:{

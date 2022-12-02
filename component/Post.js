@@ -20,9 +20,19 @@ const Post=(props)=>{
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
             <View style={styles.operate}>
-                <Text>分享</Text>
-                <Text>评论</Text>
-                <Text>点赞</Text>
+                <View style={styles.operateContainer}>
+                    <Image style={styles.operateImage} source={require('../static/share.png')}/>
+                    <Text style={styles.operateText}>分享</Text>
+                </View>
+                <View style={styles.operateContainer}>
+                    <Image style={styles.operateImage} source={require('../static/comment.png')}/>
+                    <Text style={styles.operateText}>评论</Text>
+                </View>
+                <View style={styles.operateContainer}>
+                    <Image style={styles.operateImage} source={require('../static/like.png')}/>
+                    <Text style={styles.operateText}>点赞</Text>
+                </View>
+                
             </View>
         </View>
     )
@@ -120,6 +130,20 @@ const styles=StyleSheet.create({
         // borderColor:'red',
         // borderWidth:2,
         marginBottom:20
+    },
+    operateContainer:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    operateText:{
+        fontSize:13,
+        color:'rgba(0,0,0,0.4)',
+        marginLeft:5
+    },
+    operateImage:{
+        height:18,
+        width:18
     }
 })
 

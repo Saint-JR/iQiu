@@ -13,9 +13,12 @@ const Navigation=(props)=>{
                 <Pressable onPress={()=>{navi()}} style={naviStyles.back}>
                     <Image source={require('../../static/back.png')} style={naviStyles.backImage}/>
                 </Pressable>
+
+                <Pressable onPress={()=>{console.log(123)}} style={naviStyles.share}>
+                    <Image source={require('../../static/share.png')} style={naviStyles.shareImage}/>
+                </Pressable>
                 
                 <View style={naviStyles.community}>
-                    
                     <Image source={require('../../static/football.png')} style={naviStyles.communityImage}/>
                     <Text style={naviStyles.communityText}>足球圈</Text>
                 </View>
@@ -124,6 +127,14 @@ const PostContent=(props)=>{
         like:1,
         location:'四川',
         content:'狠狠的上分'
+    },{
+        cid:2,
+        avatar:require('../../static/avatar.jpg'),
+        userName:'D1nNer-',
+        time:'1小时前',
+        like:1,
+        location:'四川',
+        content:'狠狠的上分'
     }]
 
     const Comment=(props)=>{
@@ -143,6 +154,12 @@ const PostContent=(props)=>{
                     </View>
                 </View>
                 <Text style={commentStyles.comment}>{props.content}</Text>
+                <View style={commentStyles.commentDate}>
+                    <Text style={commentStyles.dateText}>第{props.cid}楼</Text>
+                    <Text style={commentStyles.dateText}>{props.time}</Text>
+                    <Text style={commentStyles.dateText}>地点:{props.location}</Text>
+                </View>
+                <View style={commentStyles.commentDivider}></View>
             </View>
             
             
@@ -160,9 +177,7 @@ const PostContent=(props)=>{
                         <Comment key={index} {...item}/>
                     </Pressable>
                 )}
-            >
-
-            </FlatList>
+            />
         </View>
         
     )
@@ -215,8 +230,16 @@ const naviStyles=StyleSheet.create({
         left:30
     },
     backImage:{
-        height:30,
-        width:30
+        height:20,
+        width:17
+    },
+    share:{
+        position:'absolute',
+        right:30
+    },
+    shareImage:{
+        height:25,
+        width:25
     },
     navigationContainer:{
         backgroundColor:'white',
@@ -305,17 +328,18 @@ const postHeaderStyles=StyleSheet.create({
     detail:{
         borderRadius:100,
         // height:30,
-        backgroundColor:'rgba(54,134,231,0.4)',
+        backgroundColor:'rgba(54,134,231,0.3)',
         padding:8,
         paddingLeft:18,
         paddingRight:18,
         display:'flex',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        marginRight:10
 
     },
     detailText:{
-        fontSize:15,
+        fontSize:13,
         color:'#3686e7',
         // borderStyle:'solid',
         // borderColor:'red',
@@ -340,8 +364,8 @@ const contentStyles=StyleSheet.create({
     content:{
         fontSize:16,
         color:'rgba(0,0,0,0.8)',
-        letterSpacing:1,
-        lineHeight:26
+        // letterSpacing:1,
+        lineHeight:30
     },
     operateView:{
         display:'flex',
@@ -369,22 +393,22 @@ const contentStyles=StyleSheet.create({
     },
     filterView:{
         margin:15,
+        marginBottom:10,
         display:'flex',
         flexDirection:'row',
         justifyContent:'space-between',
         alignItems:'center'
     },
     filter:{
-        width:'40%',
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between',
         // backgroundColor:'red'
     },
     filterText:{
         fontSize:14,
-        color:'rgba(0,0,0,0.4)'
+        color:'rgba(0,0,0,0.4)',
+        marginRight:20
     },
     selectedText:{
         fontWeight:'700',
@@ -469,6 +493,7 @@ const operationStyles=StyleSheet.create({
 const commentStyles=StyleSheet.create({
     userInfoView:{
         margin:15,
+        marginTop:20,
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
@@ -496,12 +521,13 @@ const commentStyles=StyleSheet.create({
         fontSize:16,
         // color:'rgba(0,0,0,0.4)',
         marginLeft:15,
-        color:'rgba(0,0,0,0.8)'
+        color:'rgba(0,0,0,0.6)'
     },
     likeView:{
         display:'flex',
         flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',
+        marginRight:10
     },
     like:{
         height:20,
@@ -515,9 +541,29 @@ const commentStyles=StyleSheet.create({
     comment:{
         fontSize:16,
         color:'rgba(0,0,0,0.8)',
-        letterSpacing:1,
-        lineHeight:26,
+        // letterSpacing:1,
+        lineHeight:30,
         marginLeft:65
+    },
+    commentDate:{
+        marginLeft:65,
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        marginTop:10,
+    },
+    dateText:{
+        fontSize:12,
+        color:'rgba(0,0,0,0.4)',
+        marginRight:12
+    },
+    commentDivider:{
+        marginLeft:65,
+        marginRight:65,
+        marginTop:20,
+        borderBottomWidth:1,
+        borderColor:'rgba(240,240,240,1)',
+        borderStyle:'solid'
     }
 })
 

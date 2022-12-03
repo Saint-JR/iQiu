@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 import MainPage from '../MainPage/MainPage'
 import PostDetail from '../Posts/PostDetail'
+import CommunityDetail from '../Communities/CommunityDetail'
 
 
 
@@ -25,6 +26,13 @@ const MainNavi=()=>{
                     <Stack.Screen 
                         name='PostDetail' 
                         component={PostDetail}
+                        options={{
+                            headerShown:false
+                        }}
+                    />
+                    <Stack.Screen 
+                        name='CommunityDetail' 
+                        component={CommunityDetail}
                         options={{
                             headerShown:false
                         }}

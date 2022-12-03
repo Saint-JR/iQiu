@@ -32,29 +32,29 @@ const MainPage=(StackProps)=>{
 
                 <Tab.Screen 
                     name='Community' 
+                    component={Community}
                     options={{
                         headerShown:false
                     }}
                 >
-                    {()=><Community/>}
                 </Tab.Screen>
 
                 <Tab.Screen 
                     name='Messages' 
+                    component={Messages}
                     options={{
                         headerShown:false
                     }}
                 >
-                    {()=><Messages/>}
                 </Tab.Screen>
 
                 <Tab.Screen 
                     name='My' 
+                    component={My}
                     options={{
                         headerShown:false
                     }}
                 >
-                    {()=><My/>}
                 </Tab.Screen>
 
             </Tab.Navigator>

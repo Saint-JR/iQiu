@@ -1,4 +1,4 @@
-import {View,Text,StyleSheet,StatusBar,Image} from 'react-native'
+import {View,Text,StyleSheet,StatusBar,Image, Pressable} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 
 const HotCommu=(props)=>{
@@ -27,14 +27,14 @@ const FollowCommu=(props)=>{
                 <Text style={followStyles.followerNum}>{new Date().toLocaleDateString()}</Text>
             </View>
             <View style={{position:'absolute',right:40}}>
-                <Image source={require('../../static/community.png')} style={{height:20,width:20}}/>
+                <Image source={require('../../static/community.png')} style={{height:20,width:20,opacity:0.4}}/>
                 
             </View>
         </View>
     )
 }
 
-const Community=()=>{
+const Community=(props)=>{
     let hotCommu=[]
 
     let followCommu=[]
@@ -67,6 +67,10 @@ const Community=()=>{
         followerNum:3645
     },]
 
+    const navigate=(index)=>{
+        props.navigation.navigate('CommunityDetail')
+    }
+
     return(
         <View style={styles.background}>
             <View style={styles.search}>
@@ -79,7 +83,11 @@ const Community=()=>{
                     <View style={styles.hotCommuList}>
                         {
                             hotCommu.map((item,index)=>{
-                                return <HotCommu {...item} key={index}/>
+                                return(
+                                    <Pressable key={index} onPress={()=>{navigate(index)}}>
+                                        <HotCommu {...item}/>
+                                    </Pressable>
+                                ) 
                             })
                         }
                     </View>
@@ -90,7 +98,11 @@ const Community=()=>{
                     <View>
                         {
                             followCommu.map((item,index)=>{
-                                return <FollowCommu {...item} key={index}/>
+                                return(
+                                    <Pressable key={index} onPress={()=>{navigate(index)}}>
+                                        <FollowCommu {...item}/>
+                                    </Pressable>
+                                ) 
                             })
                         }
                     </View>
@@ -160,8 +172,8 @@ const followStyles=StyleSheet.create({
     devider:{
         width:'80%',
         borderStyle:'solid',
-        borderColor:'rgba(50,50,50,0.1)',
-        borderWidth:1,
+        borderColor:'rgba(240,240,240,1)',
+        borderBottomWidth:1,
     },
     followAvatar:{
         width:50,

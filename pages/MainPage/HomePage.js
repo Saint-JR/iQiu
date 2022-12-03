@@ -133,7 +133,7 @@ const HomePage = (props) => {
                         ListHeaderComponent={()=><ListHeader/>}
                         data={postList}
                         renderItem={({ item, index, separators }) => (
-                            <Pressable onPress={()=>{naviToPost(index)}}>
+                            <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
                                 <HomePosts {...item}></HomePosts>
                             </Pressable>
                         )}
@@ -144,7 +144,7 @@ const HomePage = (props) => {
                         ListHeaderComponent={()=><ListHeader/>}
                         data={postList}
                         renderItem={({ item, index, separators }) => (
-                            <Pressable onPress={()=>{naviToPost(index)}}>
+                            <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
                                 <HomePosts {...item}></HomePosts>
                             </Pressable>
                         )}
@@ -155,7 +155,7 @@ const HomePage = (props) => {
                         ListHeaderComponent={()=><ListHeader/>}
                         data={postList}
                         renderItem={({ item, index, separators }) => (
-                            <Pressable onPress={()=>{naviToPost(index)}}>
+                            <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
                                 <HomePosts {...item}></HomePosts>
                             </Pressable>
                         )}

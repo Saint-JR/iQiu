@@ -187,8 +187,8 @@ const PostContent=(props)=>{
                 ListHeaderComponent={()=><PostHeader/>}
                 data={comment}
                 renderItem={({ item, index, separators }) => (
-                    <Pressable onPress={()=>{console.log(index)}}>
-                        <Comment key={index} {...item}/>
+                    <Pressable onPress={()=>{console.log(index)}} key={item.cid}>
+                        <Comment {...item}/>
                     </Pressable>
                 )}
             />
@@ -244,8 +244,8 @@ const naviStyles=StyleSheet.create({
         left:30
     },
     backImage:{
-        height:20,
-        width:17
+        height:25,
+        width:25
     },
     share:{
         position:'absolute',

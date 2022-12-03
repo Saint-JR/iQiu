@@ -26,8 +26,8 @@ const FollowCommu=(props)=>{
                 <Text style={followStyles.followTime}>关注时间</Text>
                 <Text style={followStyles.followerNum}>{new Date().toLocaleDateString()}</Text>
             </View>
-            <View style={{position:'absolute',right:20,borderBottomWidth:3,borderBottomColor:'#3686e7'}}>
-                <Text style={followStyles.enter}>进入圈子</Text>
+            <View style={{position:'absolute',right:40}}>
+                <Image source={require('../../static/community.png')} style={{height:20,width:20}}/>
                 
             </View>
         </View>

@@ -188,9 +188,7 @@ const Navigation=(props)=>{
                     
                     <Pressable onPress={()=>navigate(3)} style={styles.pressablePost}>
                         <Animated.View style={[styles.post,{...Ani}]}>
-                            <Text style={styles.postPlus}>
-                                +
-                            </Text>
+                            <Image style={styles.postPlus} source={require('../static/plus.png')}/>
                         </Animated.View>
                     </Pressable>
                 </View>
@@ -261,9 +259,8 @@ const styles=StyleSheet.create({
         alignItems:'center'
     },
     postPlus:{
-        fontSize:30,
-        fontWeight:'900',
-        color:'white'
+        height:20,
+        width:20
     },
     buttonView:{
         display:'flex',

@@ -11,7 +11,11 @@ const HomePosts=(props)=>{
             <View style={styles.community}>
                 <Image source={props.avatar} style={styles.avatar}></Image>
                 <View style={styles.commuInfo}>
-                    <Text style={styles.commuName}>{props.commuName}</Text>
+                    <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                        <Text style={styles.commuName}>{props.commuName}</Text>
+                        <Image source={require('../static/community.png')} style={{height:15,width:15,marginLeft:5}}/>
+                    </View>
+                    
                     <Text style={styles.commuNum}>关注 {props.commuNum[0]}  帖子 {props.commuNum[1]}</Text>
                 </View>
             </View>

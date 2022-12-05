@@ -27,7 +27,7 @@ const FollowCommu=(props)=>{
                 <Text style={followStyles.followerNum}>{new Date().toLocaleDateString()}</Text>
             </View>
             <View style={{position:'absolute',right:40}}>
-                <Image source={require('../../static/community.png')} style={{height:20,width:20,opacity:0.4}}/>
+                <Image source={require('../../static/community.png')} style={{height:20,width:20,opacity:0.4,resizeMode:'contain'}}/>
                 
             </View>
         </View>

@@ -49,6 +49,7 @@ const HomePage = (props) => {
     let left=choiceAni.interpolate({
         inputRange: [0, 66],
         outputRange: ['0%', '66%'],
+        extrapolate: "clamp"
     });
     
     const changePage=(index)=>{

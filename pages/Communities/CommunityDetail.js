@@ -88,9 +88,19 @@ const Header=(props)=>{
 
                 <View style={headerStyles.divider}></View>
                 <View style={headerStyles.choiceView}>
-                    <Text style={[headerStyles.choice,headerStyles.selected]}>热门</Text>
-                    <Text style={headerStyles.choice}>最新</Text>
-                    <Text style={headerStyles.choice}>全部</Text>
+                    <View style={headerStyles.choiceContainer}>
+                        <Text style={[headerStyles.choice,headerStyles.selected]}>热门</Text>
+                        <View style={[headerStyles.choiceTip,{opacity:1}]}></View>
+                    </View>
+                    
+                    <View style={headerStyles.choiceContainer}>
+                        <Text style={[headerStyles.choice]}>最新</Text>
+                        <View style={[headerStyles.choiceTip,{opacity:0}]}></View>
+                    </View>
+                    <View style={headerStyles.choiceContainer}>
+                        <Text style={[headerStyles.choice]}>全部</Text>
+                        <View style={[headerStyles.choiceTip,{opacity:0}]}></View>
+                    </View>
                 </View>
             </View>
             
@@ -354,14 +364,25 @@ const headerStyles=StyleSheet.create({
         // marginBottom:15
 
     },
-    choice:{
-        fontSize:14,
-        color:'rgba(0,0,0,0.6)',
+    choiceContainer:{
+        display:'flex',
+        alignItems:'center',
         marginRight:20,
+    },
+    choice:{
+        fontSize:15,
+        color:'rgba(0,0,0,0.6)',
+        
     },
     selected:{
         fontWeight:'700',
         color:'rgba(0,0,0,0.8)'
+    },
+    choiceTip:{
+        height:4,
+        width:17,
+        borderRadius:4,
+        backgroundColor:'#3686e7'
     }
 })
 

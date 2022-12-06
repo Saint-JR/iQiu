@@ -122,7 +122,7 @@ const Community=(props)=>{
                     
                 </View>
                 <View style={styles.followCommu}>
-                    <Text style={[styles.hotText,{marginBottom:0}]}>我关注的圈子</Text>
+                    <Text style={[styles.hotText,{marginBottom:5}]}>我关注的圈子</Text>
                     <FlatList
                         showsVerticalScrollIndicator = {false}
                         numColumns={2}

@@ -27,22 +27,6 @@ const Header=(props)=>{
                 <Image source={require('../../static/backicon2.png')} style={headerStyles.backicon}/>
             </LinearGradient>
             <View style={{height:200}}></View>
-                {/* <View style={headerStyles.commuInfoView}>
-                    <View style={headerStyles.commuInfoContainer}>
-                        <Image source={require('../../static/football.png')} style={headerStyles.commuAvatar}  />
-                        <View style={headerStyles.commuInfo}>
-                            <Text style={headerStyles.commuName}>足球圈</Text>
-                            <Text style={headerStyles.commuLevel}>LV1  初来乍到</Text>
-                            <View style={{marginTop:5}}>
-                                <View style={headerStyles.levelAll}></View>
-                                <View style={headerStyles.level}></View>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={headerStyles.followView}>
-                        <Text style={headerStyles.followText}>关注</Text>
-                    </View>
-                </View> */}
             <View style={headerStyles.headerContainer}>
                 <Image source={require('../../static/avatar.jpg')}  style={headerStyles.userAvatar} />
                 <View style={headerStyles.updateView}>
@@ -78,24 +62,16 @@ const Header=(props)=>{
                 <View style={headerStyles.divider}></View>
 
                 <View style={headerStyles.choiceView}>
-                    <Text style={[headerStyles.choice,headerStyles.selected]}>帖子 60</Text>
-                    <Text style={headerStyles.choice}>关注圈子</Text>
-                </View>
-                {/* <View style={headerStyles.topPost}>
-                    <View style={headerStyles.topView}>
-                        <Text style={{color:'white',fontSize:10}}>圈规</Text>
+                    <View style={headerStyles.choiceContainer}>
+                        <Text style={[headerStyles.choice,headerStyles.selected]}>帖子 60</Text>
+                        <View style={[headerStyles.choiceTip,{opacity:1}]}></View>
                     </View>
-                    <Text style={{color:'rgba(0,0,0,0.8)',fontSize:15,marginLeft:10}}>【足球圈圈规】6月17日更新 发帖必读</Text>
-                </View>
-                <View style={headerStyles.topPost}>
-                    <View style={headerStyles.topView}>
-                        <Text style={{color:'white',fontSize:10}}>置顶</Text>
+                    <View style={headerStyles.choiceContainer}>
+                        <Text style={[headerStyles.choice]}>关注圈子</Text>
+                        <View style={[headerStyles.choiceTip,{opacity:0}]}></View>
                     </View>
-                    <Text style={{color:'rgba(0,0,0,0.8)',fontSize:15,marginLeft:10}}>【足球】2022年7月至12月封禁名单</Text>
                 </View>
 
-                
-                 */}
             </View>
             
         </>
@@ -360,17 +336,29 @@ const headerStyles=StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         // marginTop:15,
-        marginBottom:10
+        // marginBottom:10
 
+    },
+    choiceContainer:{
+        display:'flex',
+        alignItems:'center',
+        marginRight:30,
     },
     choice:{
         fontSize:16,
         color:'rgba(0,0,0,0.6)',
-        marginRight:30,
+        
     },
     selected:{
         fontWeight:'700',
         color:'rgba(0,0,0,0.8)'
+    },
+    choiceTip:{
+        height:5,
+        width:20,
+        borderRadius:5,
+        backgroundColor:'#3686e7',
+        marginTop:3
     }
 })
 

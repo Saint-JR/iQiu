@@ -82,9 +82,21 @@ const HomePage = (props) => {
         return(
             <View style={headerStyles.headerView}>
                 <View style={headerStyles.headerContainer}>
-                    <Text style={[headerStyles.headerText,headerStyles.headerSelected]}>全部</Text>
-                    <Text style={headerStyles.headerText}>闲聊</Text>
-                    <Text style={headerStyles.headerText}>约球</Text>
+                    <View style={headerStyles.headerTextView}>
+                        <LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:1}} colors={['#0dc2e3','#3686e7']}/>
+                        <Text style={[headerStyles.headerText,headerStyles.headerSelected]}>全部</Text>
+                    </View>
+                    <View style={headerStyles.headerTextView}>
+                    <LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:0}} colors={['#0dc2e3','#3686e7']}/>
+                        <Text style={headerStyles.headerText}>闲聊</Text>
+                    </View>
+                    <View style={headerStyles.headerTextView}>
+                    <LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:0}} colors={['#0dc2e3','#3686e7']}/>
+                        <Text style={headerStyles.headerText}>约球</Text>
+                    </View>
+                    
+                    
+                    
                 </View>
                 
             </View>
@@ -307,14 +319,21 @@ const headerStyles=StyleSheet.create({
         width:'100%'
     },
     headerContainer:{
-        width:'40%',
         display:'flex',
         flexDirection:'row',
-        justifyContent:'space-between',
+        alignItems:'center'
+    },
+    headerTextView:{
+        width:60,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
     },
     headerText:{
         fontSize:16,
-        width:38
+        width:38,
+        
     },
     headerSelected:{
         fontSize:16,

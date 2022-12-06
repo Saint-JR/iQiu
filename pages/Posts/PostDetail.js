@@ -70,7 +70,10 @@ const PostContent=(props)=>{
                                 style={postHeaderStyles.posterAvatar}/>
                         </View>
                         <View style={postHeaderStyles.posterNameContainer}>
-                            <Text style={postHeaderStyles.posterName}>D1nNer-</Text>
+                            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                                <Text style={{fontSize:16,color:'rgba(0,0,0,0.6)'}}>D1nNer-</Text>
+                                <Image source={require('../../static/level.png')} style={{height:15,width:15,resizeMode:'contain',marginLeft:5}} />
+                            </View>
                             <View style={postHeaderStyles.posterDetail}>
                                 <Text style={postHeaderStyles.postDate}>11-30</Text>
                                 <Text style={postHeaderStyles.postDate}>地点:上海</Text>
@@ -159,8 +162,11 @@ const PostContent=(props)=>{
                         <View style={commentStyles.avatarView}>
                             <Image source={props.avatar} style={commentStyles.avatar}/>
                         </View>
+                        <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                            <Text style={commentStyles.userName}>{props.userName}</Text>
+                            <Image source={require('../../static/level.png')} style={{height:15,width:15,resizeMode:'contain',marginLeft:5}} />
+                        </View>
                         
-                        <Text style={commentStyles.userName}>{props.userName}</Text>
                     </View>
                     <View style={commentStyles.likeView}>
                         <Image source={require('../../static/like.png')} style={commentStyles.like} />
@@ -376,10 +382,10 @@ const contentStyles=StyleSheet.create({
         marginBottom:20
     },
     content:{
-        fontSize:16,
+        fontSize:15,
         color:'rgba(0,0,0,0.8)',
         // letterSpacing:1,
-        lineHeight:30
+        lineHeight:28
     },
     operateView:{
         display:'flex',
@@ -565,7 +571,7 @@ const commentStyles=StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
-        marginBottom:5
+        marginBottom:5,
     },
     userInfo:{
         width:'45%',
@@ -606,10 +612,10 @@ const commentStyles=StyleSheet.create({
         marginLeft:5
     },
     comment:{
-        fontSize:16,
+        fontSize:15,
         color:'rgba(0,0,0,0.8)',
         // letterSpacing:1,
-        lineHeight:30,
+        lineHeight:28,
         marginLeft:65
     },
     commentDate:{
@@ -617,7 +623,7 @@ const commentStyles=StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        marginTop:10,
+        marginTop:5,
     },
     dateText:{
         fontSize:12,

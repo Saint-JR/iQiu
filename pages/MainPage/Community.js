@@ -1,4 +1,4 @@
-import {View,Text,StyleSheet,StatusBar,Image, Pressable} from 'react-native'
+import {View,Text,StyleSheet,StatusBar,Image, Pressable, TextInput} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 
 const HotCommu=(props)=>{
@@ -13,23 +13,27 @@ const HotCommu=(props)=>{
 
 const FollowCommu=(props)=>{
     return(
+        // <Text style={{flex:1}}>1</Text>
         <View style={followStyles.followView}>
-            <View style={followStyles.deviderView}>
+            {/* <View style={followStyles.deviderView}>
                 <View style={followStyles.devider}></View>
+            </View> */}
+            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                <Image source={props.commuAvatar} style={followStyles.followAvatar}></Image>
+                <View style={{display:'flex'}}>
+                    <Text style={followStyles.communityName}>{props.communityName}</Text>
+                    <Text style={followStyles.followerNum}>关注 {props.followerNum}</Text>
+                </View>
             </View>
-            <Image source={props.commuAvatar} style={followStyles.followAvatar}></Image>
-            <View style={{display:'flex',width:100,marginRight:10}}>
-                <Text style={followStyles.communityName}>{props.communityName}</Text>
-                <Text style={followStyles.followerNum}>关注 {props.followerNum}</Text>
-            </View>
-            <View style={{display:'flex',alignItems:'center'}}>
+            <Image source={require('../../static/level.png')} style={{height:15,width:15,resizeMode:'contain',marginRight:10}} />
+            {/* <View style={{display:'flex',alignItems:'center'}}>
                 <Text style={followStyles.followTime}>关注时间</Text>
                 <Text style={followStyles.followerNum}>{new Date().toLocaleDateString()}</Text>
-            </View>
-            <View style={{position:'absolute',right:40}}>
+            </View> */}
+            {/* <View style={{position:'absolute',right:40}}>
                 <Image source={require('../../static/community.png')} style={{height:20,width:20,opacity:0.4,resizeMode:'contain'}}/>
                 
-            </View>
+            </View> */}
         </View>
     )
 }
@@ -40,28 +44,39 @@ const Community=(props)=>{
     let followCommu=[]
 
     hotCommu=[{
+        cid:1,
         commuAvatar:require('../../static/football.png'),
         communityName:'足球圈',
         followerNum:3645
     },{
+        cid:2,
         commuAvatar:require('../../static/basketball.png'),
         communityName:'篮球圈',
         followerNum:3645
     },{
+        cid:3,
         commuAvatar:require('../../static/tabletennis.png'),
         communityName:'乒乓球圈',
         followerNum:3645
     },]
 
     followCommu=[{
+        cid:1,
         commuAvatar:require('../../static/football.png'),
         communityName:'足球圈',
         followerNum:3645
     },{
+        cid:2,
         commuAvatar:require('../../static/basketball.png'),
         communityName:'篮球圈',
         followerNum:3645
     },{
+        cid:3,
+        commuAvatar:require('../../static/tabletennis.png'),
+        communityName:'乒乓球圈',
+        followerNum:3645
+    },{
+        cid:4,
         commuAvatar:require('../../static/tabletennis.png'),
         communityName:'乒乓球圈',
         followerNum:3645
@@ -75,7 +90,20 @@ const Community=(props)=>{
         <View style={styles.background}>
             <View style={styles.search}>
                 <View style={{height:StatusBar.currentHeight}}></View>
-                <View style={styles.searchView}></View>
+                <View style={styles.searchView}>
+                    <Image source={require('../../static/search.png')} style={{height:20,width:20,marginLeft:15,opacity:0.5,marginRight:10}} />
+                    <Text style={{color:'rgba(0,0,0,0.4)'}}>搜索圈子</Text>
+                </View>
+                <View style={styles.choiceView}>
+                    <View style={styles.choiceContainer}>
+                        <Text style={[styles.choiceText,styles.selected]}>关注圈子</Text>
+                        <View style={[styles.choiceTip,{opacity:1}]}></View>
+                    </View>
+                    <View style={styles.choiceContainer}>
+                        <Text style={styles.choiceText}>所有圈子</Text>
+                        <View style={[styles.choiceTip,{opacity:0}]}></View>
+                    </View>
+                </View>
             </View>
             <View style={styles.commuList}>
                 <View style={styles.hotCommu}>
@@ -84,7 +112,7 @@ const Community=(props)=>{
                         {
                             hotCommu.map((item,index)=>{
                                 return(
-                                    <Pressable key={index} onPress={()=>{navigate(index)}}>
+                                    <Pressable key={item.cid} onPress={()=>{navigate(index)}}>
                                         <HotCommu {...item}/>
                                     </Pressable>
                                 ) 
@@ -95,17 +123,18 @@ const Community=(props)=>{
                 </View>
                 <View style={styles.followCommu}>
                     <Text style={[styles.hotText,{marginBottom:0}]}>我关注的圈子</Text>
-                    <View>
-                        {
-                            followCommu.map((item,index)=>{
-                                return(
-                                    <Pressable key={index} onPress={()=>{navigate(index)}}>
-                                        <FollowCommu {...item}/>
-                                    </Pressable>
-                                ) 
-                            })
-                        }
-                    </View>
+                    <FlatList
+                        showsVerticalScrollIndicator = {false}
+                        numColumns={2}
+                        columnWrapperStyle={{display:'flex',flexDirection:'row',alignItems:'center'}}
+                        data={followCommu}
+                        renderItem={({ item, index, separators }) => (
+                            <Pressable key={item.cid} onPress={()=>{navigate(index)}} style={{flex:1}}>
+                                <FollowCommu {...item}/>
+                            </Pressable>
+                        )}
+                    />
+                    
                 </View>
             </View>
         </View>
@@ -150,37 +179,42 @@ const followStyles=StyleSheet.create({
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        padding:20,
+        justifyContent:'space-between',
+        margin:10,
+        marginLeft:0,
+        marginRight:0,
         // margin:20,
         // marginTop:10,
         // borderStyle:'solid',
-        // borderColor:'rgba(50,50,50,0.1)',
+        // borderColor:'red',
         // borderWidth:1,
+        // width:'50%'
     },
-    deviderView:{
-        width:'100%',
-        position:'absolute',
-        bottom:0,
-        left:20,
-        display:'flex',
-        flexDirection:'row',
-        justifyContent:'center',
-        // borderStyle:'solid',
-        // borderColor:'rgba(50,50,50,0.1)',
-        // borderWidth:1,
-    },
-    devider:{
-        width:'80%',
-        borderStyle:'solid',
-        borderColor:'rgba(240,240,240,1)',
-        borderBottomWidth:1,
-    },
+    // deviderView:{
+    //     width:'100%',
+    //     position:'absolute',
+    //     bottom:0,
+    //     left:20,
+    //     display:'flex',
+    //     flexDirection:'row',
+    //     justifyContent:'center',
+    //     // borderStyle:'solid',
+    //     // borderColor:'rgba(50,50,50,0.1)',
+    //     // borderWidth:1,
+    // },
+    // devider:{
+    //     width:'80%',
+    //     borderStyle:'solid',
+    //     borderColor:'rgba(240,240,240,1)',
+    //     borderBottomWidth:1,
+    // },
     followAvatar:{
-        width:50,
-        height:50,
-        borderRadius:20,
+        width:40,
+        height:40,
+        borderRadius:14,
         // marginBottom:5,
-        marginRight:10,
+        marginLeft:10,
+        marginRight:5,
         borderStyle:'solid',
         borderColor:'rgba(245,245,245,1)',
         borderWidth:1,
@@ -194,11 +228,11 @@ const followStyles=StyleSheet.create({
         fontSize:10,
         color:'rgba(0,0,0,0.4)',
     },
-    followTime:{
-        color:'rgba(0,0,0,0.4)',
-        fontSize:15,
-        marginBottom:2
-    },
+    // followTime:{
+    //     color:'rgba(0,0,0,0.4)',
+    //     fontSize:15,
+    //     marginBottom:2
+    // },
 
 })
 
@@ -223,8 +257,40 @@ const styles=StyleSheet.create({
         height:40,
         width:'70%',
         borderRadius:40,
-        marginBottom:20,
-        marginTop:10
+        marginBottom:15,
+        marginTop:10,
+        display:'flex',
+        flexDirection:'row',
+        // justifyContent:'center',
+        alignItems:'center',
+    },
+    choiceView:{
+        width:'100%',
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        marginLeft:40,
+    },
+    choiceContainer:{
+
+        display:'flex',
+        alignItems:'center',
+        marginRight:30,
+    },
+    choiceText:{
+        fontSize:16,
+        color:'rgba(0,0,0,0.5)',
+        marginBottom:5
+    },
+    selected:{
+        fontWeight:'700',
+        color:'rgba(0,0,0,0.8)'
+    },
+    choiceTip:{
+        height:6,
+        width:20,
+        borderRadius:6,
+        backgroundColor:'#3686e7'
     },
     commuList:{
         width:'100%',

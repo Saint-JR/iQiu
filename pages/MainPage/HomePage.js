@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
         width:25,
         position:'absolute',
         right:40,
+        opacity:0.5
     },
     avatarView:{
         position:'absolute',

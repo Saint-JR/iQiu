@@ -30,11 +30,17 @@ const Navigation = (props) => {
         outputRange: ['rgb(54,134,231)', 'rgb(229,138,146)'],
     });
 
+    let borderRadius=post.interpolate({
+        inputRange:[0,1],
+        outputRange:[10,25]
+    })
+
     let Ani = {
         bottom: bottom,
         width: width,
         transform: [{ rotate: rotate }],
         backgroundColor: rgb,
+        borderRadius:borderRadius
     }
 
     let [selectPost, setSelectPost] = useState(false)
@@ -206,7 +212,7 @@ const styles = StyleSheet.create({
         // borderColor:'red',
         // borderWidth:7,
         backgroundColor: '#3686e7',
-        borderRadius: 50,
+        borderRadius: 10,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -268,6 +274,7 @@ const styles = StyleSheet.create({
     postImage: {
         width: 35,
         height: 35,
+        resizeMode:'contain'
     }
 })
 

@@ -97,15 +97,15 @@ const styles=StyleSheet.create({
         fontSize:16,
         fontWeight:'900',
         letterSpacing:0,
-        color:'rgba(0,0,0,0.6)'
+        color:'rgba(0,0,0,0.7)'
 
     },
     postContent:{
-        fontSize:16,
+        fontSize:15,
         lineHeight:25,
         marginTop:5,
         letterSpacing:0,
-
+        color:'rgba(0,0,0,0.8)'
     },
     operate:{
         display:'flex',

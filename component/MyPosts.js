@@ -1,28 +1,32 @@
 import {View,Text,StyleSheet, Image} from 'react-native'
 import {useEffect} from 'react'
 
-const HomePosts=(props)=>{
-    // useEffect(()=>{
-    //     console.log(props)
-    // },[])
+const MyPosts=(props)=>{
 
     return(
         <View style={styles.post}>
-            <View style={styles.community}>
+            <View style={styles.userInfoContainer}>
                 <Image source={props.avatar} style={styles.avatar}></Image>
-                <View style={styles.commuInfo}>
+                <View style={styles.userInfo}>
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                        <Text style={styles.commuName}>{props.commuName}</Text>
-                        <Image source={require('../static/community.png')} style={{height:15,width:15,marginLeft:5,opacity:0.5,resizeMode:'contain'}}/>
+                        <Text style={styles.userName}>{props.userName}</Text>
+                        {/* <Image source={require('../static/community.png')} style={{height:15,width:15,marginLeft:5,opacity:0.5,resizeMode:'contain'}}/> */}
                     </View>
                     
-                    <Text style={styles.commuNum}>关注 {props.commuNum[0]}  帖子 {props.commuNum[1]}</Text>
+                    <Text style={styles.time}>{props.time}</Text>
                 </View>
             </View>
             <View style={styles.postInfo}>
                 <Text numberOfLines={1} ellipsizeMode = 'tail' style={styles.postTitle}>{props.postTitle}</Text>
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
+            <View style={{display:'flex',flexDirection:'row'}}>
+                <View style={styles.communityView}>
+                    <Image source={require('../static/community_done.png')} style={styles.communityImage} />
+                    <Text style={styles.communityName}>{props.commuName}</Text>
+                </View>
+            </View>
+            
             <View style={styles.operate}>
                 <View style={styles.operateContainer}>
                     <Image style={styles.operateImage} source={require('../static/share.png')}/>
@@ -54,7 +58,7 @@ const styles=StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10
     },
-    community:{
+    userInfoContainer:{
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
@@ -77,24 +81,25 @@ const styles=StyleSheet.create({
         borderWidth:1,
         borderRadius:15
     },
-    commuInfo:{
+    userInfo:{
         height:50,
         display:'flex',
         marginLeft:10,
         justifyContent:'center',
     },
-    commuName:{
+    userName:{
         fontSize:15,
         color:'rgba(0,0,0,0.8)'
     },
-    commuNum:{
+    time:{
         fontSize:12,
         color:'rgba(0,0,0,0.4)',
         letterSpacing:0
     },
     postInfo:{
         margin:15,
-        marginTop:5
+        marginTop:5,
+        marginBottom:10,
     },
     postTitle:{
         fontSize:16,
@@ -109,6 +114,30 @@ const styles=StyleSheet.create({
         marginTop:5,
         letterSpacing:0,
         color:'rgba(0,0,0,0.8)'
+    },
+    communityView:{
+        marginLeft:15,
+        marginBottom:15,
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        borderColor:'#3686e7',
+        borderWidth:1,
+        borderRadius:100,
+        padding:5,
+        paddingLeft:8,
+        paddingRight:8
+
+    },
+    communityImage:{
+        height:15,
+        width:15,
+        resizeMode:'contain'
+    },
+    communityName:{
+        color:'#3686e7',
+        fontSize:13,
+        marginLeft:5
     },
     operate:{
         display:'flex',
@@ -136,4 +165,4 @@ const styles=StyleSheet.create({
     }
 })
 
-export default HomePosts;
+export default MyPosts;

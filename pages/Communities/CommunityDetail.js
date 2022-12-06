@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated} from "react-native"
+import LinearGradient from "react-native-linear-gradient"
 import { color } from "react-native-reanimated"
 import CommunityPost from '../../component/CommunityPost'
 
@@ -49,7 +50,9 @@ const Navigation=(props)=>{
 const Header=(props)=>{
     return(
         <>
-            <View style={{backgroundColor:'#f46a67',width:'100%',height:'100%',position:'absolute'}}></View>
+            <LinearGradient style={{width:'100%',height:'100%',position:'absolute'}} colors={['#0dc2e3','#3686e7']} start={{x: 0, y: 0}} end={{x: 1, y: 0}}>
+                <Image source={require('../../static/backicon.png')} style={headerStyles.backicon}/>
+            </LinearGradient>
             <View>
                 <View style={{height:props.occupyHeight}}></View>
                 <View style={headerStyles.commuInfoView}>
@@ -181,7 +184,9 @@ const CommutyDetail=(props)=>{
                             y: scrollY
                         }
                     }
-                }])}
+                }],{
+                    useNativeDriver:false
+                })}
                 // scrollEventThrottle={500}
             />
         </>
@@ -252,6 +257,15 @@ const headerStyles=StyleSheet.create({
         marginRight:15,
         marginBottom:20,
     },
+    backicon:{
+        height:180,
+        width:180,
+        resizeMode:'contain',
+        position:'absolute',
+        right:40,
+        top:20,
+        opacity:0.6
+    },
     commuInfoContainer:{
         display:'flex',
         flexDirection:'row',
@@ -321,7 +335,7 @@ const headerStyles=StyleSheet.create({
         padding:3,
         paddingLeft:6,
         paddingRight:6,
-        backgroundColor:'#f46a67'
+        backgroundColor:'#3686e7'
     },
     divider:{
         borderStyle:'solid',

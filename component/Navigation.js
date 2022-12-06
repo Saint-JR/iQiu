@@ -135,7 +135,14 @@ const Navigation = (props) => {
 
                 <Pressable onPress={() => { navigate(4) }}>
                     <View style={styles.buttonView}>
-                        <Image source={require('../static/message.png')} style={styles.buttonImage} />
+                        {
+                            select == 4
+                                ?
+                                <Lottie source={require('../static/message.json')} autoPlay={true} loop={false} style={[styles.buttonImage]} />
+                                :
+                                <Image source={require('../static/message.png')} style={styles.buttonImage} />
+                        }
+                        
                         <Text style={[styles.buttonText, select == 4 ? styles.select : '']}>消息</Text>
                     </View>
                 </Pressable>

@@ -151,9 +151,9 @@ const HomePage = (props) => {
                             </Animated.View>
                         </View>
                         <Image source={require('../../static/search.png')} style={styles.search}></Image>
-                        <View style={styles.avatarView}>
+                        <Pressable style={styles.avatarView} onPress={()=>props.navigation.navigate("My")}>
                             <Image source={require('../../static/avatar.jpg')} style={styles.avatar}></Image>
-                        </View>
+                        </Pressable>
                         
                     </View>
                 </View>

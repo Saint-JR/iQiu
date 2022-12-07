@@ -28,7 +28,7 @@ const Navigation=(props)=>{
 }
 
 const PostContent=(props)=>{
-    const PostHeader=()=>{
+    const PostHeader=(props)=>{
         
         // let choiceAni= useRef(new Animated.Value(0)).current
         // let left=choiceAni.interpolate({
@@ -101,7 +101,7 @@ const PostContent=(props)=>{
                             <Text style={contentStyles.operateText}>点赞</Text>
                         </View>
                     </View>
-                    <View style={contentStyles.recommendContainer}>
+                    <Pressable style={contentStyles.recommendContainer} onPress={()=>props.navigation.navigate('CommunityDetail')}>
                         <Text style={contentStyles.recommend}>相关推荐</Text>
                         <View style={contentStyles.recommendView}>
                             <View style={contentStyles.communityInfo}>
@@ -115,7 +115,7 @@ const PostContent=(props)=>{
                                 <Text style={{fontSize:12}}>查看</Text>
                             </View>
                         </View>
-                    </View>
+                    </Pressable>
                 </View>
                 <View style={contentStyles.contentDivider}></View>
                 <View style={contentStyles.filterView}>
@@ -190,7 +190,7 @@ const PostContent=(props)=>{
         <View style={postStyles.postView}>
             <FlatList style={postStyles.postScroll}
                 showsVerticalScrollIndicator = {false}
-                ListHeaderComponent={()=><PostHeader/>}
+                ListHeaderComponent={()=><PostHeader navigation={props.navigation} />}
                 ListFooterComponent={()=>{
                     return(
                         <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
@@ -229,7 +229,7 @@ const PostDetail=(props)=>{
         <>
             <View style={mainStyles.view}>
                 <Navigation navigation={props.navigation}/>
-                <PostContent/>
+                <PostContent navigation={props.navigation}/>
                 <Operation/>
             </View>
         </>

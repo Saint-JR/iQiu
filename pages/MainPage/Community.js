@@ -13,11 +13,7 @@ const HotCommu=(props)=>{
 
 const FollowCommu=(props)=>{
     return(
-        // <Text style={{flex:1}}>1</Text>
         <View style={followStyles.followView}>
-            {/* <View style={followStyles.deviderView}>
-                <View style={followStyles.devider}></View>
-            </View> */}
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Image source={props.commuAvatar} style={followStyles.followAvatar}></Image>
                 <View style={{display:'flex'}}>
@@ -26,14 +22,6 @@ const FollowCommu=(props)=>{
                 </View>
             </View>
             <Image source={require('../../static/level.png')} style={{height:15,width:15,resizeMode:'contain',marginRight:10}} />
-            {/* <View style={{display:'flex',alignItems:'center'}}>
-                <Text style={followStyles.followTime}>关注时间</Text>
-                <Text style={followStyles.followerNum}>{new Date().toLocaleDateString()}</Text>
-            </View> */}
-            {/* <View style={{position:'absolute',right:40}}>
-                <Image source={require('../../static/community.png')} style={{height:20,width:20,opacity:0.4,resizeMode:'contain'}}/>
-                
-            </View> */}
         </View>
     )
 }
@@ -72,11 +60,6 @@ const Community=(props)=>{
         followerNum:3645
     },{
         cid:3,
-        commuAvatar:require('../../static/tabletennis.png'),
-        communityName:'乒乓球圈',
-        followerNum:3645
-    },{
-        cid:4,
         commuAvatar:require('../../static/tabletennis.png'),
         communityName:'乒乓球圈',
         followerNum:3645
@@ -136,7 +119,7 @@ const Community=(props)=>{
                         }}
                         data={followCommu}
                         renderItem={({ item, index, separators }) => (
-                            <Pressable key={item.cid} onPress={()=>{navigate(index)}} style={{flex:1}}>
+                            <Pressable key={item.cid} onPress={()=>{navigate(index)}} style={{width:'50%'}}>
                                 <FollowCommu {...item}/>
                             </Pressable>
                         )}
@@ -195,6 +178,7 @@ const followStyles=StyleSheet.create({
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:1,
+        // flex:1
         // width:'50%'
     },
     // deviderView:{

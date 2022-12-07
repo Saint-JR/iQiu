@@ -23,7 +23,7 @@ const Header=()=>{
         <View style={headerStyles.headerView}>
             <View style={headerStyles.opeView}>
                 <View style={[headerStyles.imageView,{backgroundColor:'rgba(243,237,155,0.5)'}]}>
-                    <Image source={require('../../static/like_done.png')} style={headerStyles.opeImage} />
+                    <Image source={require('../../static/@.png')} style={[headerStyles.opeImage,{opacity:0.6}]} />
                 </View>
                 
                 <Text style={headerStyles.opeText}>@我的</Text>

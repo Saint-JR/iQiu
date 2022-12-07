@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "htttp://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.iqiu_backend.dao.PostMapper">
+
+    <select id="selectPosts" resultType="com.example.iqiu_backend.dto.PostsAndCommunityDTO">
+        select p.id as postId, c.community_name as communityName, c.follower_count as followerCount, p.title as title,
+        p.content as content, p.like_count as likeCount, p.poster_id as posterId, p.create_time as createTime
+        from posts as p
+        left join community as c
+        on p.community_id = c.id
+        where 1 = 1
+        order by p.create_time
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="selectCommunityIdByPostsId" resultType="int">
+        select community_id
+        from posts
+        where id = #{postsId}
+    </select>
+
+</mapper>

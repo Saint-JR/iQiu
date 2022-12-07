@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "htttp://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.iqiu_backend.dao.UserMapper">
+
+    <select id="selectUsernameByUserId" resultType="java.lang.String">
+        select username
+        from user
+        where id = #{userId}
+    </select>
+</mapper>

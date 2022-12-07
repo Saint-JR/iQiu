@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public class EntityToDTOConverter {
 
-    EntityToDTOConverter INSTANCE = Mappers.getMapper(EntityToDTOConverter.class);
+    EntityToDTOConverter INSTANCES = Mappers.getMapper(EntityToDTOConverter.class);
 
 
 }

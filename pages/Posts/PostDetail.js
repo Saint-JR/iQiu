@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import {View,Text,Pressable, StyleSheet,StatusBar,Image} from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
+import { FlatList, TextInput } from 'react-native-gesture-handler'
 
 const Navigation=(props)=>{
     const navi=()=>{
@@ -187,36 +188,51 @@ const PostContent=(props)=>{
     }
 
     return(
-        <View style={postStyles.postView}>
-            <FlatList style={postStyles.postScroll}
-                showsVerticalScrollIndicator = {false}
-                ListHeaderComponent={()=><PostHeader navigation={props.navigation} />}
-                ListFooterComponent={()=>{
-                    return(
-                        <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
-                            <Text>暂时只有这么多啦~</Text>
-                        </View>
-                    )
-                }}
-                data={comment}
-                renderItem={({ item, index, separators }) => (
-                    <Pressable onPress={()=>{console.log(index)}} key={item.cid}>
-                        <Comment {...item}/>
-                    </Pressable>
-                )}
-            />
-        </View>
+        <FlatList style={postStyles.postScroll}
+            showsVerticalScrollIndicator = {false}
+            keyboardDismissMode='on-drag'
+            ListHeaderComponent={()=><PostHeader navigation={props.navigation} />}
+            ListFooterComponent={()=>{
+                return(
+                    <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                        <Text>暂时只有这么多啦~</Text>
+                    </View>
+                )
+            }}
+            data={comment}
+            renderItem={({ item, index, separators }) => (
+                <Pressable onPress={()=>{console.log(index)}} key={item.cid}>
+                    <Comment {...item}/>
+                </Pressable>
+            )}
+        />
         
     )
 }
 
 const Operation=(props)=>{
+    let [focus,setFocus]=useState(0)
+
     return(
         <View style={operationStyles.operationView}>
-            <View style={operationStyles.inputView}></View>
-            <Image source={require('../../static/comment.png')} style={operationStyles.image}/>
-            <Image source={require('../../static/like.png')} style={operationStyles.image}/>
-            <Image source={require('../../static/share.png')} style={operationStyles.image}/>
+            <View style={[operationStyles.inputView,{width:focus==0?'60%':'80%'}]}>
+                <TextInput placeholder='文明发言哦~' style={operationStyles.input} onFocus={()=>setFocus(1)} onBlur={()=>setFocus(0)}/>
+            </View>
+            {
+                focus==0?
+                <>
+                    <Image source={require('../../static/comment.png')} style={operationStyles.image} />
+                    <Image source={require('../../static/like.png')} style={operationStyles.image}/>
+                    <Image source={require('../../static/share.png')} style={operationStyles.image}/>
+                </>
+                
+                :
+                <View style={operationStyles.send}>
+                    <Text style={{fontSize:12,color:'white'}}>发表</Text>
+                </View>
+
+            }
+            
         </View>
         
     )
@@ -244,7 +260,7 @@ const mainStyles=StyleSheet.create({
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
-        display:'flex',
+        // display:'flex',
         // backgroundColor:'red'
     },
 })
@@ -528,16 +544,9 @@ const contentStyles=StyleSheet.create({
 })
 
 const postStyles=StyleSheet.create({
-    postView:{
-        height:'100%',
-        width:'100%',
-        flexShrink:0.5,
-        backgroundColor:'white'
-        // borderStyle:'solid',
-        // borderColor:'red',
-        // borderWidth:2,
-    },
+
     postScroll:{
+        backgroundColor:'white'
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
@@ -557,11 +566,31 @@ const operationStyles=StyleSheet.create({
         borderStyle:'solid'
     },
     inputView:{
-        width:'60%',
         height:40,
         backgroundColor:'rgb(240,240,240)',
         borderRadius:40,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
 
+    },
+    input:{
+        marginLeft:10,
+        marginRight:10,
+        // padding:0,
+        // backgroundColor:'red',
+        flex:1
+    },
+    send:{
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:'#3686e7',
+        borderRadius:100,
+        padding:7,
+        paddingLeft:12,
+        paddingRight:12
     },
     image:{
         height:25,

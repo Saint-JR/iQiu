@@ -84,6 +84,7 @@ const My=(props)=>{
 
     postData=[{
         pid:1,
+        type:0,
         userName:'D1nNer-',
         time:'12-06',
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -92,6 +93,7 @@ const My=(props)=>{
         commuName:'足球圈'
     },{
         pid:2,
+        type:0,
         userName:'D1nNer-',
         time:'12-06',
         postTitle:'电子科技大学出版学院挂牌仪式举行',
@@ -100,6 +102,7 @@ const My=(props)=>{
         commuName:'足球圈'
     },{
         pid:3,
+        type:0,
         userName:'D1nNer-',
         time:'12-06',
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -108,6 +111,7 @@ const My=(props)=>{
         commuName:'足球圈'
     },{
         pid:4,
+        type:0,
         userName:'D1nNer-',
         time:'12-06',
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -144,6 +148,13 @@ const My=(props)=>{
             <FlatList 
                 style={mainStyles.list}
                 ListHeaderComponent={()=><Header/>}
+                ListFooterComponent={()=>{
+                    return(
+                        <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                            <Text>暂时只有这么多啦~</Text>
+                        </View>
+                    )
+                }}
                 data={postData}
                 renderItem={({ item, index, separators }) => (
                     <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>

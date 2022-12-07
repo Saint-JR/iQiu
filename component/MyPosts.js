@@ -16,14 +16,19 @@ const MyPosts=(props)=>{
                     <Text style={styles.time}>{props.time}</Text>
                 </View>
             </View>
+            
             <View style={styles.postInfo}>
                 <Text numberOfLines={1} ellipsizeMode = 'tail' style={styles.postTitle}>{props.postTitle}</Text>
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
-            <View style={{display:'flex',flexDirection:'row'}}>
+            <View style={{display:'flex',flexDirection:'row',marginLeft:15,marginBottom:15,}}>
                 <View style={styles.communityView}>
                     <Image source={require('../static/community_done.png')} style={styles.communityImage} />
                     <Text style={styles.communityName}>{props.commuName}</Text>
+                </View>
+                <View style={styles.postType}>
+                    <Image source={props.type==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />
+                    <Text style={styles.postTypeText}>{props.type==0?'闲聊帖':'约球帖'}</Text>
                 </View>
             </View>
             
@@ -57,6 +62,35 @@ const styles=StyleSheet.create({
         marginBottom:0,
         backgroundColor: 'white',
         borderRadius: 10
+    },
+    postTypeView:{
+        display:'flex',
+        flexDirection:'row',
+        marginBottom:10,
+        marginLeft:15
+    },
+    postType:{
+        borderWidth:1,
+        borderColor:'#3686e7',
+        borderRadius:100,
+        padding:5,
+        paddingLeft:8,
+        paddingRight:8,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginLeft:15
+    },
+    postImage:{
+        height:15,
+        width:15,
+        resizeMode:'contain',
+        marginRight:5
+    },
+    postTypeText:{
+        color:'#3686e7',
+        fontSize:13,
     },
     userInfoContainer:{
         display:'flex',
@@ -116,8 +150,7 @@ const styles=StyleSheet.create({
         color:'rgba(0,0,0,0.8)'
     },
     communityView:{
-        marginLeft:15,
-        marginBottom:15,
+        
         display:'flex',
         flexDirection:'row',
         alignItems:'center',

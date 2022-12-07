@@ -127,6 +127,13 @@ const Community=(props)=>{
                         showsVerticalScrollIndicator = {false}
                         numColumns={2}
                         columnWrapperStyle={{display:'flex',flexDirection:'row',alignItems:'center'}}
+                        ListFooterComponent={()=>{
+                            return(
+                                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                                    <Text>暂时只有这么多啦~</Text>
+                                </View>
+                            )
+                        }}
                         data={followCommu}
                         renderItem={({ item, index, separators }) => (
                             <Pressable key={item.cid} onPress={()=>{navigate(index)}} style={{flex:1}}>

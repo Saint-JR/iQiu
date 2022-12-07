@@ -191,6 +191,13 @@ const PostContent=(props)=>{
             <FlatList style={postStyles.postScroll}
                 showsVerticalScrollIndicator = {false}
                 ListHeaderComponent={()=><PostHeader/>}
+                ListFooterComponent={()=>{
+                    return(
+                        <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                            <Text>暂时只有这么多啦~</Text>
+                        </View>
+                    )
+                }}
                 data={comment}
                 renderItem={({ item, index, separators }) => (
                     <Pressable onPress={()=>{console.log(index)}} key={item.cid}>

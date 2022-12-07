@@ -20,6 +20,12 @@ const CommunityPosts=(props)=>{
                 <Text numberOfLines={1} ellipsizeMode = 'tail' style={styles.postTitle}>{props.postTitle}</Text>
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
+            <View style={styles.postTypeView}>
+                <View style={styles.postType}>
+                    <Image source={props.type==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />
+                    <Text style={styles.postTypeText}>{props.type==0?'闲聊帖':'约球帖'}</Text>
+                </View>
+            </View>
             <View style={styles.operate}>
                 <View style={styles.operateContainer}>
                     <Image style={styles.operateImage} source={require('../static/share.png')}/>
@@ -51,6 +57,7 @@ const styles=StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10
     },
+
     userInfoContainer:{
         display:'flex',
         flexDirection:'row',
@@ -91,7 +98,8 @@ const styles=StyleSheet.create({
     },
     postInfo:{
         margin:15,
-        marginTop:5
+        marginTop:5,
+        marginBottom:10
     },
     postTitle:{
         fontSize:16,
@@ -106,6 +114,34 @@ const styles=StyleSheet.create({
         marginTop:5,
         letterSpacing:0,
         color:'rgba(0,0,0,0.8)'
+    },
+    postTypeView:{
+        display:'flex',
+        flexDirection:'row',
+        marginBottom:15,
+        marginLeft:15
+    },
+    postType:{
+        borderWidth:1,
+        borderColor:'#3686e7',
+        borderRadius:100,
+        padding:5,
+        paddingLeft:8,
+        paddingRight:8,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    postImage:{
+        height:15,
+        width:15,
+        resizeMode:'contain',
+        marginRight:5
+    },
+    postTypeText:{
+        color:'#3686e7',
+        fontSize:13,
     },
     operate:{
         display:'flex',

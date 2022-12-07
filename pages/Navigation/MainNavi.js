@@ -5,6 +5,8 @@ import { useEffect } from 'react'
 import MainPage from '../MainPage/MainPage'
 import PostDetail from '../Posts/PostDetail'
 import CommunityDetail from '../Communities/CommunityDetail'
+import AddBallPosts from '../AddPosts/AddBallPosts'
+import AddChatPosts from '../AddPosts/AddChatPosts'
 
 
 
@@ -33,6 +35,20 @@ const MainNavi=()=>{
                     <Stack.Screen 
                         name='CommunityDetail' 
                         component={CommunityDetail}
+                        options={{
+                            headerShown:false
+                        }}
+                    />
+                    <Stack.Screen 
+                        name='AddBallPosts' 
+                        component={AddBallPosts}
+                        options={{
+                            headerShown:false
+                        }}
+                    />
+                    <Stack.Screen 
+                        name='AddChatPosts' 
+                        component={AddChatPosts}
                         options={{
                             headerShown:false
                         }}

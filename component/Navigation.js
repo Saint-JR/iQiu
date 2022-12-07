@@ -74,8 +74,10 @@ const Navigation = (props) => {
                     useNativeDriver: false
                 }).start()
             }
-
-
+        }else if(index==6){
+            props.navigation.navigate('AddChatPosts')
+        }else if(index==7){
+            props.navigation.navigate('AddBallPosts')
         }
     }
 
@@ -88,14 +90,15 @@ const Navigation = (props) => {
                     style={[styles.mainball, { transform: [{ rotate: rotate }], opacity: post }]}
                     pointerEvents={selectPost ? 'none' : 'auto'}
                 >
-                    <View style={[styles.ball, { left: -40 }, { transform: [{ rotate: '-90deg' }] }]}>
+                    <Pressable onPress={()=>navigate(6)} style={[styles.ball, { left: -40 }, { transform: [{ rotate: '-90deg' }] }]}>
                         <Image source={require('../static/chatPost.png')} style={styles.postImage} />
                         <Text style={styles.postText}>闲聊</Text>
-                    </View>
-                    <View style={[styles.ball, { bottom: -40 }, { transform: [{ rotate: '180deg' }] }]}>
+                    </Pressable>
+                    
+                    <Pressable onPress={()=>navigate(7)} style={[styles.ball, { bottom: -40 }, { transform: [{ rotate: '180deg' }] }]}>
                         <Image source={require('../static/ballPost.png')} style={styles.postImage} />
                         <Text style={styles.postText}>约球</Text>
-                    </View>
+                    </Pressable>
                 </Animated.View>
             </View>
 

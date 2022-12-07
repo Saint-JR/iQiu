@@ -19,10 +19,19 @@ const HomePosts=(props)=>{
                     <Text style={styles.commuNum}>关注 {props.commuNum[0]}  帖子 {props.commuNum[1]}</Text>
                 </View>
             </View>
+                
+            
             <View style={styles.postInfo}>
                 <Text numberOfLines={1} ellipsizeMode = 'tail' style={styles.postTitle}>{props.postTitle}</Text>
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
+            <View style={styles.postTypeView}>
+                <View style={styles.postType}>
+                    <Image source={props.type==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />
+                    <Text style={styles.postTypeText}>{props.type==0?'闲聊帖':'约球帖'}</Text>
+                </View>
+            </View>
+            
             <View style={styles.operate}>
                 <View style={styles.operateContainer}>
                     <Image style={styles.operateImage} source={require('../static/share.png')}/>
@@ -54,14 +63,40 @@ const styles=StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10
     },
+
+    postTypeView:{
+        display:'flex',
+        flexDirection:'row',
+        marginBottom:15,
+        marginLeft:15
+    },
+    postType:{
+        borderWidth:1,
+        borderColor:'#3686e7',
+        borderRadius:100,
+        padding:5,
+        paddingLeft:8,
+        paddingRight:8,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    postImage:{
+        height:15,
+        width:15,
+        resizeMode:'contain',
+        marginRight:5
+    },
+    postTypeText:{
+        color:'#3686e7',
+        fontSize:13,
+    },
     community:{
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
         height:50,
-        // borderStyle:'solid',
-        // borderColor:'red',
-        // borderWidth:2,
         margin:15,
         marginBottom:0
     },
@@ -94,7 +129,8 @@ const styles=StyleSheet.create({
     },
     postInfo:{
         margin:15,
-        marginTop:5
+        marginTop:5,
+        marginBottom:10,
     },
     postTitle:{
         fontSize:16,

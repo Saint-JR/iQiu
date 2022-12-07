@@ -121,6 +121,7 @@ const CommutyDetail=(props)=>{
 
     postData=[{
         pid:1,
+        type:0,
         userName:'D1nNer-',
         time:'1小时前',
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -128,6 +129,7 @@ const CommutyDetail=(props)=>{
         avatar:require('../../static/avatar.jpg')
     },{
         pid:2,
+        type:0,
         userName:'D1nNer-',
         time:'2小时前',
         postTitle:'电子科技大学出版学院挂牌仪式举行',
@@ -135,6 +137,7 @@ const CommutyDetail=(props)=>{
         avatar:require('../../static/avatar.jpg')
     },{
         pid:3,
+        type:0,
         userName:'D1nNer-',
         time:'3小时前',
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -142,6 +145,7 @@ const CommutyDetail=(props)=>{
         avatar:require('../../static/avatar.jpg')
     },{
         pid:4,
+        type:0,
         userName:'D1nNer-',
         time:'4小时前',
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -182,6 +186,13 @@ const CommutyDetail=(props)=>{
             <FlatList 
                 style={mainStyles.list}
                 ListHeaderComponent={()=><Header occupyHeight={occupyHeight}/>}
+                ListFooterComponent={()=>{
+                    return(
+                        <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                            <Text>暂时只有这么多啦~</Text>
+                        </View>
+                    )
+                }}
                 data={postData}
                 renderItem={({ item, index, separators }) => (
                     <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>

@@ -6,12 +6,59 @@ import { useEffect } from 'react';
 import HomePosts from '../../component/HomePosts'
 import Swiper from 'react-native-swiper';
 
+
+const ListHeader=()=>{
+    let [choice,setChoice]=useState(0)
+
+    return(
+        <View style={headerStyles.headerView}>
+            <View style={headerStyles.headerContainer}>
+                <Pressable onPress={()=>setChoice(0)}>
+                    <View style={headerStyles.headerTextView}>
+                        {
+                            choice==0&&<LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:1}} colors={['#0dc2e3','#3686e7']}/>
+                        }
+                        <Text style={[headerStyles.headerText,choice==0?headerStyles.headerSelected:'']}>全部</Text>
+                    </View>
+                </Pressable>
+                
+                <Pressable onPress={()=>setChoice(1)}>
+                    <View style={headerStyles.headerTextView}>
+                        {
+                            choice==1&&<LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:1}} colors={['#0dc2e3','#3686e7']}/>
+                        }
+                        <Text style={[headerStyles.headerText,choice==1?headerStyles.headerSelected:'']}>闲聊</Text>
+                    </View>
+                </Pressable>
+                
+                <Pressable onPress={()=>setChoice(2)}>
+                    <View style={headerStyles.headerTextView}>
+                        {
+                            choice==2&&<LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:1}} colors={['#0dc2e3','#3686e7']}/>
+                        }
+                        <Text style={[headerStyles.headerText,choice==2?headerStyles.headerSelected:'']}>约球</Text>
+                    </View>
+                </Pressable>
+                
+                
+                
+                
+            </View>
+            
+        </View>
+    )
+}
+
+
 const HomePage = (props) => {
 
-    let postList=[]
+    let postListFollow=[]
+    let postListHot=[]
+    let postListAll=[]
 
-    postList=[{
+    postListFollow=postListHot=postListAll=[{
         pid:1,
+        type:1,
         commuName:'足球圈',
         commuNum:[3854,16430],
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -19,6 +66,7 @@ const HomePage = (props) => {
         avatar:require('../../static/football.png')
     },{
         pid:2,
+        type:1,
         commuName:'篮球圈',
         commuNum:[3855,16431],
         postTitle:'电子科技大学出版学院挂牌仪式举行',
@@ -26,6 +74,7 @@ const HomePage = (props) => {
         avatar:require('../../static/basketball.png')
     },{
         pid:3,
+        type:0,
         commuName:'足球圈',
         commuNum:[3856,16432],
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -33,6 +82,7 @@ const HomePage = (props) => {
         avatar:require('../../static/football.png')
     },{
         pid:4,
+        type:0,
         commuName:'乒乓球圈',
         commuNum:[3857,16433],
         postTitle:'四川大学出版学院挂牌仪式举行',
@@ -77,33 +127,6 @@ const HomePage = (props) => {
             
     }
 
-
-    const ListHeader=()=>{
-        return(
-            <View style={headerStyles.headerView}>
-                <View style={headerStyles.headerContainer}>
-                    <View style={headerStyles.headerTextView}>
-                        <LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:1}} colors={['#0dc2e3','#3686e7']}/>
-                        <Text style={[headerStyles.headerText,headerStyles.headerSelected]}>全部</Text>
-                    </View>
-                    <View style={headerStyles.headerTextView}>
-                    <LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:0}} colors={['#0dc2e3','#3686e7']}/>
-                        <Text style={headerStyles.headerText}>闲聊</Text>
-                    </View>
-                    <View style={headerStyles.headerTextView}>
-                    <LinearGradient style={{width:5,height:'100%',position:'absolute',left:0,borderRadius:10,opacity:0}} colors={['#0dc2e3','#3686e7']}/>
-                        <Text style={headerStyles.headerText}>约球</Text>
-                    </View>
-                    
-                    
-                    
-                </View>
-                
-            </View>
-        )
-    }
-
-
     return (
         <>
             <View style={[styles.background]}>
@@ -144,7 +167,14 @@ const HomePage = (props) => {
                         style={styles.postScroll}
                         showsVerticalScrollIndicator = {false}
                         ListHeaderComponent={()=><ListHeader/>}
-                        data={postList}
+                        ListFooterComponent={()=>{
+                            return(
+                                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                                    <Text>暂时只有这么多啦~</Text>
+                                </View>
+                            )
+                        }}
+                        data={postListFollow}
                         renderItem={({ item, index, separators }) => (
                             <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
                                 <HomePosts {...item}></HomePosts>
@@ -155,7 +185,14 @@ const HomePage = (props) => {
                         style={styles.postScroll}
                         showsVerticalScrollIndicator = {false}
                         ListHeaderComponent={()=><ListHeader/>}
-                        data={postList}
+                        ListFooterComponent={()=>{
+                            return(
+                                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                                    <Text>暂时只有这么多啦~</Text>
+                                </View>
+                            )
+                        }}
+                        data={postListHot}
                         renderItem={({ item, index, separators }) => (
                             <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
                                 <HomePosts {...item}></HomePosts>
@@ -166,7 +203,14 @@ const HomePage = (props) => {
                         style={styles.postScroll}
                         showsVerticalScrollIndicator = {false}
                         ListHeaderComponent={()=><ListHeader/>}
-                        data={postList}
+                        ListFooterComponent={()=>{
+                            return(
+                                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                                    <Text>暂时只有这么多啦~</Text>
+                                </View>
+                            )
+                        }}
+                        data={postListAll}
                         renderItem={({ item, index, separators }) => (
                             <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
                                 <HomePosts {...item}></HomePosts>

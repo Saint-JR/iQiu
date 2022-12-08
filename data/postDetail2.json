@@ -13,6 +13,9 @@
         "postTitle":"电子科技大学出版学院挂牌仪式举行",
         "postContent":"四川大学出版学院挂牌仪式举行",
         "communityAvatar":"http://localhost:8081/static/basketball.png",
+        "ballType":"篮球",
+        "peopleCount":"2-5人",
+        "ballPosition":"四川大学江安校区二号体育场",
         "comment":[{
             "commentId":"1",
             "userId":"1",

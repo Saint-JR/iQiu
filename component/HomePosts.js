@@ -1,5 +1,6 @@
 import {View,Text,StyleSheet, Image} from 'react-native'
 import {useEffect} from 'react'
+import LinearGradient from 'react-native-linear-gradient'
 
 const HomePosts=(props)=>{
     // useEffect(()=>{
@@ -26,13 +27,33 @@ const HomePosts=(props)=>{
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
 
-            {/* {
+            {
                 props.type==1&&(
-                    <View>
-                        <Text>123</Text>
-                    </View>
+                    <>
+                        <View style={typeStyle.typeView}>
+                            <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
+                            <Text style={typeStyle.typeText}>球类</Text>
+                            <View style={typeStyle.typeContainer}>
+                                <Text style={typeStyle.text}>{props.ballType}</Text>
+                            </View>
+                            
+                        </View>
+                        <View style={typeStyle.typeView}>
+                        <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
+                            <Text style={typeStyle.typeText}>人数</Text>
+                            <View style={typeStyle.typeContainer}>
+                                <Text style={typeStyle.text}>{props.peopleCount}</Text>
+                            </View>
+                        </View>
+                        <View style={typeStyle.typeView}>
+                            <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
+                            <Text style={typeStyle.typeText}>地点</Text>
+                            <Text style={typeStyle.location}>{props.ballPosition}</Text>
+                        </View>
+                    </>
+                    
                 )
-            } */}
+            }
             
 
             <View style={styles.postTypeView}>
@@ -179,6 +200,50 @@ const styles=StyleSheet.create({
     operateImage:{
         height:18,
         width:18
+    }
+})
+
+const typeStyle=StyleSheet.create({
+    typeView:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        marginLeft:15,
+        marginBottom:15
+    },
+    linear:{
+        width:5,
+        height:'100%',
+        borderRadius:10,
+        opacity:1
+    },
+    typeText:{
+        color:'rgba(0,0,0,0.8)',
+        fontWeight:'900',
+        fontSize:16,
+        marginLeft:7
+    },
+    typeContainer:{
+        marginLeft:20,
+        borderRadius:100,
+        borderWidth:1,
+        borderColor:'#3686e7',
+        padding:3,
+        paddingLeft:10,
+        paddingRight:10,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    text:{
+        color:'#3686e7',
+        fontSize:12
+    },
+    location:{
+        color:'rgba(0,0,0,0.5)',
+        fontSize:14,
+        marginLeft:20
     }
 })
 

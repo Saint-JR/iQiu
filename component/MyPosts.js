@@ -268,7 +268,9 @@ const typeStyle=StyleSheet.create({
     location:{
         color:'rgba(0,0,0,0.5)',
         fontSize:14,
-        marginLeft:20
+        marginLeft:20,
+        paddingTop:3,
+        paddingBottom:3
     }
 })
 

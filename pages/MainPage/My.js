@@ -1,29 +1,54 @@
 import { useEffect, useState } from "react"
-import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated} from "react-native"
+import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated, ScrollView} from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import { color } from "react-native-reanimated"
 import MyPosts from '../../component/MyPosts'
+import {FollowCommu} from '../MainPage/Community'
 
 const Navigation=(props)=>{
 
     return(
         <View style={{position:'absolute',width:'100%',zIndex:3}}>
-            <Animated.View style={{backgroundColor:'white',opacity:props.opacity}}>
-                <View style={{height:StatusBar.currentHeight}}></View>
-                <View style={naviStyles.userInfo}>
-                    <Image source={require('../../static/avatar.jpg')} style={naviStyles.userAvatar} />
-                    <Text style={naviStyles.userName}>D1nNer-</Text>
-                </View>
+            <View>
+
+                <Animated.View style={{opacity:props.opacity2,height:'100%',width:'100%',position:'absolute',display:'flex'}}>
+                    <View style={{height:StatusBar.currentHeight}}></View>
+                    <View style={[naviStyles.naviView,{flex:1,}]}>
+                        <Text style={{color:'white',fontSize:20,fontWeight:'700'}}>个人资料</Text>
+                        <View style={naviStyles.operateView}>
+                            <Image source={require('../../static/QR.png')} style={{width:30,height:20,resizeMode:'contain',marginLeft:10,tintColor:'white'}} />
+                            <Image source={require('../../static/setting.png')} style={{width:30,height:20,resizeMode:'contain',marginLeft:10,tintColor:'white'}} />
+                        </View>
+                    </View>
+                </Animated.View>
                 
-            </Animated.View>
+                <Animated.View style={{backgroundColor:'white',opacity:props.opacity1}}>
+                    <View style={{height:StatusBar.currentHeight}}></View>
+                    <View style={naviStyles.naviView}>
+                        <View style={naviStyles.userInfo}>
+                            <Image source={require('../../static/avatar.jpg')} style={naviStyles.userAvatar} />
+                            <Text style={naviStyles.userName}>D1nNer-</Text>
+                        </View>
+                        <View style={naviStyles.operateView}>
+                            <Image source={require('../../static/QR.png')} style={{width:30,height:20,resizeMode:'contain',marginLeft:10}} />
+                            <Image source={require('../../static/setting.png')} style={{width:30,height:20,resizeMode:'contain',marginLeft:10}} />
+                        </View>
+                    </View>
+                    
+                    
+                </Animated.View>
+                
+            </View>
+            
         </View>
     )
 }
 
 const Header=(props)=>{
+
     return(
-        <>
-            <LinearGradient style={{width:'100%',height:'100%',position:'absolute'}} colors={['#0dc2e3','#3686e7']} start={{x: 0, y: 0}} end={{x: 1, y: 0}}>
+        <View>
+            <LinearGradient style={{width:'100%',height:'95%',position:'absolute'}} colors={['#0dc2e3','#3686e7']} start={{x: 0, y: 0}} end={{x: 1, y: 0}}>
                 <Image source={require('../../static/backicon2.png')} style={headerStyles.backicon}/>
             </LinearGradient>
             <View style={{height:200}}></View>
@@ -63,29 +88,45 @@ const Header=(props)=>{
 
                 <View style={headerStyles.choiceView}>
                     <View style={headerStyles.choiceContainer}>
-                        <Text style={[headerStyles.choice,headerStyles.selected]}>帖子 60</Text>
-                        <View style={[headerStyles.choiceTip,{opacity:1}]}></View>
+                        <Pressable onPress={()=>props.onChange(0)}>
+                            <Text style={[headerStyles.choice,props.choice==0&&headerStyles.selected]}>帖子 60</Text>
+                        </Pressable>
+                        <View style={[headerStyles.choiceTip,{opacity:props.choice==0?1:0}]}></View>
                     </View>
                     <View style={headerStyles.choiceContainer}>
-                        <Text style={[headerStyles.choice]}>关注圈子</Text>
-                        <View style={[headerStyles.choiceTip,{opacity:0}]}></View>
+                        <Pressable onPress={()=>props.onChange(1)}>
+                            <Text style={[headerStyles.choice,props.choice==1&&headerStyles.selected]}>关注圈子</Text>
+                        </Pressable>
+                        <View style={[headerStyles.choiceTip,{opacity:props.choice==1?1:0}]}></View>
                     </View>
                 </View>
 
             </View>
             
-        </>
+        </View>
     )
 }
 
 const My=(props)=>{
 
     let [postList,setPostList]=useState([])
+    let [followCommunity,setFollowCommunity]=useState([])
+    // setFollowCommunity([{
+
+    // }])
 
     useEffect(()=>{
         fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
         .then((resJson)=>{
             setPostList(resJson.data.map((item,index)=>{
+                return item
+            }))
+        }).catch((err)=>{
+            console.log(err)
+        })
+        fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        .then((resJson)=>{
+            setFollowCommunity(resJson.data.map((item,index)=>{
                 return item
             }))
         }).catch((err)=>{
@@ -99,42 +140,35 @@ const My=(props)=>{
         props.navigation.navigate("PostDetail",{postId:postId})
     }
 
+    const naviToCommunity=(communityId)=>{
+        // console.log(props)
+        props.navigation.navigate("CommunityDetail",{communityId:communityId})
+    }
+
+
 
 
     let scrollY = new Animated.Value(0);
     // let opacity=1
 
-    let opacity = scrollY.interpolate({
+    let opacity1 = scrollY.interpolate({
         inputRange: [0,220],
         outputRange: [0,1],
         extrapolate: "clamp"
     });
+    let opacity2 = scrollY.interpolate({
+        inputRange: [0,220],
+        outputRange: [1,0],
+        extrapolate: "clamp"
+    });
 
-    // const getOpacity=(e)=>{
-    //     if(e.nativeEvent.contentOffset.y<220){
-    //         setOpacity((220-e.nativeEvent.contentOffset.y)/220)
-    //     }
-    // }
+    let [choice,setChoice]=useState(0)
 
     return(
         <>
-            <Navigation navigation={props.navigation} opacity={opacity}/>
-            <FlatList 
-                style={mainStyles.list}
-                ListHeaderComponent={()=><Header/>}
-                ListFooterComponent={()=>{
-                    return(
-                        <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
-                            <Text>暂时只有这么多啦~</Text>
-                        </View>
-                    )
-                }}
-                data={postList}
-                renderItem={({ item, index, separators }) => (
-                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
-                        <MyPosts {...item}></MyPosts>
-                    </Pressable>
-                )}
+            <Navigation navigation={props.navigation} opacity1={opacity1} opacity2={opacity2}/>
+            <ScrollView
+                style={{backgroundColor:'rgba(240,240,240,1)',width:'100%',height:'100%'}}
                 onScroll={Animated.event([{
                     nativeEvent: {
                         contentOffset: {
@@ -144,8 +178,39 @@ const My=(props)=>{
                 }],{
                     useNativeDriver:false
                 })}
-                // scrollEventThrottle={500}
-            />
+            >
+                <Header onChange={(e)=>setChoice(e)} choice={choice} />
+
+                {
+                    choice==0?
+                        postList.map((item,index)=>{
+                            return(
+                                <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
+                                    <MyPosts {...item}/>
+                                </Pressable>
+                            )
+                        })
+                    :(
+                        <View style={mainStyles.communityView}>
+                            {
+                                followCommunity.map((item,index)=>{
+                                    return(
+                                        <Pressable style={{width:'50%'}} onPress={()=>{naviToCommunity(item.communityId)}} key={item.communityId}>
+                                            <FollowCommu {...item}/>
+                                        </Pressable>
+                                    )
+                                })
+                            }
+                            
+                        </View>
+                    )
+                    
+                }
+
+                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
+                    <Text>暂时只有这么多啦~</Text>
+                </View>
+            </ScrollView>
         </>
         
     )
@@ -153,7 +218,19 @@ const My=(props)=>{
 
 const mainStyles=StyleSheet.create({
     list:{
-        backgroundColor:'rgba(240,240,240,1)'
+        backgroundColor:'rgba(240,240,240,1)',
+        // backgroundColor:'white'
+    },
+    communityView:{
+        backgroundColor:'white',
+        borderRadius:20,
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        flexWrap:'wrap',
+        margin:10,
+        paddingTop:10,
+        paddingBottom:10,
     }
 })
 
@@ -165,11 +242,20 @@ const naviStyles=StyleSheet.create({
         marginTop:10,
         marginBottom:10,
     },
+    naviView:{
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        marginLeft:25,
+        marginRight:25,
+    },
     userInfo:{
         display:'flex',
         flexDirection:'row',
         alignItems:'center',
-        marginLeft:25,
+        
+        // justifyContent:'space-between'
     },
     userAvatar:{
         height:35,
@@ -177,6 +263,11 @@ const naviStyles=StyleSheet.create({
         borderRadius:20,
         borderWidth:0.7,
         borderColor:'rgba(0,0,0,0.6)'
+    },
+    operateView:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center'
     }
 
 })

@@ -1,0 +1,18 @@
+{
+    "data":[{
+            "communityId":1,
+            "communityAvatar":"http://localhost:8081/static/football.png",
+            "communityName":"足球圈",
+            "followerNum":3645
+        },{
+            "communityId":2,
+            "communityAvatar":"http://localhost:8081/static/basketball.png",
+            "communityName":"篮球圈",
+            "followerNum":3645
+        },{
+            "communityId":3,
+            "communityAvatar":"http://localhost:8081/static/tabletennis.png",
+            "communityName":"乒乓球圈",
+            "followerNum":3645
+        }]
+}

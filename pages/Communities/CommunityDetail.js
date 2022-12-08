@@ -89,17 +89,23 @@ const Header=(props)=>{
                 <View style={headerStyles.divider}></View>
                 <View style={headerStyles.choiceView}>
                     <View style={headerStyles.choiceContainer}>
-                        <Text style={[headerStyles.choice,headerStyles.selected]}>热门</Text>
-                        <View style={[headerStyles.choiceTip,{opacity:1}]}></View>
+                        <Pressable onPress={()=>props.onChange(0)}>
+                            <Text style={[headerStyles.choice,props.choice==0&&headerStyles.selected]}>全部</Text>
+                        </Pressable>
+                        <View style={[headerStyles.choiceTip,{opacity:props.choice==0?1:0}]}></View>
                     </View>
                     
                     <View style={headerStyles.choiceContainer}>
-                        <Text style={[headerStyles.choice]}>最新</Text>
-                        <View style={[headerStyles.choiceTip,{opacity:0}]}></View>
+                        <Pressable onPress={()=>props.onChange(1)}>
+                            <Text style={[headerStyles.choice,props.choice==1&&headerStyles.selected]}>闲聊</Text>
+                        </Pressable>
+                        <View style={[headerStyles.choiceTip,{opacity:props.choice==1?1:0}]}></View>
                     </View>
                     <View style={headerStyles.choiceContainer}>
-                        <Text style={[headerStyles.choice]}>全部</Text>
-                        <View style={[headerStyles.choiceTip,{opacity:0}]}></View>
+                        <Pressable onPress={()=>props.onChange(2)}>
+                            <Text style={[headerStyles.choice,props.choice==2&&headerStyles.selected]}>约球</Text>
+                        </Pressable>
+                        <View style={[headerStyles.choiceTip,{opacity:props.choice==2?1:0}]}></View>
                     </View>
                 </View>
             </View>
@@ -138,6 +144,7 @@ const CommutyDetail=(props)=>{
 
 
     let [occupyHeight,setOccupyHeight]=useState(100)
+    let [choice,setChoice]=useState(0)
     let scrollY = new Animated.Value(0);
     // let opacity=1
     let opacity1 = scrollY.interpolate({
@@ -163,7 +170,7 @@ const CommutyDetail=(props)=>{
             <Navigation onGetHeight={(e)=>setOccupyHeight(e)} navigation={props.navigation} opacity1={opacity1} opacity2={opacity2}/>
             <FlatList 
                 style={mainStyles.list}
-                ListHeaderComponent={()=><Header occupyHeight={occupyHeight}/>}
+                ListHeaderComponent={()=><Header occupyHeight={occupyHeight} onChange={(e)=>setChoice(e)} choice={choice} />}
                 ListFooterComponent={()=>{
                     return(
                         <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
@@ -172,11 +179,28 @@ const CommutyDetail=(props)=>{
                     )
                 }}
                 data={postList}
-                renderItem={({ item, index, separators }) => (
-                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
-                        <CommunityPost {...item}></CommunityPost>
-                    </Pressable>
-                )}
+                renderItem={({ item, index, separators }) => {
+                    if(choice==0){
+                        return(
+                            <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
+                                <CommunityPost {...item}></CommunityPost>
+                            </Pressable>
+                        )
+                    }else if(choice==1&&item.type==0){
+                        return(
+                            <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
+                                <CommunityPost {...item}></CommunityPost>
+                            </Pressable>
+                        )
+                    }else if(choice==2&&item.type==1){
+                        return(
+                            <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
+                                <CommunityPost {...item}></CommunityPost>
+                            </Pressable>
+                        )
+                    }
+                    
+                }}
                 onScroll={Animated.event([{
                     nativeEvent: {
                         contentOffset: {

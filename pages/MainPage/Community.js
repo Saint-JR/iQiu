@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react';
 import {View,Text,StyleSheet,StatusBar,Image, Pressable, TextInput} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
 
 const HotCommu=(props)=>{
     return(
         <View style={hotCommuStyles.hotCommuView}>
-            <Image source={props.commuAvatar} style={hotCommuStyles.hotCommuAvatar}></Image>
+            <Image source={{uri:props.communityAvatar}} style={hotCommuStyles.hotCommuAvatar}></Image>
             <Text style={hotCommuStyles.communityName}>{props.communityName}</Text>
             <Text style={hotCommuStyles.followerNum}>关注 {props.followerNum}</Text>
         </View>
@@ -15,7 +16,7 @@ const FollowCommu=(props)=>{
     return(
         <View style={followStyles.followView}>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Image source={props.commuAvatar} style={followStyles.followAvatar}></Image>
+                <Image source={{uri:props.communityAvatar}} style={followStyles.followAvatar}></Image>
                 <View style={{display:'flex'}}>
                     <Text style={followStyles.communityName}>{props.communityName}</Text>
                     <Text style={followStyles.followerNum}>关注 {props.followerNum}</Text>
@@ -27,46 +28,61 @@ const FollowCommu=(props)=>{
 }
 
 const Community=(props)=>{
-    let hotCommu=[]
+    let [hotCommunity,setHotCommunity]=useState([])
 
-    let followCommu=[]
+    let [followCommunity,setFollowCommunity]=useState([])
 
-    hotCommu=[{
-        cid:1,
-        commuAvatar:require('../../static/football.png'),
-        communityName:'足球圈',
-        followerNum:3645
-    },{
-        cid:2,
-        commuAvatar:require('../../static/basketball.png'),
-        communityName:'篮球圈',
-        followerNum:3645
-    },{
-        cid:3,
-        commuAvatar:require('../../static/tabletennis.png'),
-        communityName:'乒乓球圈',
-        followerNum:3645
-    },]
+    useEffect(()=>{
+        fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        .then((resJson)=>{
+            console.log(resJson)
+            setHotCommunity(resJson.data.map((item,index)=>{
+                return item
+            }))
+            setFollowCommunity(resJson.data.map((item,index)=>{
+                return item
+            }))
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[])
 
-    followCommu=[{
-        cid:1,
-        commuAvatar:require('../../static/football.png'),
-        communityName:'足球圈',
-        followerNum:3645
-    },{
-        cid:2,
-        commuAvatar:require('../../static/basketball.png'),
-        communityName:'篮球圈',
-        followerNum:3645
-    },{
-        cid:3,
-        commuAvatar:require('../../static/tabletennis.png'),
-        communityName:'乒乓球圈',
-        followerNum:3645
-    },]
+    // hotCommu=[{
+    //     cid:1,
+    //     communityAvatar:require('../../static/football.png'),
+    //     communityName:'足球圈',
+    //     followerNum:3645
+    // },{
+    //     cid:2,
+    //     communityAvatar:require('../../static/basketball.png'),
+    //     communityName:'篮球圈',
+    //     followerNum:3645
+    // },{
+    //     cid:3,
+    //     communityAvatar:require('../../static/tabletennis.png'),
+    //     communityName:'乒乓球圈',
+    //     followerNum:3645
+    // },]
 
-    const navigate=(index)=>{
-        props.navigation.navigate('CommunityDetail')
+    // followCommu=[{
+    //     cid:1,
+    //     communityAvatar:require('../../static/football.png'),
+    //     communityName:'足球圈',
+    //     followerNum:3645
+    // },{
+    //     cid:2,
+    //     communityAvatar:require('../../static/basketball.png'),
+    //     communityName:'篮球圈',
+    //     followerNum:3645
+    // },{
+    //     cid:3,
+    //     communityAvatar:require('../../static/tabletennis.png'),
+    //     communityName:'乒乓球圈',
+    //     followerNum:3645
+    // },]
+
+    const navigate=(communityId)=>{
+        props.navigation.navigate('CommunityDetail',{communityId:communityId})
     }
 
     return(
@@ -93,9 +109,9 @@ const Community=(props)=>{
                     <Text style={styles.hotText}>最近热圈</Text>
                     <View style={styles.hotCommuList}>
                         {
-                            hotCommu.map((item,index)=>{
+                            hotCommunity.map((item,index)=>{
                                 return(
-                                    <Pressable key={item.cid} onPress={()=>{navigate(index)}}>
+                                    <Pressable key={item.communityId} onPress={()=>{navigate(item.communityId)}}>
                                         <HotCommu {...item}/>
                                     </Pressable>
                                 ) 
@@ -117,9 +133,9 @@ const Community=(props)=>{
                                 </View>
                             )
                         }}
-                        data={followCommu}
+                        data={followCommunity}
                         renderItem={({ item, index, separators }) => (
-                            <Pressable key={item.cid} onPress={()=>{navigate(index)}} style={{width:'50%'}}>
+                            <Pressable key={item.communityId} onPress={()=>{navigate(item.communityId)}} style={{width:'50%'}}>
                                 <FollowCommu {...item}/>
                             </Pressable>
                         )}
@@ -149,6 +165,7 @@ const hotCommuStyles=StyleSheet.create({
         borderStyle:'solid',
         borderColor:'rgba(245,245,245,1)',
         borderWidth:1,
+        resizeMode:'contain'
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:2,
@@ -209,6 +226,7 @@ const followStyles=StyleSheet.create({
         borderStyle:'solid',
         borderColor:'rgba(245,245,245,1)',
         borderWidth:1,
+        resizeMode:'contain'
     },
     communityName:{
         color:'rgba(0,0,0,0.8)',
@@ -323,3 +341,4 @@ const styles=StyleSheet.create({
 })
 
 export default Community;
+export {FollowCommu};

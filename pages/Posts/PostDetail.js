@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import {View,Text,Pressable, StyleSheet,StatusBar,Image} from 'react-native'
 import { FlatList, TextInput } from 'react-native-gesture-handler'
+import LinearGradient from 'react-native-linear-gradient'
 
 const Navigation=(props)=>{
     const navi=()=>{
@@ -61,14 +62,48 @@ const PostContent=(props)=>{
                             
                         </View>
                     </View>
-                    <View style={postHeaderStyles.detail}>
-                        <Text style={postHeaderStyles.detailText}>详情</Text>
+                    <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                        <View style={postHeaderStyles.type}>
+                            <Image source={props.type==0?require('../../static/chatPost.png'):require('../../static/ballPost.png')} style={postHeaderStyles.typeImage} />
+                            <Text style={postHeaderStyles.detailText}>{props.type==0?'闲聊帖':'约球帖'}</Text>
+                        </View>
+                        <View style={postHeaderStyles.detail}>
+                            <Text style={postHeaderStyles.detailText}>详情</Text>
+                        </View>
                     </View>
+                    
                 </View>
 
                 <View style={contentStyles.contentContainer}>
                     <Text style={contentStyles.title}>{props.postTitle}</Text>
                     <Text style={contentStyles.content}>{props.postContent}</Text>
+                    {
+                        props.type==1&&(
+                            <>
+                                <View style={typeStyle.typeView}>
+                                    <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
+                                    <Text style={typeStyle.typeText}>球类</Text>
+                                    <View style={typeStyle.typeContainer}>
+                                        <Text style={typeStyle.text}>{props.ballType}</Text>
+                                    </View>
+                                    
+                                </View>
+                                <View style={typeStyle.typeView}>
+                                <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
+                                    <Text style={typeStyle.typeText}>人数</Text>
+                                    <View style={typeStyle.typeContainer}>
+                                        <Text style={typeStyle.text}>{props.peopleCount}</Text>
+                                    </View>
+                                </View>
+                                <View style={typeStyle.typeView}>
+                                    <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
+                                    <Text style={typeStyle.typeText}>地点</Text>
+                                    <Text style={typeStyle.location}>{props.ballPosition}</Text>
+                                </View>
+                            </>
+                            
+                        )
+                    }
                     <View style={contentStyles.operateView}>
                         <View style={contentStyles.operate}>
                             <Image source={require('../../static/share.png')} style={contentStyles.operateImage}/>
@@ -335,6 +370,26 @@ const postHeaderStyles=StyleSheet.create({
         color:'rgba(0,0,0,0.4)',
         marginRight:10
     },
+    type:{
+        borderRadius:100,
+        // height:30,
+        borderColor:'rgba(54,134,231,1)',
+        borderWidth:1,
+        padding:7,
+        paddingLeft:10,
+        paddingRight:10,
+        display:'flex',
+        flexDirection:'row',
+        // justifyContent:'center',
+        alignItems:'center',
+        marginRight:10,
+    },
+    typeImage:{
+        height:20,
+        width:20,
+        resizeMode:'contain',
+        marginRight:5
+    },
     detail:{
         borderRadius:100,
         // height:30,
@@ -345,7 +400,7 @@ const postHeaderStyles=StyleSheet.create({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        marginRight:10
+        // marginRight:10
 
     },
     detailText:{
@@ -354,6 +409,52 @@ const postHeaderStyles=StyleSheet.create({
         // borderStyle:'solid',
         // borderColor:'red',
         // borderWidth:1,
+    }
+})
+
+const typeStyle=StyleSheet.create({
+    typeView:{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'center',
+        // marginLeft:15,
+        marginBottom:20
+    },
+    linear:{
+        width:5,
+        height:'100%',
+        borderRadius:10,
+        opacity:1
+    },
+    typeText:{
+        color:'rgba(0,0,0,0.8)',
+        fontWeight:'900',
+        fontSize:16,
+        marginLeft:7
+    },
+    typeContainer:{
+        marginLeft:20,
+        borderRadius:100,
+        borderWidth:1,
+        borderColor:'#3686e7',
+        padding:3,
+        paddingLeft:10,
+        paddingRight:10,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    text:{
+        color:'#3686e7',
+        fontSize:12
+    },
+    location:{
+        color:'rgba(0,0,0,0.5)',
+        fontSize:14,
+        marginLeft:20,
+        paddingTop:3,
+        paddingBottom:3
     }
 })
 
@@ -375,7 +476,8 @@ const contentStyles=StyleSheet.create({
         fontSize:15,
         color:'rgba(0,0,0,0.8)',
         // letterSpacing:1,
-        lineHeight:28
+        lineHeight:28,
+        marginBottom:20
     },
     operateView:{
         display:'flex',

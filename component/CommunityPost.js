@@ -6,7 +6,7 @@ const CommunityPosts=(props)=>{
     return(
         <View style={styles.post}>
             <View style={styles.userInfoContainer}>
-                <Image source={props.avatar} style={styles.avatar}></Image>
+                <Image source={{uri:props.userAvatar}} style={styles.avatar}></Image>
                 <View style={styles.userInfo}>
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                         <Text style={styles.userName}>{props.userName}</Text>

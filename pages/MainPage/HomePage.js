@@ -51,46 +51,65 @@ const ListHeader=(props)=>{
 
 const HomePage = (props) => {
 
-    let postListFollow=[]
-    let postListHot=[]
-    let postListAll=[]
+    let [postListFollow,setPostListFollow]=useState([])
+    let [postListHot,setPostListHot]=useState([])
+    let [postListAll,setPostListAll]=useState([])
 
-    postListFollow=postListHot=postListAll=[{
-        pid:1,
-        type:1,
-        commuName:'足球圈',
-        commuNum:[3854,16430],
-        postTitle:'四川大学出版学院挂牌仪式举行',
-        postContent:'北京时间11月30日凌晨，卡塔尔世界杯B组最后一轮两场比赛同时开打。最终英格兰队3比0击败威尔士队，笑傲英伦德比的前者以小组头名晋级，“欧洲红龙”威尔士队则被淘汰出局；另一场比赛美国队1比0小胜伊朗队，反超对手升至小组第二，也拿到了淘汰赛的资格。根据淘汰赛的对阵安排，B组头名出线的英格兰队将与A组第二的塞内加尔队展开对话，而B组第二名的美国队则将与A组第一的荷兰队展开交锋。',
-        avatar:require('../../static/football.png')
-    },{
-        pid:2,
-        type:1,
-        commuName:'篮球圈',
-        commuNum:[3855,16431],
-        postTitle:'电子科技大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行',
-        avatar:require('../../static/basketball.png')
-    },{
-        pid:3,
-        type:0,
-        commuName:'足球圈',
-        commuNum:[3856,16432],
-        postTitle:'四川大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行',
-        avatar:require('../../static/football.png')
-    },{
-        pid:4,
-        type:0,
-        commuName:'乒乓球圈',
-        commuNum:[3857,16433],
-        postTitle:'四川大学出版学院挂牌仪式举行',
-        postContent:'四川大学出版学院挂牌仪式举行',
-        avatar:require('../../static/tabletennis.png')
-    }]
+    useEffect(()=>{
+        fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
+        .then((resJson)=>{
+            setPostListFollow(resJson.data.map((item,index)=>{
+                return item
+            }))
+            setPostListHot(resJson.data.map((item,index)=>{
+                return item
+            }))
+            setPostListAll(resJson.data.map((item,index)=>{
+                return item
+            }))
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[])
 
-    const naviToPost=(index)=>{
-        props.navigation.navigate("PostDetail")
+    
+
+    // postListFollow=postListHot=postListAll=[{
+    //     postId:1,
+    //     type:1,
+    //     commuName:'足球圈',
+    //     commuNum:[3854,16430],
+    //     postTitle:'四川大学出版学院挂牌仪式举行',
+    //     postContent:'北京时间11月30日凌晨，卡塔尔世界杯B组最后一轮两场比赛同时开打。最终英格兰队3比0击败威尔士队，笑傲英伦德比的前者以小组头名晋级，“欧洲红龙”威尔士队则被淘汰出局；另一场比赛美国队1比0小胜伊朗队，反超对手升至小组第二，也拿到了淘汰赛的资格。根据淘汰赛的对阵安排，B组头名出线的英格兰队将与A组第二的塞内加尔队展开对话，而B组第二名的美国队则将与A组第一的荷兰队展开交锋。',
+    //     communityAvatar:require('../../static/football.png')
+    // },{
+    //     postId:2,
+    //     type:1,
+    //     commuName:'篮球圈',
+    //     commuNum:[3855,16431],
+    //     postTitle:'电子科技大学出版学院挂牌仪式举行',
+    //     postContent:'四川大学出版学院挂牌仪式举行',
+    //     communityAvatar:require('../../static/basketball.png')
+    // },{
+    //     postId:3,
+    //     type:0,
+    //     commuName:'足球圈',
+    //     commuNum:[3856,16432],
+    //     postTitle:'四川大学出版学院挂牌仪式举行',
+    //     postContent:'四川大学出版学院挂牌仪式举行',
+    //     communityAvatar:require('../../static/football.png')
+    // },{
+    //     postId:4,
+    //     type:0,
+    //     commuName:'乒乓球圈',
+    //     commuNum:[3857,16433],
+    //     postTitle:'四川大学出版学院挂牌仪式举行',
+    //     postContent:'四川大学出版学院挂牌仪式举行',
+    //     communityAvatar:require('../../static/tabletennis.png')
+    // }]
+
+    const naviToPost=(postId)=>{
+        props.navigation.navigate("PostDetail",{postId:postId})
     }
 
     let [page,setPage]=useState(0)
@@ -189,19 +208,19 @@ const HomePage = (props) => {
                         renderItem={({ item, index, separators }) => {
                             if(type[0]==0){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
                             }else if(type[0]==1&&item.type==0){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
                             }else if(type[0]==2&&item.type==1){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
@@ -233,19 +252,19 @@ const HomePage = (props) => {
                         renderItem={({ item, index, separators }) => {
                             if(type[1]==0){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
                             }else if(type[1]==1&&item.type==0){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
                             }else if(type[1]==2&&item.type==1){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
@@ -277,19 +296,19 @@ const HomePage = (props) => {
                         renderItem={({ item, index, separators }) => {
                             if(type[2]==0){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
                             }else if(type[2]==1&&item.type==0){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
                             }else if(type[2]==2&&item.type==1){
                                 return(
-                                    <Pressable onPress={()=>{naviToPost(index)}} key={item.pid}>
+                                    <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {View,Text,Pressable, StyleSheet,StatusBar,Image} from 'react-native'
 import { FlatList, TextInput } from 'react-native-gesture-handler'
 
@@ -20,8 +20,8 @@ const Navigation=(props)=>{
                 </Pressable>
                 
                 <View style={naviStyles.community}>
-                    <Image source={require('../../static/football.png')} style={naviStyles.communityImage}/>
-                    <Text style={naviStyles.communityText}>足球圈</Text>
+                    <Image source={{uri:props.communityAvatar}} style={naviStyles.communityImage}/>
+                    <Text style={naviStyles.communityText}>{props.communityName}</Text>
                 </View>
             </View>
         </View>
@@ -29,55 +29,34 @@ const Navigation=(props)=>{
 }
 
 const PostContent=(props)=>{
-    const PostHeader=(props)=>{
-        
-        // let choiceAni= useRef(new Animated.Value(0)).current
-        // let left=choiceAni.interpolate({
-        //     inputRange: [0, 66],
-        //     outputRange: ['0%', '66%'],
-        // });
-        
-        // const changePage=(index)=>{
-        //     setPage(index)
-        //     if(index==0){
-        //         Animated.timing(choiceAni,{
-        //             toValue:0,
-        //             duration:300,
-        //             useNativeDriver:false
-        //         }).start()
-        //     }
-        //     else if(index==1){
-        //         Animated.timing(choiceAni,{
-        //             toValue:33,
-        //             duration:300,
-        //             useNativeDriver:false
-        //         }).start()
-        //     }else if(index==2){
-        //         Animated.timing(choiceAni,{
-        //             toValue:66,
-        //             duration:300,
-        //             useNativeDriver:false
-        //         }).start()
-        //     }
-                
-        // }
 
+    let [comment,setComment]=useState([])
+    let [postInfo,setPostInfo]=useState({})
+    useEffect(()=>{
+        let {navigation,comment:commentCopy,...postInfoCopy}=props
+        setComment(commentCopy!=null?commentCopy.map((item,index)=>{
+            return item
+        }):[])
+        setPostInfo({...postInfoCopy})
+    },[props])
+
+    const PostHeader=(props)=>{
         return(
             <View>
                 <View style={postHeaderStyles.posterInfoView}>
                     <View style={postHeaderStyles.posterInfo}>
                         <View style={postHeaderStyles.posterAvatarView}>
-                            <Image source={require('../../static/avatar.jpg')} 
+                            <Image source={{uri:props.userAvatar}} 
                                 style={postHeaderStyles.posterAvatar}/>
                         </View>
                         <View style={postHeaderStyles.posterNameContainer}>
                             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                                <Text style={{fontSize:16,color:'rgba(0,0,0,0.6)'}}>D1nNer-</Text>
+                                <Text style={{fontSize:16,color:'rgba(0,0,0,0.6)'}}>{props.userName}</Text>
                                 <Image source={require('../../static/level.png')} style={{height:15,width:15,resizeMode:'contain',marginLeft:5}} />
                             </View>
                             <View style={postHeaderStyles.posterDetail}>
-                                <Text style={postHeaderStyles.postDate}>11-30</Text>
-                                <Text style={postHeaderStyles.postDate}>地点:上海</Text>
+                                <Text style={postHeaderStyles.postDate}>{props.time}</Text>
+                                <Text style={postHeaderStyles.postDate}>地点:{props.location}</Text>
                             </View>
                             
                         </View>
@@ -88,10 +67,8 @@ const PostContent=(props)=>{
                 </View>
 
                 <View style={contentStyles.contentContainer}>
-                    <Text style={contentStyles.title}>在高铁上出丑了</Text>
-                    <Text style={contentStyles.content}>
-                        北京时间12月1日凌晨3:00，卡塔尔世界杯小组赛C组波兰对阵阿根廷的比赛在974球场进行。凭借麦卡利斯特和阿尔瓦雷斯的进球，阿根廷2-0击败波兰，两胜一负积6分，以小组第一出线，波兰小组第二晋级。赛后，梅西表示：“罚丢那个点球之后，我的确很生气！但在我犯下那个错误之后，球队变得更加强大了。我们知道，一旦打破僵局之后，比赛进程就会被改变。”“与澳大利亚的比赛将会非常艰难，谁都有可能获胜，一切都非常公平，我们必须像往常一样以最好的状态准备比赛。”据悉，北京时间12月4日凌晨3点，阿根廷vs澳大利亚，梅西将迎来个人职业生涯第1000场比赛。
-                    </Text>
+                    <Text style={contentStyles.title}>{props.postTitle}</Text>
+                    <Text style={contentStyles.content}>{props.postContent}</Text>
                     <View style={contentStyles.operateView}>
                         <View style={contentStyles.operate}>
                             <Image source={require('../../static/share.png')} style={contentStyles.operateImage}/>
@@ -135,25 +112,6 @@ const PostContent=(props)=>{
         )
     }
 
-    let comment=[]
-
-    comment=[{
-        cid:1,
-        avatar:require('../../static/avatar.jpg'),
-        userName:'D1nNer-',
-        time:'1小时前',
-        like:1,
-        location:'四川',
-        content:'狠狠的上分'
-    },{
-        cid:2,
-        avatar:require('../../static/avatar.jpg'),
-        userName:'D1nNer-',
-        time:'1小时前',
-        like:1,
-        location:'四川',
-        content:'狠狠的上分'
-    }]
 
     const Comment=(props)=>{
         return(
@@ -161,7 +119,7 @@ const PostContent=(props)=>{
                 <View style={commentStyles.userInfoView}>
                     <View style={commentStyles.userInfo}>
                         <View style={commentStyles.avatarView}>
-                            <Image source={props.avatar} style={commentStyles.avatar}/>
+                            <Image source={{uri:props.userAvatar}} style={commentStyles.avatar}/>
                         </View>
                         <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                             <Text style={commentStyles.userName}>{props.userName}</Text>
@@ -176,7 +134,7 @@ const PostContent=(props)=>{
                 </View>
                 <Text style={commentStyles.comment}>{props.content}</Text>
                 <View style={commentStyles.commentDate}>
-                    <Text style={commentStyles.dateText}>第{props.cid}楼</Text>
+                    <Text style={commentStyles.dateText}>第{props.commentId}楼</Text>
                     <Text style={commentStyles.dateText}>{props.time}</Text>
                     <Text style={commentStyles.dateText}>地点:{props.location}</Text>
                 </View>
@@ -191,7 +149,7 @@ const PostContent=(props)=>{
         <FlatList style={postStyles.postScroll}
             showsVerticalScrollIndicator = {false}
             keyboardDismissMode='on-drag'
-            ListHeaderComponent={()=><PostHeader navigation={props.navigation} />}
+            ListHeaderComponent={()=><PostHeader navigation={props.navigation} {...postInfo} />}
             ListFooterComponent={()=>{
                 return(
                     <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row',padding:20}}>
@@ -201,7 +159,7 @@ const PostContent=(props)=>{
             }}
             data={comment}
             renderItem={({ item, index, separators }) => (
-                <Pressable onPress={()=>{console.log(index)}} key={item.cid}>
+                <Pressable onPress={()=>{console.log(index)}} key={item.commentId}>
                     <Comment {...item}/>
                 </Pressable>
             )}
@@ -239,13 +197,22 @@ const Operation=(props)=>{
 }
 
 const PostDetail=(props)=>{
-    
+    let [result,setResult]=useState({})
+
+    useEffect(()=>{
+        fetch(`http://localhost:8081/data/postDetail${props.route.params.postId}.json`).then((res)=>res.json())
+        .then((resJson)=>{
+            setResult({...resJson.data})
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[])
 
     return(
         <>
             <View style={mainStyles.view}>
-                <Navigation navigation={props.navigation}/>
-                <PostContent navigation={props.navigation}/>
+                <Navigation navigation={props.navigation} communityName={result.communityName} communityAvatar={result.communityAvatar}/>
+                <PostContent navigation={props.navigation} {...result}/>
                 <Operation/>
             </View>
         </>

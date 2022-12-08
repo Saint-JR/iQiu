@@ -6,7 +6,7 @@ const MyPosts=(props)=>{
     return(
         <View style={styles.post}>
             <View style={styles.userInfoContainer}>
-                <Image source={props.avatar} style={styles.avatar}></Image>
+                <Image source={{uri:props.userAvatar}} style={styles.avatar}></Image>
                 <View style={styles.userInfo}>
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                         <Text style={styles.userName}>{props.userName}</Text>
@@ -24,7 +24,7 @@ const MyPosts=(props)=>{
             <View style={{display:'flex',flexDirection:'row',marginLeft:15,marginBottom:15,}}>
                 <View style={styles.communityView}>
                     <Image source={require('../static/community_done.png')} style={styles.communityImage} />
-                    <Text style={styles.communityName}>{props.commuName}</Text>
+                    <Text style={styles.communityName}>{props.communityName}</Text>
                 </View>
                 <View style={styles.postType}>
                     <Image source={props.type==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />

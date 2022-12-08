@@ -1,0 +1,37 @@
+{
+    "data":{
+        "postId":4,
+        "type":0,
+        "userId":1,
+        "userName":"D1nNer-",
+        "userAvatar":"http://localhost:8081/static/avatar.jpg",
+        "time":"12-06",
+        "location":"四川",
+        "communityId":3,
+        "communityName":"乒乓球圈",
+        "communityNum":[3857,16433],
+        "postTitle":"四川大学出版学院挂牌仪式举行",
+        "postContent":"四川大学出版学院挂牌仪式举行",
+        "communityAvatar":"http://localhost:8081/static/tabletennis.png",
+        "comment":[{
+            "commentId":"1",
+            "userId":"1",
+            "userName":"D1nNer-",
+            "userAvatar":"http://localhost:8081/static/avatar.jpg",
+            "time":"12-07",
+            "location":"上海",
+            "content":"但这是碰都不能碰的话题",
+            "commentType":0
+        },{
+            "commentId":"2",
+            "userId":"1",
+            "userName":"D1nNer-",
+            "userAvatar":"http://localhost:8081/static/avatar.jpg",
+            "time":"12-08",
+            "location":"上海",
+            "content":"我觉得这就是一种自信",
+            "commentType":0
+        }]
+    }
+    
+}

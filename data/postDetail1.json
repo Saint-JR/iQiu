@@ -1,0 +1,40 @@
+{
+    "data":{
+        "postId":1,
+        "type":1,
+        "userId":1,
+        "userName":"D1nNer-",
+        "userAvatar":"http://localhost:8081/static/avatar.jpg",
+        "time":"12-06",
+        "location":"上海",
+        "communityId":1,
+        "communityName":"足球圈",
+        "communityNum":[3854,16430],
+        "postTitle":"四川大学出版学院挂牌仪式举行",
+        "postContent":"北京时间11月30日凌晨，卡塔尔世界杯B组最后一轮两场比赛同时开打。最终英格兰队3比0击败威尔士队，笑傲英伦德比的前者以小组头名晋级，“欧洲红龙”威尔士队则被淘汰出局；另一场比赛美国队1比0小胜伊朗队，反超对手升至小组第二，也拿到了淘汰赛的资格。根据淘汰赛的对阵安排，B组头名出线的英格兰队将与A组第二的塞内加尔队展开对话，而B组第二名的美国队则将与A组第一的荷兰队展开交锋。",
+        "communityAvatar":"http://localhost:8081/static/football.png",
+        "ballType":"足球",
+        "peopleCount":"6-10人",
+        "ballPosition":"四川大学江安校区三号体育场",
+        "comment":[{
+            "commentId":"1",
+            "userId":"1",
+            "userName":"D1nNer-",
+            "userAvatar":"http://localhost:8081/static/avatar.jpg",
+            "time":"12-07",
+            "location":"上海",
+            "content":"狠狠地上分",
+            "commentType":0
+        },{
+            "commentId":"2",
+            "userId":"1",
+            "userName":"D1nNer-",
+            "userAvatar":"http://localhost:8081/static/avatar.jpg",
+            "time":"12-08",
+            "location":"上海",
+            "content":"我觉得这就是一种自信",
+            "commentType":0
+        }]
+    }
+    
+}

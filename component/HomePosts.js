@@ -9,14 +9,14 @@ const HomePosts=(props)=>{
     return(
         <View style={styles.post}>
             <View style={styles.community}>
-                <Image source={props.avatar} style={styles.avatar}></Image>
+                <Image source={{uri:props.communityAvatar}} style={styles.avatar}></Image>
                 <View style={styles.commuInfo}>
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                        <Text style={styles.commuName}>{props.commuName}</Text>
+                        <Text style={styles.commuName}>{props.communityName}</Text>
                         <Image source={require('../static/community.png')} style={{height:15,width:15,marginLeft:5,opacity:0.5,resizeMode:'contain'}}/>
                     </View>
                     
-                    <Text style={styles.commuNum}>关注 {props.commuNum[0]}  帖子 {props.commuNum[1]}</Text>
+                    <Text style={styles.commuNum}>关注 {props.communityNum[0]}  帖子 {props.communityNum[1]}</Text>
                 </View>
             </View>
                 
@@ -25,6 +25,16 @@ const HomePosts=(props)=>{
                 <Text numberOfLines={1} ellipsizeMode = 'tail' style={styles.postTitle}>{props.postTitle}</Text>
                 <Text numberOfLines={4} ellipsizeMode = 'tail' style={styles.postContent}>{props.postContent}</Text>
             </View>
+
+            {/* {
+                props.type==1&&(
+                    <View>
+                        <Text>123</Text>
+                    </View>
+                )
+            } */}
+            
+
             <View style={styles.postTypeView}>
                 <View style={styles.postType}>
                     <Image source={props.type==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />

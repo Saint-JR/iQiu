@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState ,useRef ,useEffect} from "react"
 import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated,TextInput} from "react-native"
 import ActionSheet from 'react-native-actionsheet'
 
@@ -33,7 +33,7 @@ const PostContent=()=>{
     let [communitySelected,setCommunitySelected]=useState(-1)
 
 
-    let model=new Animated.Value(0)
+    let model=useRef(new Animated.Value(0)).current
     let opacity=model.interpolate({
         inputRange:[0,1],
         outputRange:[0,0.6]
@@ -58,28 +58,28 @@ const PostContent=()=>{
         }
     }
 
+    const actionSheet1=useRef(null)
+    const actionSheet2=useRef(null)
 
     let [communityChoice,setCommunityChoice]=useState(0)
 
-    let followCommu=[]
-    followCommu=[{
-        cid:1,
-        commuAvatar:require('../../static/football.png'),
-        communityName:'足球圈',
-    },{
-        cid:2,
-        commuAvatar:require('../../static/basketball.png'),
-        communityName:'篮球圈',
-    },{
-        cid:3,
-        commuAvatar:require('../../static/tabletennis.png'),
-        communityName:'乒乓球圈',
-    },]
+    const [followCommunity,setFollowCommunity]=useState([])
+    useEffect(()=>{
+        fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        .then((resJson)=>{
+            console.log(resJson)
+            setFollowCommunity(resJson.data.map((item,index)=>{
+                return item
+            }))
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[])
 
     const FollowCommu=(props)=>{
         return(
             <View style={modelStyles.communityView}>
-                <Image source={props.commuAvatar} style={modelStyles.commuAvatar} />
+                <Image source={{uri:props.communityAvatar}} style={modelStyles.commuAvatar} />
                 <Text style={modelStyles.commuName}>{props.communityName}</Text>
                 <Image source={require('../../static/level.png')} style={modelStyles.level} />
             </View>
@@ -94,7 +94,7 @@ const PostContent=()=>{
                     <Text style={postStyles.chooseText}>选择圈子</Text>
                     <View style={communitySelected!=-1?postStyles.selectView:postStyles.chooseView}>
                         <Text style={communitySelected!=-1?postStyles.selectHolder:postStyles.placeHolder}>
-                            {communitySelected!=-1?followCommu[communitySelected].communityName:'选择合适的圈子会有更多的赞哦~'}
+                            {communitySelected!=-1?followCommunity[communitySelected].communityName:'选择合适的圈子会有更多的赞哦~'}
                         </Text>
                     </View>
                 </View>
@@ -102,7 +102,7 @@ const PostContent=()=>{
             </Pressable>
 
 
-            <Pressable style={postStyles.community} onPress={()=>{this.ActionSheet1.show()}}>
+            <Pressable style={postStyles.community} onPress={()=>{actionSheet1.current.show()}}>
                 <View style={postStyles.chooseCommunity}>
                     <Image source={require('../../static/ballIcon.png')} style={postStyles.communityAvatar} />
                     <Text style={postStyles.chooseText}>选择球类</Text>
@@ -115,7 +115,7 @@ const PostContent=()=>{
                 <Image source={require('../../static/back.png')} style={{height:15,width:15,resizeMode:'contain',transform:[{rotateY:'180deg'}]}} />
             </Pressable>
 
-            <Pressable style={postStyles.community} onPress={()=>{this.ActionSheet2.show()}}>
+            <Pressable style={postStyles.community} onPress={()=>{actionSheet2.current.show()}}>
                 <View style={postStyles.chooseCommunity}>
                     <Image source={require('../../static/memberIcon.png')} style={postStyles.communityAvatar} />
                     <Text style={postStyles.chooseText}>选择人数</Text>
@@ -140,7 +140,7 @@ const PostContent=()=>{
             <TextInput placeholder="请输入帖子内容" style={postStyles.content} multiline={true} maxLength={140} />
 
             <ActionSheet
-                ref={o => this.ActionSheet1 = o}
+                ref={actionSheet1}
                 title={'选择球类'}
                 options={ball}
                 cancelButtonIndex={6}
@@ -148,7 +148,7 @@ const PostContent=()=>{
                 onPress={(index) => { index==6?setBallSelected(-1):setBallSelected(index)}}
             />
             <ActionSheet
-                ref={o => this.ActionSheet2 = o}
+                ref={actionSheet2}
                 title={'选择人数'}
                 options={peopleCount}
                 cancelButtonIndex={6}
@@ -185,12 +185,13 @@ const PostContent=()=>{
                             </View>
                         )
                     }}
-                    data={followCommu}
+                    data={followCommunity}
                     renderItem={({ item, index, separators }) => (
-                        <Pressable  key={item.pid} 
+                        <Pressable  key={item.communityId} 
                             onPress={()=>{
                                 getCommunity(false)
-                                setTimeout(()=>setCommunitySelected(index),600)
+                                setCommunitySelected(index)
+                                // setTimeout(()=>,600)
                                 
                             }}
                         >

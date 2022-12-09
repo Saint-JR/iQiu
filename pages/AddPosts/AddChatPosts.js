@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState ,useRef } from "react"
 import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated,TextInput} from "react-native"
 
 const Navigation=(props)=>{
@@ -26,7 +26,7 @@ const PostContent=()=>{
 
     let [communitySelected,setCommunitySelected]=useState(-1)
 
-    let model=new Animated.Value(0)
+    let model=useRef(new Animated.Value(0)).current
     let opacity=model.interpolate({
         inputRange:[0,1],
         outputRange:[0,0.6]
@@ -131,7 +131,8 @@ const PostContent=()=>{
                         <Pressable  key={item.pid} 
                             onPress={()=>{
                                 getCommunity(false)
-                                setTimeout(()=>setCommunitySelected(index),600)
+                                setCommunitySelected(index)
+                                // setTimeout(()=>,600)
                                 
                             }}
                         >

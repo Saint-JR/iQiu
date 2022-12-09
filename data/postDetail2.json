@@ -17,8 +17,8 @@
         "peopleCount":"2-5人",
         "ballPosition":"四川大学江安校区二号体育场",
         "comment":[{
-            "commentId":"1",
-            "userId":"1",
+            "commentId":1,
+            "userId":1,
             "userName":"D1nNer-",
             "userAvatar":"http://localhost:8081/static/avatar.jpg",
             "time":"12-07",
@@ -26,8 +26,8 @@
             "content":"这就是中国",
             "commentType":0
         },{
-            "commentId":"2",
-            "userId":"1",
+            "commentId":2,
+            "userId":1,
             "userName":"D1nNer-",
             "userAvatar":"http://localhost:8081/static/avatar.jpg",
             "time":"12-08",

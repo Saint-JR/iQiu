@@ -14,8 +14,8 @@
         "postContent":"四川大学出版学院挂牌仪式举行",
         "communityAvatar":"http://localhost:8081/static/tabletennis.png",
         "comment":[{
-            "commentId":"1",
-            "userId":"1",
+            "commentId":1,
+            "userId":1,
             "userName":"D1nNer-",
             "userAvatar":"http://localhost:8081/static/avatar.jpg",
             "time":"12-07",
@@ -23,8 +23,8 @@
             "content":"但这是碰都不能碰的话题",
             "commentType":0
         },{
-            "commentId":"2",
-            "userId":"1",
+            "commentId":2,
+            "userId":1,
             "userName":"D1nNer-",
             "userAvatar":"http://localhost:8081/static/avatar.jpg",
             "time":"12-08",

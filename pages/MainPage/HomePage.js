@@ -1,5 +1,5 @@
 import React, { Component, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing, Animated} from 'react-native'
+import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing, Animated,Dimensions} from 'react-native'
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../../component/Navigation'
 import { useEffect } from 'react';
@@ -54,6 +54,19 @@ const HomePage = (props) => {
     let [postListFollow,setPostListFollow]=useState([])
     let [postListHot,setPostListHot]=useState([])
     let [postListAll,setPostListAll]=useState([])
+
+    const widthInit=12
+    let choiceAni= useRef(new Animated.Value(0)).current
+    let left=choiceAni.interpolate({
+        inputRange: [0, Dimensions.get('window').width*0.5,Dimensions.get('window').width*1,Dimensions.get('window').width*1.5,Dimensions.get('window').width*2],
+        outputRange: [`${100/3/2-widthInit/2}%`,`${100/3/2-widthInit/2}%`,`${50-widthInit/2}%`,`${50-widthInit/2}%`, `${100-100/3/2-widthInit/2}%`],
+        extrapolate: "clamp"
+    });
+    let width=choiceAni.interpolate({
+        inputRange: [0, Dimensions.get('window').width*0.5,Dimensions.get('window').width*1,Dimensions.get('window').width*1.5,Dimensions.get('window').width*2],
+        outputRange: [`${widthInit}%`, `${widthInit+100/3}%`,`${widthInit}%`,`${widthInit+100/3}%`,`${widthInit}%`],
+        extrapolate: "clamp"
+    });
 
     useEffect(()=>{
         fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
@@ -113,35 +126,30 @@ const HomePage = (props) => {
     }
 
     let [page,setPage]=useState(0)
-    let choiceAni= useRef(new Animated.Value(0)).current
-    let left=choiceAni.interpolate({
-        inputRange: [0, 66],
-        outputRange: ['0%', '66%'],
-        extrapolate: "clamp"
-    });
+    
     
     const changePage=(index)=>{
         setPage(index)
-        if(index==0){
-            Animated.timing(choiceAni,{
-                toValue:0,
-                duration:300,
-                useNativeDriver:false
-            }).start()
-        }
-        else if(index==1){
-            Animated.timing(choiceAni,{
-                toValue:33,
-                duration:300,
-                useNativeDriver:false
-            }).start()
-        }else if(index==2){
-            Animated.timing(choiceAni,{
-                toValue:66,
-                duration:300,
-                useNativeDriver:false
-            }).start()
-        }
+        // if(index==0){
+        //     Animated.timing(choiceAni,{
+        //         toValue:0,
+        //         duration:300,
+        //         useNativeDriver:false
+        //     }).start()
+        // }
+        // else if(index==1){
+        //     Animated.timing(choiceAni,{
+        //         toValue:33,
+        //         duration:300,
+        //         useNativeDriver:false
+        //     }).start()
+        // }else if(index==2){
+        //     Animated.timing(choiceAni,{
+        //         toValue:66,
+        //         duration:300,
+        //         useNativeDriver:false
+        //     }).start()
+        // }
             
     }
 
@@ -163,11 +171,11 @@ const HomePage = (props) => {
 
                         </View> */}
                         <View style={styles.commuChoice}> 
-                            <Text style={[styles.commuChoiceText,page==0?styles.choiceSelected:'']}>关注</Text>
-                            <Text style={[styles.commuChoiceText,page==1?styles.choiceSelected:'']}>热门</Text>
-                            <Text style={[styles.commuChoiceText,page==2?styles.choiceSelected:'']}>全部</Text>
-                            <Animated.View style={[styles.choiceBorder,{left:left}]}>
-                                <View style={styles.borderContent}></View>
+                            <Animated.Text style={[styles.commuChoiceText,page==0&&styles.choiceSelected]}>关注</Animated.Text>
+                            <Text style={[styles.commuChoiceText,page==1&&styles.choiceSelected]}>热门</Text>
+                            <Text style={[styles.commuChoiceText,page==2&&styles.choiceSelected]}>全部</Text>
+                            <Animated.View style={[styles.choiceBorder,{left:left,width:width}]}>
+                                {/* <View style={styles.borderContent}></View> */}
                             </Animated.View>
                         </View>
                         <Image source={require('../../static/search.png')} style={styles.search}></Image>
@@ -180,8 +188,15 @@ const HomePage = (props) => {
                 
 
                 <Swiper style={styles.swiper} loop={false} showsPagination={false} onIndexChanged={(index)=>changePage(index)}
-                    // onTouchEnd={(e,state,context)=>{console.log(e,state,context)}}
-                    // onScrollBeginDrag={(e,state,context)=>{console.log(e,state,context)}}
+                    onScroll={Animated.event([{
+                        nativeEvent: {
+                            contentOffset: {
+                                x: choiceAni
+                            }
+                        }
+                    }],{
+                        useNativeDriver:false
+                    })}
                 >
                     <FlatList
                         style={styles.postScroll}
@@ -366,11 +381,13 @@ const styles = StyleSheet.create({
         // borderWidth:2,
         // marginTop: 10,
         width:'60%',
-        height:'100%',
+        // height:'100%',
         display:'flex',
+        paddingTop:5,
+        paddingBottom:5,
         alignItems:'center',
         flexDirection:'row',
-        justifyContent:'space-around',
+        // justifyContent:'space-around',
         position:'relative'
     },
     commuChoiceText:{
@@ -395,15 +412,18 @@ const styles = StyleSheet.create({
     },
     choiceBorder:{
         // borderRadius:10,
-        height:7,
-        // backgroundColor:'#3686e7',
+        height:5,
+        backgroundColor:'#3686e7',
+        borderRadius:100,
         // backgroundColor:'white',
-        width:'33%',
+        // width:'33%',
         position:'absolute',
         bottom:0,
         display:'flex',
         flexDirection:'row',
-        justifyContent:'center'
+        justifyContent:'center',
+        // borderWidth:1,
+        // borderColor:'red'
         // left:15
     },
     borderContent:{

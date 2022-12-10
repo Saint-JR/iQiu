@@ -3,7 +3,10 @@ package com.example.iqiu_backend.service;
 import com.example.iqiu_backend.dao.CommunityMapper;
 import com.example.iqiu_backend.dao.PostMapper;
 import com.example.iqiu_backend.dao.UserMapper;
+import com.example.iqiu_backend.dto.PostDetailDTO;
 import com.example.iqiu_backend.dto.PostsAndCommunityDTO;
+import com.example.iqiu_backend.util.DTOToVOConverter;
+import com.example.iqiu_backend.vo.PostDetailVO;
 import com.example.iqiu_backend.vo.PostsAndCommunityVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,8 @@ public class PostService {
     private CommunityMapper communityMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private DTOToVOConverter dtoToVOConverter;
 
     public List<PostsAndCommunityVO> listPosts(int offset, int limit) {
         List<PostsAndCommunityVO> postsAndCommunityVOS = new ArrayList<>();
@@ -42,6 +47,12 @@ public class PostService {
                     postAndCommunityDTO.getCreateTime()));
         }
         return postsAndCommunityVOS;
+    }
+
+    public PostDetailVO postDetail(int postId){
+        PostDetailDTO postDetailDTO=postMapper.selectPostDetail(postId);
+        PostDetailVO postDetailVO=dtoToVOConverter.toPostDetailVO(postDetailDTO);
+        return postDetailVO;
     }
 
 }

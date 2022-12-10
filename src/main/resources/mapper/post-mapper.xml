@@ -21,4 +21,34 @@
         where id = #{postsId}
     </select>
 
+    <insert id="insertPost" parameterType="com.example.iqiu_backend.entity.Posts" useGeneratedKeys="true" keyProperty="id">
+        insert into posts
+        (poster_id,title,content,post_type,create_time,community_id,like_count,like_users)
+        value (#{posterId},#{title},#{content},#{postType},#{createTime},#{communityId},#{likeCount},#{likeUsers})
+    </insert>
+
+    <select id="selectPostDetail" parameterType="int" resultType="com.example.iqiu_backend.dto.PostDetailDTO">
+        SELECT posts.`id` AS postId,users.`id` AS userId,users.`username` AS userName,
+        posts.`create_time` AS createTime,users.`location`,community.`id` AS communityId,
+        community.`community_name` AS communityName,community.`follower_count` AS followerCount,
+        posts.`title`,posts.`content`,posts.`post_type` AS postType,
+        CONCAT(
+            '[',
+            GROUP_CONCAT(
+                JSON_OBJECT(
+                    'commentId',comment.`id`,'commentType',comment.`comment_type`,
+                    'commentUserId',comment.`user_id`,
+                    'commentContent',comment.`content`,
+                    'commentCreateTime',comment.`create_time`
+                )
+                SEPARATOR ','
+            ),
+            ']'
+        ) AS `comment`
+
+        FROM posts,users,`comment`,community
+        WHERE posts.`id`=#{postId} AND posts.`poster_id`=users.`id` AND community.`id`=posts.`community_id` AND comment.`post_id`=posts.`id`
+        GROUP BY posts.`id`
+    </select>
+
 </mapper>

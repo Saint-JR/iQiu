@@ -28,27 +28,35 @@
     </insert>
 
     <select id="selectPostDetail" parameterType="int" resultType="com.example.iqiu_backend.dto.PostDetailDTO">
-        SELECT posts.`id` AS postId,users.`id` AS userId,users.`username` AS userName,
-        posts.`create_time` AS createTime,users.`location`,community.`id` AS communityId,
-        community.`community_name` AS communityName,community.`follower_count` AS followerCount,
-        posts.`title`,posts.`content`,posts.`post_type` AS postType,
-        CONCAT(
-            '[',
-            GROUP_CONCAT(
-                JSON_OBJECT(
-                    'commentId',comment.`id`,'commentType',comment.`comment_type`,
-                    'commentUserId',comment.`user_id`,
-                    'commentContent',comment.`content`,
-                    'commentCreateTime',comment.`create_time`
-                )
-                SEPARATOR ','
-            ),
-            ']'
-        ) AS `comment`
-
-        FROM posts,users,`comment`,community
-        WHERE posts.`id`=#{postId} AND posts.`poster_id`=users.`id` AND community.`id`=posts.`community_id` AND comment.`post_id`=posts.`id`
-        GROUP BY posts.`id`
+        SELECT pd.postId,pd.userId,pd.userName,pd.createTime,pd.location,
+            pd.communityId,pd.communityName,pd.followerCount,pd.title,pd.content,pd.postType,
+            pd.ballType,pd.peopleCount,pd.ballLocation,
+            COUNT(comment.`id`) AS commentCount,
+            CONCAT(
+                '[',
+                GROUP_CONCAT(
+                    JSON_OBJECT(
+                        'commentId',comment.`id`,'commentType',comment.`comment_type`,
+                        'commentUserId',comment.`user_id`,
+                        'commentContent',comment.`content`,
+                        'commentCreateTime',comment.`create_time`
+                    )
+                    SEPARATOR ','
+                ),
+                ']'
+            ) AS `comment`
+        FROM(
+            SELECT p.`id` AS postId,u.`id` AS userId,u.`username` AS userName,
+                p.`create_time` AS createTime,u.`location`,c.`id` AS communityId,
+                c.`community_name` AS communityName,c.`follower_count` AS followerCount,
+                p.`title`,p.`content`,p.`post_type` AS postType,p.`ball_type` AS ballType,
+                p.`people_counts` AS peopleCount,p.`location` AS ballLocation
+            FROM posts AS p,users AS u,community AS c
+            WHERE p.`id`=#{postId} AND p.`poster_id`=u.`id` AND c.`id`=p.`community_id`
+        ) pd
+        LEFT JOIN `comment`
+        ON `comment`.`post_id`=pd.postId
+        GROUP BY pd.postId
     </select>
 
 </mapper>

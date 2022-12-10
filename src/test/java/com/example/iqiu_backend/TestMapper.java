@@ -59,8 +59,8 @@ public class TestMapper {
 
     @Test
     public  void testMapper3(){
-        PostDetailVO postDetailVO=postService.postDetail(24);
-
+        PostDetailVO postDetailVO=postService.postDetail(1);
+        System.out.println(postDetailVO);
     }
 
 

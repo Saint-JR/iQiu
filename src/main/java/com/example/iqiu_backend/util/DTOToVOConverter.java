@@ -32,6 +32,7 @@ public class DTOToVOConverter {
         postDetailVO.setBallType(postDetailDTO.getBallType());
         postDetailVO.setPeopleCount(postDetailDTO.getPeopleCount());
         postDetailVO.setBallLocation(postDetailDTO.getBallLocation());
+        postDetailVO.setCommentCount(postDetailDTO.getCommentCount());
         postDetailVO.setComment(JSONArray.parseArray(postDetailDTO.getComment(), Comment.class));
         return postDetailVO;
     }

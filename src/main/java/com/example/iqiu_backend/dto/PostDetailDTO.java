@@ -26,6 +26,7 @@ public class PostDetailDTO {
     private String ballType; //球类类型
     private String peopleCount; //需求人数
     private String ballLocation; //场馆地点
+    private int commentCount;//评论数
     private String comment; //评论json字符串
 
 }

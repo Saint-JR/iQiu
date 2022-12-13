@@ -139,7 +139,7 @@ const PostContent = (props) => {
                             <Text style={contentStyles.operateText}>点赞</Text>
                         </View>
                     </View>
-                    <Pressable style={contentStyles.recommendContainer} onPress={() => props.navigation.navigate('CommunityDetail')}>
+                    <Pressable style={contentStyles.recommendContainer} onPress={() => props.navigation.navigate('CommunityDetail',{communityId:1})}>
                         <Text style={contentStyles.recommend}>相关推荐</Text>
                         <View style={contentStyles.recommendView}>
                             <View style={contentStyles.communityInfo}>

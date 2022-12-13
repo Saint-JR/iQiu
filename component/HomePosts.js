@@ -17,7 +17,7 @@ const HomePosts=(props)=>{
                         <Image source={require('../static/community.png')} style={{height:15,width:15,marginLeft:5,opacity:0.5,resizeMode:'contain'}}/>
                     </View>
                     
-                    <Text style={styles.commuNum}>关注 {props.followerCount}  帖子 {props.postsCount}</Text>
+                    <Text style={styles.commuNum}>关注 {props.followerCount}  帖子 {props.postCount}</Text>
                 </View>
             </View>
                 

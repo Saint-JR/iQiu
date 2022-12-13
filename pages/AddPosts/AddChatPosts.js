@@ -1,30 +1,144 @@
-import { useState ,useRef } from "react"
+import { useState ,useRef ,useEffect } from "react"
 import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated,TextInput} from "react-native"
+import { getCommunityInfo, getFollowCommunity } from "../../api/community"
+import {insertPost} from '../../api/posts'
 
-const Navigation=(props)=>{
-    return(
-        <View>
-            <View style={{height:StatusBar.currentHeight}}></View>
-            <View style={naviStyles.naviView}>
-                <Pressable onPress={()=>props.navigation.goBack()} style={{position:'absolute',left:0,}}>
-                    <Image source={require('../../static/back.png')} style={naviStyles.backImage}/>
-                </Pressable>
-                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                    <Image source={require('../../static/chatPost.png')} style={{height:20,width:20,resizeMode:'contain',marginRight:5}} />
-                    <Text style={naviStyles.chatPost}>发布闲聊</Text>
+const PostContent=(props)=>{
+
+    const Navigation=()=>{
+        return(
+            <View>
+                <View style={{height:StatusBar.currentHeight}}></View>
+                <View style={naviStyles.naviView}>
+                    <Pressable onPress={()=>props.navigation.goBack()} style={{position:'absolute',left:0,}}>
+                        <Image source={require('../../static/back.png')} style={naviStyles.backImage}/>
+                    </Pressable>
+                    <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+                        <Image source={require('../../static/chatPost.png')} style={{height:20,width:20,resizeMode:'contain',marginRight:5}} />
+                        <Text style={naviStyles.chatPost}>发布闲聊</Text>
+                    </View>
+                    <Pressable style={naviStyles.pressable} onPress={()=>submit()}>
+                        <Text style={naviStyles.post}>发布</Text>
+                    </Pressable>
+                    
                 </View>
-                <Pressable style={naviStyles.pressable}>
-                    <Text style={naviStyles.post}>发布</Text>
-                </Pressable>
-                
+                <Animated.View style={[naviStyles.tipsView,{top:top}]} >
+                    <View style={{height:StatusBar.currentHeight}}></View>
+                    <View style={naviStyles.tipsContainer}>
+                        <Image source={warning.state==-1?require('../../static/warning.png'):require('../../static/correct.png')} style={naviStyles.warningImage} />
+                        <Text style={[naviStyles.warningText,{color:warning.state==-1?'rgb(216,30,6)':'#0fae34'}]}>{warning.text}</Text>
+                    </View>
+                </Animated.View>
             </View>
-        </View>
-    )
-}
+        )
+    }
 
-const PostContent=()=>{
 
-    let [communitySelected,setCommunitySelected]=useState(-1)
+    const [communitySelected,setCommunitySelected]=useState(-1)
+    let title=''
+    let content=''
+    const [warning,setWarning]=useState({
+        state:-1,
+        text:'请正确填写'
+    })
+    const tip=useRef(new Animated.Value(0)).current
+    let top=tip.interpolate({
+        inputRange:[0,1],
+        outputRange:['-110%','0%']
+    })
+
+    const submit=()=>{
+        if(communitySelected!=-1&&title.length>=5){
+            console.log(1)
+            let currentTime=new Date()
+            let post={
+                posterId:userId,
+                title:title,
+                content:content,
+                postType:0,
+                createTime:currentTime,
+                lastCommentTime:currentTime,
+                communityId:followCommunity[communitySelected].communityId,
+            }
+            insertPost(post)
+            .then((res)=>{
+                console.log(res)
+                setWarning({
+                    state:1,
+                    text:'发送成功'
+                })
+                Animated.timing(tip,{
+                    toValue:1,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+                setTimeout(()=>{
+                    Animated.timing(tip,{
+                        toValue:0,
+                        duration:200,
+                        useNativeDriver:false
+                    }).start()
+                    props.navigation.goBack()
+                },2000)
+                
+            }).catch((err)=>{
+                console.log(err)
+                setWarning({
+                    state:-1,
+                    text:'发送失败'
+                })
+                Animated.timing(tip,{
+                    toValue:1,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+                setTimeout(()=>{
+                    Animated.timing(tip,{
+                        toValue:0,
+                        duration:200,
+                        useNativeDriver:false
+                    }).start()
+                },2000)
+            })
+        }else if(communitySelected==-1){
+            console.log(2)
+            setWarning({
+                state:-1,
+                text:'请正确填写'
+            })
+            // console.log(1)
+            Animated.timing(tip,{
+                toValue:1,
+                duration:200,
+                useNativeDriver:false
+            }).start()
+            setTimeout(()=>{
+                Animated.timing(tip,{
+                    toValue:0,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+            },2000)
+        }else if(title.length<5){
+            console.log(3)
+            setWarning({
+                state:-1,
+                text:'标题字数不得少于五字'
+            })
+            Animated.timing(tip,{
+                toValue:1,
+                duration:200,
+                useNativeDriver:false
+            }).start()
+            setTimeout(()=>{
+                Animated.timing(tip,{
+                    toValue:0,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+            },2000)
+        }
+    }
 
     let model=useRef(new Animated.Value(0)).current
     let opacity=model.interpolate({
@@ -52,50 +166,57 @@ const PostContent=()=>{
     }
 
 
-    let [communityChoice,setCommunityChoice]=useState(0)
+    const [followCommunity,setFollowCommunity]=useState([])
+    useEffect(()=>{
+        // fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        // .then((resJson)=>{
+        //     console.log(resJson)
+        //     setFollowCommunity(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
+        getFollowCommunity(userId)
+        .then((res)=>{
+            setFollowCommunity(res.map((item,index)=>{
+                return item
+            }))
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[])
 
-    let followCommu=[]
-    followCommu=[{
-        cid:1,
-        commuAvatar:require('../../static/football.png'),
-        communityName:'足球圈',
-    },{
-        cid:2,
-        commuAvatar:require('../../static/basketball.png'),
-        communityName:'篮球圈',
-    },{
-        cid:3,
-        commuAvatar:require('../../static/tabletennis.png'),
-        communityName:'乒乓球圈',
-    },]
 
     const FollowCommu=(props)=>{
         return(
             <View style={modelStyles.communityView}>
-                <Image source={props.commuAvatar} style={modelStyles.commuAvatar} />
+                <Image source={{uri:props.communityAvatar}} style={modelStyles.commuAvatar} />
                 <Text style={modelStyles.commuName}>{props.communityName}</Text>
                 <Image source={require('../../static/level.png')} style={modelStyles.level} />
             </View>
         )
     }
 
+    const [communityChoice,setCommunityChoice]=useState(0)
 
     return(
         <>
+            <Navigation />
             <Pressable style={postStyles.community} onPress={()=>getCommunity(true)}>
                 <View style={postStyles.chooseCommunity}>
                     <Image source={require('../../static/community.png')} style={postStyles.communityAvatar} />
                     <Text style={postStyles.chooseText}>选择圈子</Text>
                     <View style={communitySelected!=-1?postStyles.selectView:postStyles.chooseView}>
                         <Text style={communitySelected!=-1?postStyles.selectHolder:postStyles.placeHolder}>
-                            {communitySelected!=-1?followCommu[communitySelected].communityName:'选择合适的圈子会有更多的赞哦~'}
+                            {communitySelected!=-1?followCommunity[communitySelected].communityName:'选择合适的圈子会有更多的赞哦~'}
                         </Text>
                     </View>
                 </View>
                 <Image source={require('../../static/back.png')} style={{height:15,width:15,resizeMode:'contain',transform:[{rotateY:'180deg'}]}} />
             </Pressable>
-            <TextInput placeholder="请输入完整帖子标题（5-31个字）" style={postStyles.title} maxLength={31}/>
-            <TextInput placeholder="来吧，尽情发挥吧……" style={postStyles.content} multiline={true} maxLength={140} />
+            <TextInput placeholder="请输入完整帖子标题（5-31个字）" style={postStyles.title} maxLength={31} onChangeText={(e)=>title=e}/>
+            <TextInput placeholder="来吧，尽情发挥吧……" style={postStyles.content} multiline={true} maxLength={140}  onChangeText={(e)=>content=e}/>
 
             <Animated.View style={[modelStyles.mask,{opacity}]} pointerEvents='none'></Animated.View>
             <Animated.View style={[modelStyles.modelView,{bottom}]}>
@@ -126,9 +247,9 @@ const PostContent=()=>{
                             </View>
                         )
                     }}
-                    data={followCommu}
+                    data={followCommunity}
                     renderItem={({ item, index, separators }) => (
-                        <Pressable  key={item.pid} 
+                        <Pressable  key={item.communityId} 
                             onPress={()=>{
                                 getCommunity(false)
                                 setCommunitySelected(index)
@@ -149,8 +270,8 @@ const PostContent=()=>{
 const AddChatPosts=(props)=>{
     return(
         <View style={{width:'100%',height:'100%',backgroundColor:'white'}}>
-            <Navigation navigation={props.navigation} />
-            <PostContent />
+            {/* <Navigation navigation={props.navigation} /> */}
+            <PostContent navigation={props.navigation} />
         </View>
     )
 }
@@ -189,6 +310,32 @@ const naviStyles=StyleSheet.create({
         fontSize:13,
         color:'#3686e7'
     },
+    tipsView:{
+        width:'100%',
+        height:'100%',
+        position:'absolute',
+        display:'flex',
+        backgroundColor:'white',
+        elevation:10
+    },
+    tipsContainer:{
+        flex:1,
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection:'row'
+    },
+    warningImage:{
+        height:23,
+        width:23,
+        resizeMode:'contain',
+        marginRight:5
+
+    },
+    warningText:{
+        fontSize:17,
+
+    }
     
 })
 

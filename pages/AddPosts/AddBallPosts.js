@@ -2,36 +2,153 @@ import { useState ,useRef ,useEffect} from "react"
 import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated,TextInput} from "react-native"
 import ActionSheet from 'react-native-actionsheet'
 import { getCommunityInfo, getFollowCommunity } from "../../api/community"
+import {insertPost} from '../../api/posts'
 
-const Navigation=(props)=>{
-    return(
-        <View>
-            <View style={{height:StatusBar.currentHeight}}></View>
-            <View style={naviStyles.naviView}>
-                <Pressable onPress={()=>props.navigation.goBack()} style={{position:'absolute',left:0,}}>
-                    <Image source={require('../../static/back.png')} style={naviStyles.backImage}/>
-                </Pressable>
-                <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                    <Image source={require('../../static/ballPost.png')} style={{height:20,width:20,resizeMode:'contain',marginRight:5}} />
-                    <Text style={naviStyles.chatPost}>发布约球</Text>
+const PostContent=(props)=>{
+
+    const Navigation=()=>{
+        return(
+            <View>
+                <View style={{height:StatusBar.currentHeight}}></View>
+                <View style={naviStyles.naviView}>
+                    <Pressable onPress={()=>props.navigation.goBack()} style={{position:'absolute',left:0,}}>
+                        <Image source={require('../../static/back.png')} style={naviStyles.backImage}/>
+                    </Pressable>
+                    <View style={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+                        <Image source={require('../../static/ballPost.png')} style={{height:20,width:20,resizeMode:'contain',marginRight:5}} />
+                        <Text style={naviStyles.chatPost}>发布约球</Text>
+                    </View>
+                    
+                    <Pressable style={naviStyles.pressable} onPress={()=>submit()}>
+                        <Text style={naviStyles.post}>发布</Text>
+                    </Pressable>
+                    
                 </View>
-                
-                <Pressable style={naviStyles.pressable}>
-                    <Text style={naviStyles.post}>发布</Text>
-                </Pressable>
-                
+                <Animated.View style={[naviStyles.tipsView,{top:top}]} >
+                    <View style={{height:StatusBar.currentHeight}}></View>
+                    <View style={naviStyles.tipsContainer}>
+                        <Image source={warning.state==-1?require('../../static/warning.png'):require('../../static/correct.png')} style={naviStyles.warningImage} />
+                        <Text style={[naviStyles.warningText,{color:warning.state==-1?'rgb(216,30,6)':'#0fae34'}]}>{warning.text}</Text>
+                    </View>
+                </Animated.View>
             </View>
-        </View>
-    )
-}
+        )
+    }
 
-const PostContent=()=>{
     const ball=['足球', '篮球','乒乓球','羽毛球','台球','其他', '取消']
     const peopleCount=['1人', '2-5人','6-10人','11-15人','16-20人','20人以上', '取消']
 
-    let [ballSelected,setBallSelected]=useState(-1)
-    let [countSelected,setCountSelected]=useState(-1)
-    let [communitySelected,setCommunitySelected]=useState(-1)
+    const [ballSelected,setBallSelected]=useState(-1)
+    const [countSelected,setCountSelected]=useState(-1)
+    const [communitySelected,setCommunitySelected]=useState(-1)
+    let location=''
+    let title=''
+    let content=''
+    const [warning,setWarning]=useState({
+        state:-1,
+        text:'请正确填写'
+    })
+    const tip=useRef(new Animated.Value(0)).current
+    let top=tip.interpolate({
+        inputRange:[0,1],
+        outputRange:['-110%','0%']
+    })
+
+    const submit=()=>{
+        if(ballSelected!=-1&&countSelected!=-1&&communitySelected!=-1&&location!=''&&title.length>=5){
+            console.log(1)
+            let currentTime=new Date()
+            let post={
+                posterId:userId,
+                title:title,
+                content:content,
+                postType:1,
+                location:location,
+                ballType:ball[ballSelected],
+                peopleCount:peopleCount[countSelected],
+                createTime:currentTime,
+                lastCommentTime:currentTime,
+                communityId:followCommunity[communitySelected].communityId,
+            }
+            insertPost(post)
+            .then((res)=>{
+                console.log(res)
+                setWarning({
+                    state:1,
+                    text:'发送成功'
+                })
+                Animated.timing(tip,{
+                    toValue:1,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+                setTimeout(()=>{
+                    Animated.timing(tip,{
+                        toValue:0,
+                        duration:200,
+                        useNativeDriver:false
+                    }).start()
+                    props.navigation.goBack()
+                },2000)
+                
+            }).catch((err)=>{
+                console.log(err)
+                setWarning({
+                    state:-1,
+                    text:'发送失败'
+                })
+                Animated.timing(tip,{
+                    toValue:1,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+                setTimeout(()=>{
+                    Animated.timing(tip,{
+                        toValue:0,
+                        duration:200,
+                        useNativeDriver:false
+                    }).start()
+                },2000)
+            })
+        }else if(ballSelected==-1||countSelected==-1||communitySelected==-1||location==''){
+            console.log(2)
+            setWarning({
+                state:-1,
+                text:'请正确填写'
+            })
+            // console.log(1)
+            Animated.timing(tip,{
+                toValue:1,
+                duration:200,
+                useNativeDriver:false
+            }).start()
+            setTimeout(()=>{
+                Animated.timing(tip,{
+                    toValue:0,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+            },2000)
+        }else if(title.length<5){
+            console.log(3)
+            setWarning({
+                state:-1,
+                text:'标题字数不得少于五字'
+            })
+            Animated.timing(tip,{
+                toValue:1,
+                duration:200,
+                useNativeDriver:false
+            }).start()
+            setTimeout(()=>{
+                Animated.timing(tip,{
+                    toValue:0,
+                    duration:200,
+                    useNativeDriver:false
+                }).start()
+            },2000)
+        }
+    }
 
 
     let model=useRef(new Animated.Value(0)).current
@@ -95,8 +212,10 @@ const PostContent=()=>{
         )
     }
 
+
     return(
         <>
+            <Navigation />
             <Pressable style={postStyles.community} onPress={()=>getCommunity(true)}>
                 <View style={postStyles.chooseCommunity}>
                     <Image source={require('../../static/community.png')} style={postStyles.communityAvatar} />
@@ -141,12 +260,12 @@ const PostContent=()=>{
                 <View style={postStyles.chooseCommunity}>
                     <Image source={require('../../static/locationIcon.png')} style={postStyles.communityAvatar} />
                     <Text style={postStyles.chooseText}>填写地点</Text>
-                    <TextInput placeholder="填写您想约球的场馆地点" style={{padding:0,flex:1}} />
+                    <TextInput placeholder="填写您想约球的场馆地点" style={{padding:0,flex:1}} onChangeText={(e)=>location=e} />
                 </View>
             </View>
 
-            <TextInput placeholder="请输入完整帖子标题（5-31个字）" style={postStyles.title} maxLength={31}/>
-            <TextInput placeholder="请输入帖子内容" style={postStyles.content} multiline={true} maxLength={140} />
+            <TextInput placeholder="请输入完整帖子标题（5-31个字）" style={postStyles.title} maxLength={31} onChangeText={(e)=>title=e}/>
+            <TextInput placeholder="请输入帖子内容" style={postStyles.content} multiline={true} maxLength={140} onChangeText={(e)=>content=e} />
 
             <ActionSheet
                 ref={actionSheet1}
@@ -217,8 +336,8 @@ const PostContent=()=>{
 const AddBallPosts=(props)=>{
     return(
         <View style={{width:'100%',height:'100%',backgroundColor:'white'}}>
-            <Navigation navigation={props.navigation} />
-            <PostContent />
+            {/* <Navigation/> */}
+            <PostContent  navigation={props.navigation} />
         </View>
     )
 }
@@ -257,6 +376,32 @@ const naviStyles=StyleSheet.create({
         fontSize:13,
         color:'#3686e7'
     },
+    tipsView:{
+        width:'100%',
+        height:'100%',
+        position:'absolute',
+        display:'flex',
+        backgroundColor:'white',
+        elevation:10
+    },
+    tipsContainer:{
+        flex:1,
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection:'row'
+    },
+    warningImage:{
+        height:23,
+        width:23,
+        resizeMode:'contain',
+        marginRight:5
+
+    },
+    warningText:{
+        fontSize:17,
+
+    }
     
 })
 

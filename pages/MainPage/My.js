@@ -4,6 +4,9 @@ import LinearGradient from "react-native-linear-gradient"
 import { color } from "react-native-reanimated"
 import MyPosts from '../../component/MyPosts'
 import {FollowCommu} from '../MainPage/Community'
+import {getMyPosts} from '../../api/posts'
+import timeCalculate from '../../api/timeCalculate'
+import { getFollowCommunity } from "../../api/community"
 
 const Navigation=(props)=>{
 
@@ -116,22 +119,34 @@ const My=(props)=>{
     // }])
 
     useEffect(()=>{
-        fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
-        .then((resJson)=>{
-            setPostList(resJson.data.map((item,index)=>{
+        getMyPosts(userId,0,15)
+        .then((res)=>{
+            console.log(res)
+            setPostList(res!=null?res.map((item,index)=>{
+                item.createTime=timeCalculate(item.createTime,"发布于")
+                return item
+            }):[])
+        }).catch((err)=>{
+            console.log(err)
+        })
+
+        getFollowCommunity(userId)
+        .then((res)=>{
+            setFollowCommunity(res.map((item,index)=>{
                 return item
             }))
         }).catch((err)=>{
             console.log(err)
         })
-        fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
-        .then((resJson)=>{
-            setFollowCommunity(resJson.data.map((item,index)=>{
-                return item
-            }))
-        }).catch((err)=>{
-            console.log(err)
-        })
+
+        // fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        // .then((resJson)=>{
+        //     setFollowCommunity(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
     },[])
 
 

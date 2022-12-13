@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 import {View,Text,StyleSheet,StatusBar,Image, Pressable, TextInput} from 'react-native'
 import { FlatList } from 'react-native-gesture-handler';
+import {getFollowCommunity} from '../../api/community'
 
 const HotCommu=(props)=>{
     return(
         <View style={hotCommuStyles.hotCommuView}>
             <Image source={{uri:props.communityAvatar}} style={hotCommuStyles.hotCommuAvatar}></Image>
             <Text style={hotCommuStyles.communityName}>{props.communityName}</Text>
-            <Text style={hotCommuStyles.followerNum}>关注 {props.followerNum}</Text>
+            <Text style={hotCommuStyles.followerNum}>关注 {props.followerCount}</Text>
         </View>
     )
 }
@@ -19,7 +20,7 @@ const FollowCommu=(props)=>{
                 <Image source={{uri:props.communityAvatar}} style={followStyles.followAvatar}></Image>
                 <View style={{display:'flex'}}>
                     <Text style={followStyles.communityName}>{props.communityName}</Text>
-                    <Text style={followStyles.followerNum}>关注 {props.followerNum}</Text>
+                    <Text style={followStyles.followerNum}>关注 {props.followerCount}</Text>
                 </View>
             </View>
             <Image source={require('../../static/level.png')} style={{height:15,width:15,resizeMode:'contain',marginRight:10}} />
@@ -33,53 +34,30 @@ const Community=(props)=>{
     let [followCommunity,setFollowCommunity]=useState([])
 
     useEffect(()=>{
-        fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
-        .then((resJson)=>{
-            console.log(resJson)
-            setHotCommunity(resJson.data.map((item,index)=>{
+        getFollowCommunity(userId)
+        .then((res)=>{
+            setHotCommunity(res.map((item,index)=>{
                 return item
             }))
-            setFollowCommunity(resJson.data.map((item,index)=>{
+            setFollowCommunity(res.map((item,index)=>{
                 return item
             }))
         }).catch((err)=>{
             console.log(err)
         })
+        // fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        // .then((resJson)=>{
+        //     console.log(resJson)
+        //     setHotCommunity(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        //     setFollowCommunity(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
     },[])
-
-    // hotCommu=[{
-    //     cid:1,
-    //     communityAvatar:require('../../static/football.png'),
-    //     communityName:'足球圈',
-    //     followerNum:3645
-    // },{
-    //     cid:2,
-    //     communityAvatar:require('../../static/basketball.png'),
-    //     communityName:'篮球圈',
-    //     followerNum:3645
-    // },{
-    //     cid:3,
-    //     communityAvatar:require('../../static/tabletennis.png'),
-    //     communityName:'乒乓球圈',
-    //     followerNum:3645
-    // },]
-
-    // followCommu=[{
-    //     cid:1,
-    //     communityAvatar:require('../../static/football.png'),
-    //     communityName:'足球圈',
-    //     followerNum:3645
-    // },{
-    //     cid:2,
-    //     communityAvatar:require('../../static/basketball.png'),
-    //     communityName:'篮球圈',
-    //     followerNum:3645
-    // },{
-    //     cid:3,
-    //     communityAvatar:require('../../static/tabletennis.png'),
-    //     communityName:'乒乓球圈',
-    //     followerNum:3645
-    // },]
 
     const navigate=(communityId)=>{
         props.navigation.navigate('CommunityDetail',{communityId:communityId})

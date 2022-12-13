@@ -1,6 +1,8 @@
 import { useEffect, useState ,useRef } from 'react'
 import { View, Text, Pressable, StyleSheet, StatusBar, Image, Animated, FlatList, TextInput } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
+import {getPostDetail} from '../../api/posts'
+import timeCalculate from '../../api/timeCalculate'
 
 const Navigation = (props) => {
     const navi = () => {
@@ -34,9 +36,10 @@ const PostContent = (props) => {
     let [postInfo, setPostInfo] = useState({})
     let [posterId, setPosterId] = useState(0)
     useEffect(() => {
-        let { navigation, comment: commentCopy, ...postInfoCopy } = props
+        // console.log(props)
+        let { navigation, comment: commentCopy,commentCount, ...postInfoCopy } = props
         setPosterId(postInfoCopy.userId)
-        setComment(commentCopy != null ? commentCopy.map((item, index) => {
+        setComment(commentCount!=0&&commentCopy!=null ? commentCopy.map((item, index) => {
             return item
         }) : [])
         setPostInfo({ ...postInfoCopy })
@@ -78,7 +81,7 @@ const PostContent = (props) => {
                                 <Image source={require('../../static/level.png')} style={{ height: 15, width: 15, resizeMode: 'contain', marginLeft: 5 }} />
                             </View>
                             <View style={postHeaderStyles.posterDetail}>
-                                <Text style={postHeaderStyles.postDate}>{props.time}</Text>
+                                <Text style={postHeaderStyles.postDate}>{props.createTime}</Text>
                                 <Text style={postHeaderStyles.postDate}>地点:{props.location}</Text>
                             </View>
 
@@ -86,8 +89,8 @@ const PostContent = (props) => {
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         <View style={postHeaderStyles.type}>
-                            <Image source={props.type == 0 ? require('../../static/chatPost.png') : require('../../static/ballPost.png')} style={postHeaderStyles.typeImage} />
-                            <Text style={postHeaderStyles.detailText}>{props.type == 0 ? '闲聊帖' : '约球帖'}</Text>
+                            <Image source={props.postType == 0 ? require('../../static/chatPost.png') : require('../../static/ballPost.png')} style={postHeaderStyles.typeImage} />
+                            <Text style={postHeaderStyles.detailText}>{props.postType == 0 ? '闲聊帖' : '约球帖'}</Text>
                         </View>
                         <View style={postHeaderStyles.detail}>
                             <Text style={postHeaderStyles.detailText}>详情</Text>
@@ -100,7 +103,7 @@ const PostContent = (props) => {
                     <Text style={contentStyles.title}>{props.postTitle}</Text>
                     <Text style={contentStyles.content}>{props.postContent}</Text>
                     {
-                        props.type == 1 && (
+                        props.postType == 1 && (
                             <>
                                 <View style={typeStyle.typeView}>
                                     <LinearGradient style={typeStyle.linear} colors={['#0dc2e3', '#3686e7']} />
@@ -120,7 +123,7 @@ const PostContent = (props) => {
                                 <View style={typeStyle.typeView}>
                                     <LinearGradient style={typeStyle.linear} colors={['#0dc2e3', '#3686e7']} />
                                     <Text style={typeStyle.typeText}>地点</Text>
-                                    <Text style={typeStyle.location}>{props.ballPosition}</Text>
+                                    <Text style={typeStyle.location}>{props.ballLocation}</Text>
                                 </View>
                             </>
 
@@ -188,12 +191,12 @@ const PostContent = (props) => {
                 <View style={commentStyles.userInfoView}>
                     <View style={commentStyles.userInfo}>
                         <View style={commentStyles.avatarView}>
-                            <Image source={{ uri: props.userAvatar }} style={commentStyles.avatar} />
+                            <Image source={{ uri: props.commentUserAvatar }} style={commentStyles.avatar} />
                         </View>
                         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={commentStyles.userName}>{props.userName}</Text>
+                            <Text style={commentStyles.userName}>{props.commentUserName}</Text>
                             {
-                                posterId == props.userId && (
+                                posterId == props.commentUserId && (
                                     <View style={commentStyles.posterView}>
                                         <Text style={commentStyles.posterText}>楼主</Text>
                                     </View>
@@ -208,11 +211,11 @@ const PostContent = (props) => {
                         <Text style={commentStyles.likeText}>赞</Text>
                     </View>
                 </View>
-                <Text style={commentStyles.comment}>{props.content}</Text>
+                <Text style={commentStyles.comment}>{props.commentContent}</Text>
                 <View style={commentStyles.commentDate}>
-                    <Text style={commentStyles.dateText}>第{props.commentId}楼</Text>
-                    <Text style={commentStyles.dateText}>{props.time}</Text>
-                    <Text style={commentStyles.dateText}>地点:{props.location}</Text>
+                    <Text style={commentStyles.dateText}>第{props.orderId}楼</Text>
+                    <Text style={commentStyles.dateText}>{timeCalculate(props.commentCreateTime,"回复于") }</Text>
+                    <Text style={commentStyles.dateText}>地点:{props.commentLocation}</Text>
                 </View>
                 <View style={commentStyles.commentDivider}></View>
             </View>
@@ -233,7 +236,7 @@ const PostContent = (props) => {
                     </View>
                 )
             }}
-            data={comment}
+            data={props.commentCount==0?[]:comment}
             renderItem={({ item, index, separators }) => {
                 // console.log(posterId)
                 // console.log(item.userId)
@@ -244,7 +247,7 @@ const PostContent = (props) => {
                             <Comment {...item} />
                         </Pressable>
                     )
-                } else if (posterOnly == 1 && item.userId == posterId) {
+                } else if (posterOnly == 1 && item.commentUserId == posterId) {
                     return (
                         <Pressable onPress={() => { console.log(index) }} key={item.commentId}>
                             <Comment {...item} />
@@ -291,12 +294,21 @@ const PostDetail = (props) => {
     let [result, setResult] = useState({})
 
     useEffect(() => {
-        fetch(`http://localhost:8081/data/postDetail${props.route.params.postId}.json`).then((res) => res.json())
-            .then((resJson) => {
-                setResult({ ...resJson.data })
-            }).catch((err) => {
-                console.log(err)
-            })
+        // fetch(`http://localhost:8081/data/postDetail${props.route.params.postId}.json`).then((res) => res.json())
+        // .then((resJson) => {
+        //     setResult({ ...resJson.data })
+        // }).catch((err) => {
+        //     console.log(err)
+        // })
+
+        getPostDetail(props.route.params.postId)
+        .then((res)=>{
+            // console.log(res)
+            const timeString=timeCalculate(res.createTime,"发布于")
+            setResult({...res,createTime:timeString})
+        }).catch((err)=>{
+            console.log(err)
+        })
     }, [])
 
     return (

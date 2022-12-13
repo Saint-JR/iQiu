@@ -5,6 +5,7 @@ import { naviHeight } from '../../component/Navigation'
 import { useEffect } from 'react';
 import HomePosts from '../../component/HomePosts'
 import Swiper from 'react-native-swiper';
+import {getHomePosts} from '../../api/posts'
 
 
 const ListHeader=(props)=>{
@@ -69,20 +70,31 @@ const HomePage = (props) => {
     });
 
     useEffect(()=>{
-        fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
-        .then((resJson)=>{
-            setPostListFollow(resJson.data.map((item,index)=>{
+        getHomePosts(0,24).then((res)=>{
+            setPostListFollow(res.map((item,index)=>{
                 return item
             }))
-            setPostListHot(resJson.data.map((item,index)=>{
+            setPostListHot(res.map((item,index)=>{
                 return item
             }))
-            setPostListAll(resJson.data.map((item,index)=>{
+            setPostListAll(res.map((item,index)=>{
                 return item
             }))
-        }).catch((err)=>{
-            console.log(err)
         })
+        // fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
+        // .then((resJson)=>{
+        //     setPostListFollow(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        //     setPostListHot(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        //     setPostListAll(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
     },[])
 
     
@@ -227,13 +239,13 @@ const HomePage = (props) => {
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
-                            }else if(type[0]==1&&item.type==0){
+                            }else if(type[0]==1&&item.postType==0){
                                 return(
                                     <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
-                            }else if(type[0]==2&&item.type==1){
+                            }else if(type[0]==2&&item.postType==1){
                                 return(
                                     <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
@@ -271,13 +283,13 @@ const HomePage = (props) => {
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
-                            }else if(type[1]==1&&item.type==0){
+                            }else if(type[1]==1&&item.postType==0){
                                 return(
                                     <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
-                            }else if(type[1]==2&&item.type==1){
+                            }else if(type[1]==2&&item.postType==1){
                                 return(
                                     <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
@@ -315,13 +327,13 @@ const HomePage = (props) => {
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
-                            }else if(type[2]==1&&item.type==0){
+                            }else if(type[2]==1&&item.postType==0){
                                 return(
                                     <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>
                                     </Pressable>
                                 )
-                            }else if(type[2]==2&&item.type==1){
+                            }else if(type[2]==2&&item.postType==1){
                                 return(
                                     <Pressable onPress={()=>{naviToPost(item.postId)}} key={item.postId}>
                                         <HomePosts {...item}></HomePosts>

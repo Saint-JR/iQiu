@@ -1,0 +1,1 @@
+global.userId=1

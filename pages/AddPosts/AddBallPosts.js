@@ -1,6 +1,7 @@
 import { useState ,useRef ,useEffect} from "react"
 import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated,TextInput} from "react-native"
 import ActionSheet from 'react-native-actionsheet'
+import { getCommunityInfo, getFollowCommunity } from "../../api/community"
 
 const Navigation=(props)=>{
     return(
@@ -65,10 +66,18 @@ const PostContent=()=>{
 
     const [followCommunity,setFollowCommunity]=useState([])
     useEffect(()=>{
-        fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
-        .then((resJson)=>{
-            console.log(resJson)
-            setFollowCommunity(resJson.data.map((item,index)=>{
+        // fetch('http://localhost:8081/data/followCommunity.json').then((res)=>res.json())
+        // .then((resJson)=>{
+        //     console.log(resJson)
+        //     setFollowCommunity(resJson.data.map((item,index)=>{
+        //         return item
+        //     }))
+        // }).catch((err)=>{
+        //     console.log(err)
+        // })
+        getFollowCommunity(userId)
+        .then((res)=>{
+            setFollowCommunity(res.map((item,index)=>{
                 return item
             }))
         }).catch((err)=>{

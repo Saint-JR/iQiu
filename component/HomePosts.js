@@ -17,7 +17,7 @@ const HomePosts=(props)=>{
                         <Image source={require('../static/community.png')} style={{height:15,width:15,marginLeft:5,opacity:0.5,resizeMode:'contain'}}/>
                     </View>
                     
-                    <Text style={styles.commuNum}>关注 {props.communityNum[0]}  帖子 {props.communityNum[1]}</Text>
+                    <Text style={styles.commuNum}>关注 {props.followerCount}  帖子 {props.postsCount}</Text>
                 </View>
             </View>
                 
@@ -28,7 +28,7 @@ const HomePosts=(props)=>{
             </View>
 
             {
-                props.type==1&&(
+                props.postType==1&&(
                     <>
                         <View style={typeStyle.typeView}>
                             <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
@@ -48,7 +48,7 @@ const HomePosts=(props)=>{
                         <View style={typeStyle.typeView}>
                             <LinearGradient style={typeStyle.linear} colors={['#0dc2e3','#3686e7']}/>
                             <Text style={typeStyle.typeText}>地点</Text>
-                            <Text style={typeStyle.location}>{props.ballPosition}</Text>
+                            <Text style={typeStyle.location}>{props.ballLocation}</Text>
                         </View>
                     </>
                     
@@ -58,8 +58,8 @@ const HomePosts=(props)=>{
 
             <View style={styles.postTypeView}>
                 <View style={styles.postType}>
-                    <Image source={props.type==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />
-                    <Text style={styles.postTypeText}>{props.type==0?'闲聊帖':'约球帖'}</Text>
+                    <Image source={props.postType==0?require('../static/chatPost.png'):require('../static/ballPost.png')} style={styles.postImage} />
+                    <Text style={styles.postTypeText}>{props.postType==0?'闲聊帖':'约球帖'}</Text>
                 </View>
             </View>
             

@@ -19,6 +19,7 @@ public class User implements Serializable {
     private static final Long serialVersionUID = 1L;
     private int id;
     private String username;
+    private String avatar;
     private String password;
     private Date registerDate;  // 用户注册时间
     private int gender;  // 性别：0-未选择;1-男;2-女

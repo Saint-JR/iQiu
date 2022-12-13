@@ -1,11 +1,11 @@
 package com.example.iqiu_backend;
 
+import com.example.iqiu_backend.dao.CommunityMapper;
 import com.example.iqiu_backend.dao.PostMapper;
 import com.example.iqiu_backend.dto.PostDetailDTO;
-import com.example.iqiu_backend.dto.PostsAndCommunityDTO;
 import com.example.iqiu_backend.entity.Posts;
 import com.example.iqiu_backend.service.PostService;
-import com.example.iqiu_backend.vo.PostDetailVO;
+import com.example.iqiu_backend.vo.*;
 import javafx.geometry.Pos;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +26,14 @@ public class TestMapper {
     private PostMapper postMapper;
 
     @Autowired
+    private CommunityMapper communityMapper;
+
+    @Autowired
     private PostService postService;
 
     @Test
     public void testMapper0() {
-        List<PostsAndCommunityDTO> posts = postMapper.selectPosts(0, 15);
+        List<HomePostsVO> posts = postMapper.selectHomePosts(0, 15);
         System.out.println(posts);
     }
 
@@ -63,5 +66,28 @@ public class TestMapper {
         System.out.println(postDetailVO);
     }
 
+    @Test
+    public  void testMapper4(){
+        System.out.println(System.getProperty("user.dir"));
+
+    }
+
+    @Test
+    public void testMapper5() {
+        List<MyPostsVO> posts = postMapper.selectMyPosts(1, 0,15);
+        System.out.println(posts);
+    }
+
+    @Test
+    public void testMapper6() {
+        CommunityInfoVO communityInfoVO = communityMapper.selectCommunityById(1);
+        System.out.println(communityInfoVO);
+    }
+
+    @Test
+    public void testMapper7() {
+        List<CommunityPostsVO> communityInfoVO= postMapper.selectCommunityPosts(1,0,15);
+        System.out.println(communityInfoVO);
+    }
 
 }

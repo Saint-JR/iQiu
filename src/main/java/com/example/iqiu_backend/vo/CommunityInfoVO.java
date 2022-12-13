@@ -1,25 +1,17 @@
-package com.example.iqiu_backend.entity;
+package com.example.iqiu_backend.vo;
 
 import lombok.*;
 
-import java.util.Date;
-
-/**
- * 圈子实体类
- */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Community {
-
-    private int id;
+public class CommunityInfoVO {
+    private int communityId;
     private String communityName;  // 圈子名字
-    private String avatar;
+    private String communityAvatar;
     private int followerCount;  // 关注人数
-    private Date createTime;  // 圈子创建时间
     private int postsCount; //帖子数量
-
 }

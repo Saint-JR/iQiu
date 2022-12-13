@@ -6,7 +6,7 @@
 
     <select id="selectUsernameByUserId" resultType="java.lang.String">
         select username
-        from user
+        from users
         where id = #{userId}
     </select>
 </mapper>

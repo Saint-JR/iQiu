@@ -9,4 +9,20 @@
         from posts
         where community_id = #{communityId}
     </select>
+
+    <select id="selectCommunityById" resultType="com.example.iqiu_backend.vo.CommunityInfoVO">
+        select c.`id` as communityId,c.`community_name` as communityName,
+        c.`avatar` as communityAvatar,c.`follower_count` as followerCount,c.`posts_count` as postsCount
+        from community c
+        where c.id=#{communityId}
+    </select>
+
+    <select id="selectFollowCommunities" resultType="com.example.iqiu_backend.vo.FollowCommunitiesVO">
+        select c.`id` as communityId,c.`community_name` as communityName,c.`avatar` as communityAvatar,c.`follower_count` as followerCount,c.`posts_count` as postsCount
+        from users u,community c
+        where u.id=#{userId} and JSON_CONTAINS(u.follow_community, CONVERT(c.id,CHAR)) = 1
+        order by communityId asc
+    </select>
+
+
 </mapper>

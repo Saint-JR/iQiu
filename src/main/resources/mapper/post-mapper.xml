@@ -4,15 +4,42 @@
         "htttp://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.iqiu_backend.dao.PostMapper">
 
-    <select id="selectPosts" resultType="com.example.iqiu_backend.dto.PostsAndCommunityDTO">
-        select p.id as postId, c.community_name as communityName, c.follower_count as followerCount, p.title as title,
-        p.content as content, p.like_count as likeCount, p.poster_id as posterId, p.create_time as createTime
-        from posts as p
-        left join community as c
-        on p.community_id = c.id
-        where 1 = 1
-        order by p.create_time
-        limit #{offset}, #{limit}
+    <select id="selectHomePosts" resultType="com.example.iqiu_backend.vo.HomePostsVO">
+        SELECT p.id AS postId,p.post_type AS postType,p.last_comment_time as lastCommentTime,
+            c.id AS communityId, c.community_name AS communityName,c.avatar AS communityAvatar,
+            c.follower_count AS followerCount, c.`posts_count` AS postsCount,p.title AS postTitle,
+            p.content AS postContent, p.like_count AS likeCount,
+            p.ball_type AS ballType, p.people_counts AS peopleCount ,p.location AS ballLocation
+        FROM posts AS p
+        LEFT JOIN community AS c
+        ON p.community_id = c.id
+        ORDER BY p.`id` desc
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectMyPosts" resultType="com.example.iqiu_backend.vo.MyPostsVO">
+        select p.id AS postId,p.poster_id AS userId,p.post_type AS postType,p.`create_time` AS createTime,
+            p.last_comment_time as lastCommentTime,p.community_id AS communityId ,
+            p.title AS postTitle, p.content AS postContent, p.like_count AS likeCount,
+            p.ball_type AS ballType, p.people_counts AS peopleCount ,p.location AS ballLocation,
+            u.`username` AS userName, u.`avatar` AS userAvatar,
+            c.community_name AS communityName, c.avatar AS communityAvatar
+        from posts p,users u,community c
+        where p.poster_id=#{userId} and p.`community_id`=c.`id` and p.`poster_id` =u.`id`
+        ORDER BY p.`id` desc
+        LIMIT #{offset},#{limit}
+
+    </select>
+
+    <select id="selectCommunityPosts" resultType="com.example.iqiu_backend.vo.CommunityPostsVO">
+        select p.id AS postId,p.poster_id AS userId,p.post_type AS postType,p.`create_time` AS createTime,
+        p.last_comment_time as lastCommentTime, p.title AS postTitle, p.content AS postContent,
+        p.like_count AS likeCount, p.ball_type AS ballType, p.people_counts AS peopleCount ,
+        p.location AS ballLocation, u.`username` AS userName, u.`avatar` AS userAvatar
+        from posts p,users u,community c
+        where p.`community_id`=#{communityId} and p.`community_id`=c.`id` and p.`poster_id` =u.`id`
+        ORDER BY p.`id` desc
+        LIMIT #{offset},#{limit}
     </select>
 
     <select id="selectCommunityIdByPostsId" resultType="int">
@@ -28,35 +55,48 @@
     </insert>
 
     <select id="selectPostDetail" parameterType="int" resultType="com.example.iqiu_backend.dto.PostDetailDTO">
-        SELECT pd.postId,pd.userId,pd.userName,pd.createTime,pd.location,
-            pd.communityId,pd.communityName,pd.followerCount,pd.title,pd.content,pd.postType,
+        select pd.postId,pd.userId,pd.userName,pd.userAvatar,pd.createTime,pd.location,
+            pd.communityId,pd.communityName,pd.communityAvatar,pd.followerCount,
+            pd.postTitle,pd.postContent,pd.postType,
             pd.ballType,pd.peopleCount,pd.ballLocation,
-            COUNT(comment.`id`) AS commentCount,
+            COUNT(pd.`commentId`) AS commentCount,
             CONCAT(
                 '[',
                 GROUP_CONCAT(
                     JSON_OBJECT(
-                        'commentId',comment.`id`,'commentType',comment.`comment_type`,
-                        'commentUserId',comment.`user_id`,
-                        'commentContent',comment.`content`,
-                        'commentCreateTime',comment.`create_time`
+                        'commentId',pd.`commentId`,'commentType',pd.`commentType`,
+                        'commentUserId',pd.`commentUserId`,'commentUserName',u.`username`,
+                        'commentUserAvatar',u.`avatar`,'commentLocation',u.`location`,
+                        'commentContent',pd.`commentContent`,
+                        'commentCreateTime',pd.`commentCreateTime`
                     )
                     SEPARATOR ','
                 ),
                 ']'
             ) AS `comment`
-        FROM(
-            SELECT p.`id` AS postId,u.`id` AS userId,u.`username` AS userName,
-                p.`create_time` AS createTime,u.`location`,c.`id` AS communityId,
-                c.`community_name` AS communityName,c.`follower_count` AS followerCount,
-                p.`title`,p.`content`,p.`post_type` AS postType,p.`ball_type` AS ballType,
-                p.`people_counts` AS peopleCount,p.`location` AS ballLocation
-            FROM posts AS p,users AS u,community AS c
-            WHERE p.`id`=#{postId} AND p.`poster_id`=u.`id` AND c.`id`=p.`community_id`
+        from (
+            SELECT pd.postId,pd.userId,pd.userName,pd.userAvatar,pd.createTime,pd.location,
+                pd.communityId,pd.communityName,pd.communityAvatar,pd.followerCount,
+                pd.postTitle,pd.postContent,pd.postType,
+                pd.ballType,pd.peopleCount,pd.ballLocation,
+                c.`id` AS commentId,c.`comment_type` AS commentType,c.`user_id` AS commentUserId,
+                c.`content` AS commentContent,c.`create_time` AS commentCreateTime
+            FROM(
+                SELECT p.`id` AS postId,u.`id` AS userId,u.`username` AS userName,
+                    u.`avatar` AS userAvatar, p.`create_time` AS createTime,
+                    u.`location`,c.`id` AS communityId, c.`community_name` AS communityName,
+                    c.`avatar` AS communityAvatar,c.`follower_count` AS followerCount,
+                    p.`title` AS postTitle,p.`content` AS postContent,p.`post_type` AS postType,p.`ball_type` AS ballType,
+                    p.`people_counts` AS peopleCount,p.`location` AS ballLocation
+                FROM posts AS p,users AS u,community AS c
+                WHERE p.`id`=#{postId} AND p.`poster_id`=u.`id` AND c.`id`=p.`community_id`
+            ) pd
+            LEFT JOIN `comment` c
+            ON c.`post_id`=pd.postId
         ) pd
-        LEFT JOIN `comment`
-        ON `comment`.`post_id`=pd.postId
-        GROUP BY pd.postId
+        left join `users` u
+        on pd.commentUserId=u.`id`
+        group by pd.`postId`
     </select>
 
 </mapper>

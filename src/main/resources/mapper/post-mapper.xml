@@ -7,9 +7,9 @@
     <select id="selectHomePosts" resultType="com.example.iqiu_backend.vo.HomePostsVO">
         SELECT p.id AS postId,p.post_type AS postType,p.last_comment_time as lastCommentTime,
             c.id AS communityId, c.community_name AS communityName,c.avatar AS communityAvatar,
-            c.follower_count AS followerCount, c.`posts_count` AS postsCount,p.title AS postTitle,
+            c.follower_count AS followerCount, c.`post_count` AS postCount,p.title AS postTitle,
             p.content AS postContent, p.like_count AS likeCount,
-            p.ball_type AS ballType, p.people_counts AS peopleCount ,p.location AS ballLocation
+            p.ball_type AS ballType, p.people_count AS peopleCount ,p.location AS ballLocation
         FROM posts AS p
         LEFT JOIN community AS c
         ON p.community_id = c.id
@@ -21,7 +21,7 @@
         select p.id AS postId,p.poster_id AS userId,p.post_type AS postType,p.`create_time` AS createTime,
             p.last_comment_time as lastCommentTime,p.community_id AS communityId ,
             p.title AS postTitle, p.content AS postContent, p.like_count AS likeCount,
-            p.ball_type AS ballType, p.people_counts AS peopleCount ,p.location AS ballLocation,
+            p.ball_type AS ballType, p.people_count AS peopleCount ,p.location AS ballLocation,
             u.`username` AS userName, u.`avatar` AS userAvatar,
             c.community_name AS communityName, c.avatar AS communityAvatar
         from posts p,users u,community c
@@ -34,7 +34,7 @@
     <select id="selectCommunityPosts" resultType="com.example.iqiu_backend.vo.CommunityPostsVO">
         select p.id AS postId,p.poster_id AS userId,p.post_type AS postType,p.`create_time` AS createTime,
         p.last_comment_time as lastCommentTime, p.title AS postTitle, p.content AS postContent,
-        p.like_count AS likeCount, p.ball_type AS ballType, p.people_counts AS peopleCount ,
+        p.like_count AS likeCount, p.ball_type AS ballType, p.people_count AS peopleCount ,
         p.location AS ballLocation, u.`username` AS userName, u.`avatar` AS userAvatar
         from posts p,users u,community c
         where p.`community_id`=#{communityId} and p.`community_id`=c.`id` and p.`poster_id` =u.`id`
@@ -48,11 +48,19 @@
         where id = #{postsId}
     </select>
 
+
     <insert id="insertPost" parameterType="com.example.iqiu_backend.entity.Posts" useGeneratedKeys="true" keyProperty="id">
         insert into posts
-        (poster_id,title,content,post_type,create_time,community_id,like_count,like_users)
-        value (#{posterId},#{title},#{content},#{postType},#{createTime},#{communityId},#{likeCount},#{likeUsers})
+        (poster_id,title,content,post_type,location,ball_type,people_count,create_time,last_comment_time,community_id,like_count,like_users)
+        value (#{post.posterId},#{post.title},#{post.content},#{post.postType},#{post.location},#{post.ballType}
+        ,#{post.peopleCount},#{post.lastCommentTime},#{post.createTime},#{post.communityId},#{post.likeCount},#{post.likeUsers})
     </insert>
+    <update id="addPostCount">
+        update users u,community c
+        set u.post_count=u.post_count+1 ,c.post_count=c.post_count+1
+        where u.`id`=#{userId} and c.`id`=#{communityId}
+    </update>
+
 
     <select id="selectPostDetail" parameterType="int" resultType="com.example.iqiu_backend.dto.PostDetailDTO">
         select pd.postId,pd.userId,pd.userName,pd.userAvatar,pd.createTime,pd.location,
@@ -87,7 +95,7 @@
                     u.`location`,c.`id` AS communityId, c.`community_name` AS communityName,
                     c.`avatar` AS communityAvatar,c.`follower_count` AS followerCount,
                     p.`title` AS postTitle,p.`content` AS postContent,p.`post_type` AS postType,p.`ball_type` AS ballType,
-                    p.`people_counts` AS peopleCount,p.`location` AS ballLocation
+                    p.`people_count` AS peopleCount,p.`location` AS ballLocation
                 FROM posts AS p,users AS u,community AS c
                 WHERE p.`id`=#{postId} AND p.`poster_id`=u.`id` AND c.`id`=p.`community_id`
             ) pd

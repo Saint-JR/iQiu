@@ -19,7 +19,7 @@ public class HomePostsVO {
     private String communityName;  // 圈名
     private String communityAvatar; //圈子头像
     private int followerCount;  // 圈子关注人数
-    private int postsCount; //圈子发帖数
+    private int postCount; //圈子发帖数
     private String postTitle;  // 帖子标题
     private String postContent;  // 帖子内容
     private int likeCount;  // 帖子点赞数

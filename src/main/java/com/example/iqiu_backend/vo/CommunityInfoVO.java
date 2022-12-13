@@ -13,5 +13,5 @@ public class CommunityInfoVO {
     private String communityName;  // 圈子名字
     private String communityAvatar;
     private int followerCount;  // 关注人数
-    private int postsCount; //帖子数量
+    private int postCount; //帖子数量
 }

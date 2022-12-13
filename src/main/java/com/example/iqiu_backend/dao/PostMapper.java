@@ -26,7 +26,8 @@ public interface PostMapper {
     // 根据帖子id查询帖子所在圈子的id
     int selectCommunityIdByPostsId(@Param("postsId") int postsId);
 
-    int insertPost(Posts post); //插入闲聊贴
+    int insertPost(@Param("post") Posts post); //插入帖子
+    void addPostCount(@Param("userId") int userId,@Param("communityId") int communityId);//更新圈子和个人的帖子数
 
     PostDetailDTO selectPostDetail(@Param("postId") int postId);//查看帖子详情
 

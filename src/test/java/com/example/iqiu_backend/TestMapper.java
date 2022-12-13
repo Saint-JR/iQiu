@@ -2,6 +2,7 @@ package com.example.iqiu_backend;
 
 import com.example.iqiu_backend.dao.CommunityMapper;
 import com.example.iqiu_backend.dao.PostMapper;
+import com.example.iqiu_backend.dao.UserMapper;
 import com.example.iqiu_backend.dto.PostDetailDTO;
 import com.example.iqiu_backend.entity.Posts;
 import com.example.iqiu_backend.service.PostService;
@@ -27,6 +28,9 @@ public class TestMapper {
 
     @Autowired
     private CommunityMapper communityMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private PostService postService;
@@ -88,6 +92,11 @@ public class TestMapper {
     public void testMapper7() {
         List<CommunityPostsVO> communityInfoVO= postMapper.selectCommunityPosts(1,0,15);
         System.out.println(communityInfoVO);
+    }
+
+    @Test
+    public void testMapper8() {
+        postMapper.addPostCount(1,1);
     }
 
 }

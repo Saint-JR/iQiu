@@ -4,6 +4,7 @@ import com.example.iqiu_backend.dao.CommunityMapper;
 import com.example.iqiu_backend.dao.PostMapper;
 import com.example.iqiu_backend.dao.UserMapper;
 import com.example.iqiu_backend.dto.PostDetailDTO;
+import com.example.iqiu_backend.entity.Posts;
 import com.example.iqiu_backend.util.DTOToVOConverter;
 import com.example.iqiu_backend.vo.CommunityPostsVO;
 import com.example.iqiu_backend.vo.MyPostsVO;
@@ -45,6 +46,11 @@ public class PostService {
     public PostDetailVO postDetail(int postId){
         PostDetailDTO postDetailDTO=postMapper.selectPostDetail(postId);
         return dtoToVOConverter.toPostDetailVO(postDetailDTO);
+    }
+
+    public void insertPost(Posts post){
+        postMapper.insertPost(post);
+        postMapper.addPostCount(post.getPosterId(),post.getCommunityId());
     }
 
 }

@@ -1,21 +1,17 @@
-package com.example.iqiu_backend.entity;
+package com.example.iqiu_backend.vo;
 
 import lombok.*;
 
 import java.util.Date;
 
-/**
- * 帖子实体类
- */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Posts {
+public class InsertPostVO {
 
-    private int id;
     private int posterId;
     private String title;
     private String content;
@@ -26,7 +22,5 @@ public class Posts {
     private Date createTime;  // 发帖时间
     private Date lastCommentTime;
     private int communityId;  // 帖子所在圈子的id
-    private int likeCount=0;  // 帖子点赞数
-    private String likeUsers="[]";  // 帖子点赞用户id的字符串
 
 }

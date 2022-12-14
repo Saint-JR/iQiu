@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated} from "react-native"
+import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated,RefreshControl} from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import { color } from "react-native-reanimated"
 import CommunityPost from '../../component/CommunityPost'
@@ -140,7 +140,7 @@ const CommutyDetail=(props)=>{
             console.log(err)
         })
 
-        getCommunityPosts(communityId,0,15)
+        getCommunityPosts(communityId)
         .then((res)=>{
             // console.log(res)
             setPostList(res.map((item,index)=>{
@@ -189,6 +189,23 @@ const CommutyDetail=(props)=>{
     //     }
     // }
 
+    const [refresh,setRefresh]=useState(false)
+    const onRefresh=()=>{
+        setRefresh(true)
+        setTimeout(() => {
+            getCommunityPosts(communityId)
+            .then((res)=>{
+                // console.log(res)
+                setPostList(res.map((item,index)=>{
+                    return {...item,lastCommentTime:timeCalculate(item.lastCommentTime,"回复于")}
+                }))
+                setRefresh(false)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }, 2000);
+    }
+
     return(
         <>
             <Navigation onGetHeight={(e)=>setOccupyHeight(e)} 
@@ -203,6 +220,9 @@ const CommutyDetail=(props)=>{
                         </View>
                     )
                 }}
+                refreshControl={
+                    <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+                }
                 data={postList}
                 renderItem={({ item, index, separators }) => {
                     if(choice==0){

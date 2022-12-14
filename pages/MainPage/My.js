@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated, ScrollView} from "react-native"
+import { StyleSheet, Text,View ,StatusBar,Image, FlatList,Pressable,Animated, ScrollView,RefreshControl} from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import { color } from "react-native-reanimated"
 import MyPosts from '../../component/MyPosts'
@@ -119,9 +119,8 @@ const My=(props)=>{
     // }])
 
     useEffect(()=>{
-        getMyPosts(userId,0,15)
+        getMyPosts(userId)
         .then((res)=>{
-            console.log(res)
             setPostList(res!=null?res.map((item,index)=>{
                 item.createTime=timeCalculate(item.createTime,"发布于")
                 return item
@@ -178,12 +177,31 @@ const My=(props)=>{
     });
 
     let [choice,setChoice]=useState(0)
+    const [refresh,setRefresh]=useState(false)
+    const onRefresh=()=>{
+        setRefresh(true)
+        setTimeout(() => {
+            getMyPosts(userId)
+            .then((res)=>{
+                setPostList(res!=null?res.map((item,index)=>{
+                    item.createTime=timeCalculate(item.createTime,"发布于")
+                    return item
+                }):[])
+                setRefresh(false)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }, 2000);
+    }
 
     return(
         <>
             <Navigation navigation={props.navigation} opacity1={opacity1} opacity2={opacity2}/>
             <ScrollView
                 style={{backgroundColor:'rgba(240,240,240,1)',width:'100%',height:'100%'}}
+                refreshControl={
+                    <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+                }
                 onScroll={Animated.event([{
                     nativeEvent: {
                         contentOffset: {

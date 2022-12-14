@@ -1,5 +1,5 @@
 import React, { Component, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing, Animated,Dimensions} from 'react-native'
+import { View, Text, StyleSheet, ScrollView, StatusBar, Pressable ,FlatList, Image, Easing, Animated,Dimensions,RefreshControl} from 'react-native'
 import LinearGradient from "react-native-linear-gradient";
 import { naviHeight } from '../../component/Navigation'
 import { useEffect } from 'react';
@@ -70,16 +70,16 @@ const HomePage = (props) => {
     });
 
     useEffect(()=>{
-        getHomePosts(0,24).then((res)=>{
+        getHomePosts().then((res)=>{
             setPostListFollow(res.map((item,index)=>{
                 return item
             }))
-            setPostListHot(res.map((item,index)=>{
-                return item
-            }))
-            setPostListAll(res.map((item,index)=>{
-                return item
-            }))
+            // setPostListHot(res.map((item,index)=>{
+            //     return item
+            // }))
+            // setPostListAll(res.map((item,index)=>{
+            //     return item
+            // }))
         })
         // fetch('http://localhost:8081/data/postList.json').then((res)=>res.json())
         // .then((resJson)=>{
@@ -166,6 +166,24 @@ const HomePage = (props) => {
     }
 
     let [type,setType]=useState([0,0,0])
+    const [refresh,setRefresh]=useState(false)
+    const onRefresh=()=>{
+        setRefresh(true)
+        setTimeout(() => {
+            getHomePosts().then((res)=>{
+                setPostListFollow(res.map((item,index)=>{
+                    return item
+                }))
+                // setPostListHot(res.map((item,index)=>{
+                //     return item
+                // }))
+                // setPostListAll(res.map((item,index)=>{
+                //     return item
+                // }))
+                setRefresh(false)
+            })
+        }, 2000);
+    }
 
     return (
         <>
@@ -231,6 +249,9 @@ const HomePage = (props) => {
                                 </View>
                             )
                         }}
+                        refreshControl={
+                            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+                        }
                         data={postListFollow}
                         renderItem={({ item, index, separators }) => {
                             if(type[0]==0){
@@ -275,7 +296,10 @@ const HomePage = (props) => {
                                 </View>
                             )
                         }}
-                        data={postListHot}
+                        refreshControl={
+                            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+                        }
+                        data={postListFollow}
                         renderItem={({ item, index, separators }) => {
                             if(type[1]==0){
                                 return(
@@ -319,7 +343,10 @@ const HomePage = (props) => {
                                 </View>
                             )
                         }}
-                        data={postListAll}
+                        refreshControl={
+                            <RefreshControl refreshing={refresh} onRefresh={onRefresh} />
+                        }
+                        data={postListFollow}
                         renderItem={({ item, index, separators }) => {
                             if(type[2]==0){
                                 return(

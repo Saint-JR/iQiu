@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet, StatusBar, Image, Animated, FlatList
 import LinearGradient from 'react-native-linear-gradient'
 import {getPostDetail} from '../../api/posts'
 import timeCalculate from '../../api/timeCalculate'
+import {insertComment} from '../../api/comment'
 
 const Navigation = (props) => {
     const navi = () => {
@@ -265,10 +266,35 @@ const PostContent = (props) => {
 const Operation = (props) => {
     let [focus, setFocus] = useState(0)
 
+    const [text,setText]=useState('')
+    const textInput=useRef(null)
+
+    const send=()=>{
+        const comment={
+            userId:userId,
+            commentType:0,
+            postId:props.postId,
+            content:text,
+            createTime:new Date(),
+        }
+        insertComment(comment)
+        .then((res)=>{
+            console.log(res)
+            textInput.current.clear()
+            textInput.current.blur()
+            // this.TextInput.clear()
+        }).catch((err)=>{
+            console.log(err)
+        })
+    } 
+
     return (
         <View style={operationStyles.operationView}>
             <View style={[operationStyles.inputView, { width: focus == 0 ? '60%' : '80%' }]}>
-                <TextInput placeholder='文明发言哦~' style={operationStyles.input} onFocus={() => setFocus(1)} onBlur={() => setFocus(0)} />
+                <TextInput placeholder='文明发言哦~' style={operationStyles.input} 
+                    onFocus={() => setFocus(1)} onBlur={() => setFocus(0)} onChangeText={(e)=>setText(e)}
+                    ref={textInput}
+                />
             </View>
             {
                 focus == 0 ?
@@ -279,9 +305,9 @@ const Operation = (props) => {
                     </>
 
                     :
-                    <View style={operationStyles.send}>
+                    <Pressable style={[operationStyles.send,{opacity:text==''?0.3:1}]} onPress={()=>send()}>
                         <Text style={{ fontSize: 12, color: 'white' }}>发表</Text>
-                    </View>
+                    </Pressable>
 
             }
 
@@ -303,7 +329,7 @@ const PostDetail = (props) => {
 
         getPostDetail(props.route.params.postId)
         .then((res)=>{
-            // console.log(res)
+            console.log(res)
             const timeString=timeCalculate(res.createTime,"发布于")
             setResult({...res,createTime:timeString})
         }).catch((err)=>{
@@ -316,7 +342,7 @@ const PostDetail = (props) => {
             <View style={mainStyles.view}>
                 <Navigation navigation={props.navigation} communityName={result.communityName} communityAvatar={result.communityAvatar} />
                 <PostContent navigation={props.navigation} {...result} />
-                <Operation />
+                <Operation postId={props.route.params.postId} />
             </View>
         </>
     )

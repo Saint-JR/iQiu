@@ -1,6 +1,6 @@
-export const getHomePosts=(offset,limit)=>{
+export const getHomePosts=()=>{
     return new Promise((resolve,reject)=>{
-        fetch(`http://192.168.1.8:8080/iqiu/posts/getHomePosts/${offset}/${limit}`, {
+        fetch(`http://192.168.1.8:8080/iqiu/posts/getHomePosts`, {
             method: 'get',
             mode: "cors", 
         }).then((response) => {
@@ -11,9 +11,9 @@ export const getHomePosts=(offset,limit)=>{
     })
 }
 
-export const getMyPosts=(userId,offset,limit)=>{
+export const getMyPosts=(userId)=>{
     return new Promise((resolve,reject)=>{
-        fetch(`http://192.168.1.8:8080/iqiu/posts/getMyPosts/${userId}/${offset}/${limit}`, {
+        fetch(`http://192.168.1.8:8080/iqiu/posts/getMyPosts/${userId}`, {
             method: 'get',
             mode: "cors", 
         }).then((response) => {
@@ -24,9 +24,9 @@ export const getMyPosts=(userId,offset,limit)=>{
     })
 }
 
-export const getCommunityPosts=(communityId,offset,limit)=>{
+export const getCommunityPosts=(communityId)=>{
     return new Promise((resolve,reject)=>{
-        fetch(`http://192.168.1.8:8080/iqiu/posts/getCommunityPosts/${communityId}/${offset}/${limit}`, {
+        fetch(`http://192.168.1.8:8080/iqiu/posts/getCommunityPosts/${communityId}`, {
             method: 'get',
             mode: "cors", 
         }).then((response) => {
@@ -52,13 +52,6 @@ export const getPostDetail=(postId)=>{
 }
 
 export const insertPost=(post)=>{
-    // const requestBody=JSON.stringify(post)
-    // console.log(requestBody)
-    let formData=new FormData()
-    // for(let item in post){
-    //     formData.append(`${item}`,post[item])
-    // }
-    formData.append('posterId',1)
     return new Promise((resolve,reject)=>{
         fetch(`http://192.168.1.8:8080/iqiu/posts/insertPost`, {
             method: 'post',

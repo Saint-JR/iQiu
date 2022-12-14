@@ -9,19 +9,20 @@ import com.example.iqiu_backend.vo.PostDetailVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface PostMapper {
 
     //homepage的帖子列表
-    List<HomePostsVO> selectHomePosts(@Param("offset")int offset, @Param("limit")int limit);
+    List<HomePostsVO> selectHomePosts();
 
     //mypage的帖子列表
-    List<MyPostsVO> selectMyPosts(@Param("userId") int userId,@Param("offset")int offset, @Param("limit")int limit);
+    List<MyPostsVO> selectMyPosts(@Param("userId") int userId);
 
     //communitypage的帖子列表
-    List<CommunityPostsVO> selectCommunityPosts(@Param("communityId") int communityId, @Param("offset")int offset, @Param("limit")int limit);
+    List<CommunityPostsVO> selectCommunityPosts(@Param("communityId") int communityId);
 
     // 根据帖子id查询帖子所在圈子的id
     int selectCommunityIdByPostsId(@Param("postsId") int postsId);
@@ -30,5 +31,7 @@ public interface PostMapper {
     void addPostCount(@Param("userId") int userId,@Param("communityId") int communityId);//更新圈子和个人的帖子数
 
     PostDetailDTO selectPostDetail(@Param("postId") int postId);//查看帖子详情
+
+    void updatePostComment(@Param("postId") int postId, @Param("lastCommentTime") Date lastCommentTime);
 
 }

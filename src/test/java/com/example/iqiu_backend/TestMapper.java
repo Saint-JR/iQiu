@@ -1,10 +1,13 @@
 package com.example.iqiu_backend;
 
+import com.example.iqiu_backend.dao.CommentMapper;
 import com.example.iqiu_backend.dao.CommunityMapper;
 import com.example.iqiu_backend.dao.PostMapper;
 import com.example.iqiu_backend.dao.UserMapper;
 import com.example.iqiu_backend.dto.PostDetailDTO;
+import com.example.iqiu_backend.entity.Comment;
 import com.example.iqiu_backend.entity.Posts;
+import com.example.iqiu_backend.service.CommentService;
 import com.example.iqiu_backend.service.PostService;
 import com.example.iqiu_backend.vo.*;
 import javafx.geometry.Pos;
@@ -30,14 +33,17 @@ public class TestMapper {
     private CommunityMapper communityMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private CommentMapper commentMapper;
 
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private CommentService commentService;
+
     @Test
     public void testMapper0() {
-        List<HomePostsVO> posts = postMapper.selectHomePosts(0, 15);
+        List<HomePostsVO> posts = postMapper.selectHomePosts();
         System.out.println(posts);
     }
 
@@ -78,7 +84,7 @@ public class TestMapper {
 
     @Test
     public void testMapper5() {
-        List<MyPostsVO> posts = postMapper.selectMyPosts(1, 0,15);
+        List<MyPostsVO> posts = postMapper.selectMyPosts(1);
         System.out.println(posts);
     }
 
@@ -90,13 +96,23 @@ public class TestMapper {
 
     @Test
     public void testMapper7() {
-        List<CommunityPostsVO> communityInfoVO= postMapper.selectCommunityPosts(1,0,15);
+        List<CommunityPostsVO> communityInfoVO= postMapper.selectCommunityPosts(1);
         System.out.println(communityInfoVO);
     }
 
     @Test
     public void testMapper8() {
         postMapper.addPostCount(1,1);
+    }
+
+    @Test
+    public void testMapper9() {
+        commentMapper.insertComment(new Comment(1,1,0,0,30,"1",new Date(),0,"[]"));
+    }
+
+    @Test
+    public void testMapper10() {
+        commentService.insertComment(new Comment(1,1,0,0,30,"1",new Date(),0,"[]"));
     }
 
 }

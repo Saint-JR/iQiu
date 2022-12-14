@@ -28,18 +28,18 @@ public class PostService {
     @Autowired
     private DTOToVOConverter dtoToVOConverter;
 
-    public List<HomePostsVO> getHomePosts(int offset, int limit) {
-        List<HomePostsVO> homePostsVOS = postMapper.selectHomePosts(offset, limit);
+    public List<HomePostsVO> getHomePosts() {
+        List<HomePostsVO> homePostsVOS = postMapper.selectHomePosts();
         return homePostsVOS;
     }
 
-    public List<MyPostsVO> getMyPosts(int userId,int offset, int limit) {
-        List<MyPostsVO> myPostsVOS = postMapper.selectMyPosts(userId, offset, limit);
+    public List<MyPostsVO> getMyPosts(int userId) {
+        List<MyPostsVO> myPostsVOS = postMapper.selectMyPosts(userId);
         return myPostsVOS;
     }
 
-    public List<CommunityPostsVO> getCommunityPosts(int communityId, int offset, int limit) {
-        List<CommunityPostsVO> communityPostsVOS = postMapper.selectCommunityPosts(communityId, offset, limit);
+    public List<CommunityPostsVO> getCommunityPosts(int communityId) {
+        List<CommunityPostsVO> communityPostsVOS = postMapper.selectCommunityPosts(communityId);
         return communityPostsVOS;
     }
 

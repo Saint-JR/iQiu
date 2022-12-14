@@ -14,7 +14,6 @@
         LEFT JOIN community AS c
         ON p.community_id = c.id
         ORDER BY p.`id` desc
-        LIMIT #{offset}, #{limit}
     </select>
 
     <select id="selectMyPosts" resultType="com.example.iqiu_backend.vo.MyPostsVO">
@@ -27,7 +26,6 @@
         from posts p,users u,community c
         where p.poster_id=#{userId} and p.`community_id`=c.`id` and p.`poster_id` =u.`id`
         ORDER BY p.`id` desc
-        LIMIT #{offset},#{limit}
 
     </select>
 
@@ -39,7 +37,6 @@
         from posts p,users u,community c
         where p.`community_id`=#{communityId} and p.`community_id`=c.`id` and p.`poster_id` =u.`id`
         ORDER BY p.`id` desc
-        LIMIT #{offset},#{limit}
     </select>
 
     <select id="selectCommunityIdByPostsId" resultType="int">
@@ -106,5 +103,11 @@
         on pd.commentUserId=u.`id`
         group by pd.`postId`
     </select>
+
+    <update id="updatePostComment">
+        update posts p
+        set last_comment_time=#{lastCommentTime} ,comment_count=comment_count+1
+        where id=#{postId}
+    </update>
 
 </mapper>

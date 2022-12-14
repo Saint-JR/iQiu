@@ -28,5 +28,5 @@ public class Posts {
     private int communityId;  // 帖子所在圈子的id
     private int likeCount=0;  // 帖子点赞数
     private String likeUsers="[]";  // 帖子点赞用户id的字符串
-
+    private int commentCount=0; //帖子评论数
 }

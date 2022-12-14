@@ -22,19 +22,19 @@ public class PostsController {
         return postService.postDetail(postId);
     }
 
-    @RequestMapping("/getHomePosts/{offset}/{limit}")
-    public List<HomePostsVO> getHomePosts(@PathVariable int offset, @PathVariable int limit){
-        return postService.getHomePosts(offset,limit);
+    @RequestMapping("/getHomePosts")
+    public List<HomePostsVO> getHomePosts(){
+        return postService.getHomePosts();
     }
 
-    @RequestMapping("/getMyPosts/{userId}/{offset}/{limit}")
-    public List<MyPostsVO> getMyPosts(@PathVariable int userId,@PathVariable int offset, @PathVariable int limit){
-        return postService.getMyPosts(userId,offset,limit);
+    @RequestMapping("/getMyPosts/{userId}")
+    public List<MyPostsVO> getMyPosts(@PathVariable int userId){
+        return postService.getMyPosts(userId);
     }
 
-    @RequestMapping("/getCommunityPosts/{communityId}/{offset}/{limit}")
-    public List<CommunityPostsVO> getCommunityPosts(@PathVariable int communityId, @PathVariable int offset, @PathVariable int limit){
-        return postService.getCommunityPosts(communityId,offset,limit);
+    @RequestMapping("/getCommunityPosts/{communityId}")
+    public List<CommunityPostsVO> getCommunityPosts(@PathVariable int communityId){
+        return postService.getCommunityPosts(communityId);
     }
 
     @PostMapping("/insertPost")

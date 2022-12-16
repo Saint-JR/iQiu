@@ -4,7 +4,7 @@
         "htttp://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.iqiu_backend.dao.CommentMapper">
 
-    <insert id="insertComment" parameterType="com.example.iqiu_backend.entity.Comment">
+    <insert id="insertComment" parameterType="com.example.iqiu_backend.entity.Comment"  useGeneratedKeys="true" keyProperty="id">
         insert into comment
         (
             user_id,comment_type,comment_id,post_id,content,create_time,like_count,like_users
@@ -14,6 +14,15 @@
             #{comment.content}, #{comment.createTime},#{comment.likeCount},#{comment.likeUsers}
         )
     </insert>
+
+    <select id="selectCommentById" resultType="com.example.iqiu_backend.vo.PostCommentVO">
+        select c.`id` AS commentId,c.`comment_type` AS commentType,c.`user_id` AS commentUserId,
+        u.`username` as commentUserName,u.`avatar` as 'commentUserAvatar',
+        u.`location` as 'commentLocation',
+        c.`content` AS commentContent,c.`create_time` AS commentCreateTime
+        from comment c,users u
+        where c.`id`=#{commentId} and u.`id`=c.`user_id`
+    </select>
 
 
 </mapper>

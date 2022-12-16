@@ -3,6 +3,7 @@ package com.example.iqiu_backend.controller;
 import com.example.iqiu_backend.entity.Comment;
 import com.example.iqiu_backend.entity.Posts;
 import com.example.iqiu_backend.service.CommentService;
+import com.example.iqiu_backend.vo.PostCommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,16 +20,14 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("/insertComment")
-    public Map<String, Integer> insertPost(@RequestBody Comment comment){
-        Map<String, Integer> map=new HashMap<>();
+    public PostCommentVO insertPost(@RequestBody Comment comment){
+        PostCommentVO postCommentVO;
         try {
-            commentService.insertComment(comment);
+            postCommentVO =commentService.insertComment(comment);
         }catch (Exception e){
             System.out.println(e);
-            map.put("code",-1);
-            return map;
+            return null;
         }
-        map.put("code",1);
-        return map;
+        return postCommentVO;
     }
 }

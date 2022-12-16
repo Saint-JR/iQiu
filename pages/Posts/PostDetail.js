@@ -280,6 +280,7 @@ const Operation = (props) => {
         insertComment(comment)
         .then((res)=>{
             console.log(res)
+            props.onSend(res)
             textInput.current.clear()
             textInput.current.blur()
             // this.TextInput.clear()
@@ -305,7 +306,7 @@ const Operation = (props) => {
                     </>
 
                     :
-                    <Pressable style={[operationStyles.send,{opacity:text==''?0.3:1}]} onPress={()=>send()}>
+                    <Pressable style={[operationStyles.send,{opacity:text==''?0.3:1}]} onPress={()=>text!=''&&send()}>
                         <Text style={{ fontSize: 12, color: 'white' }}>发表</Text>
                     </Pressable>
 
@@ -337,12 +338,21 @@ const PostDetail = (props) => {
         })
     }, [])
 
+    showComment=(e)=>{
+        let comment=result.comment
+        comment.push({...e,orderId:comment.length+1})
+        setResult({
+            ...result,
+            comment:comment
+        })
+    }
+
     return (
         <>
             <View style={mainStyles.view}>
                 <Navigation navigation={props.navigation} communityName={result.communityName} communityAvatar={result.communityAvatar} />
                 <PostContent navigation={props.navigation} {...result} />
-                <Operation postId={props.route.params.postId} />
+                <Operation postId={props.route.params.postId} onSend={(e)=>showComment(e)}/>
             </View>
         </>
     )
